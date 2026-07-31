@@ -363,15 +363,33 @@
     }
 
     .species-callout {
-      margin-top: 12px;
-      padding: 10px 14px;
-      background: rgba(0, 0, 0, 0.25);
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: var(--radius-sm);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: #D1D5DB;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.45;
+    }
+
+    .species-callout .callout-icon {
+      font-size: 1.15rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .species-callout .callout-content {
+      flex: 1;
+    }
+
+    .species-callout strong {
+      color: var(--text-main);
+      font-weight: 600;
     }
 
     /* ==========================================
@@ -654,7 +672,10 @@
         </div>
 
         <div class="species-callout" id="speciesCallout">
-          <span>🦎</span> <strong>Habitat Protection:</strong> The San Marcos River is home to endangered Texas Wild Rice (<i>Zizania texana</i>) and the Fountain Darter. Please float responsibly!
+          <span class="callout-icon">🦎</span>
+          <div class="callout-content">
+            <strong>Habitat Protection:</strong> The San Marcos River is home to endangered Texas Wild Rice (<i>Zizania texana</i>) and the Fountain Darter. Please float responsibly!
+          </div>
         </div>
       </article>
 
