@@ -659,6 +659,47 @@
       position: relative;
     }
 
+    .canvas-prompt-badge {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38BDF8;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      animation: pulse-prompt 2.5s infinite;
+    }
+
+    @keyframes pulse-prompt {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+      50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+    }
+
+    .hud-explainer-box {
+      margin-top: 8px;
+      padding: 12px 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-sm);
+    }
+
+    .explainer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: #38BDF8;
+    }
+
     .eco-cross-section {
       width: 100%;
       height: 380px;
@@ -978,6 +1019,7 @@
       </div>
 
       <div class="view-scroll-wrapper">
+        <div class="canvas-prompt-badge">👆 Tap any animal or plant below to open its Field Guide!</div>
         <div class="eco-cross-section" id="crossSectionCanvas">
           <!-- Overlays -->
           <div class="turbidity-layer"></div>
@@ -1126,6 +1168,17 @@
           <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
           <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
         </div>
+      </div>
+
+      <!-- Public Educational Explainer Box -->
+      <div class="hud-explainer-box">
+        <div class="explainer-header">
+          <span>💡 Why Ecosystem Numbers Change With Live River Stats</span>
+          <span style="font-size: 0.72rem; color: #94A3B8; font-weight: 500;">Live Impact Analysis</span>
+        </div>
+        <p id="explainerText" style="font-size: 0.82rem; color: #CBD5E1; line-height: 1.5; margin-top: 6px;">
+          In <strong>Stage 1 (Optimal Flow: 150 CFS, &lt;2 NTU)</strong>, crystal-clear spring water lets sunlight feed Texas Wild Rice, while calm current lets Fountain Darters and Sunfish swim freely across moss beds!
+        </p>
       </div>
     </section>
 
@@ -1786,6 +1839,19 @@
       if (document.getElementById('hudCooters')) document.getElementById('hudCooters').innerText = sc.cooters;
       if (document.getElementById('hudSunfish')) document.getElementById('hudSunfish').innerText = sc.sunfish;
       if (document.getElementById('hudCrayfish')) document.getElementById('hudCrayfish').innerText = sc.crayfish;
+
+      // Update Public Educational Explainer Text
+      const explainerMessages = {
+        'optimal-baseflow': 'In <strong>Stage 1 (Optimal Baseflow: ~150 CFS, &lt;2 NTU)</strong>, crystal-clear spring water lets full sunlight reach Texas Wild Rice leaves. Steady, gentle currents allow Fountain Darters, Sunfish, and Turtles to feed and swim freely across moss beds!',
+        'elevated-surge': 'In <strong>Stage 2 (Elevated Surge: ~250 CFS, 10 NTU)</strong>, rising currents make Texas Wild Rice slant at 45° to slice through water. Mild silt turbidity obscures open-water view, forcing darters and sunfish closer to vegetation bases for shelter.',
+        'severe-flood': 'In <strong>Stage 3 (Severe Flood Surge: 450+ CFS, 45+ NTU)</strong>, roaring flood currents pin Texas Wild Rice flat against the riverbed. High shear forces flush fish out of open water, forcing darters, sunfish, cooters, and crayfish to lock tightly inside boulder refugia!',
+        'critical-drought': 'In <strong>Stage 4 (Critical Drought: &lt;60 CFS, &gt;24.5°C)</strong>, shallow warm water causes low oxygen and leaves wild rice floating limply with sun-scorched tips. Species gather around deep spring orifices where cool 72°F groundwater streams out!'
+      };
+
+      const expEl = document.getElementById('explainerText');
+      if (expEl && explainerMessages[stageId]) {
+        expEl.innerHTML = explainerMessages[stageId];
+      }
 
       // Trigger Telemetry Store Simulation if loaded
       if (window.telemetryStore) {
