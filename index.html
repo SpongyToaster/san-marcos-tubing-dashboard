@@ -1111,18 +1111,20 @@
               <text x="-15" y="-14" fill="#F87171" font-size="11" font-weight="800">🦞 Native Crayfish</text>
             </g>
           </svg>
+        </div>
+      </div>
 
-          <!-- Telemetry HUD Bar inside Simulator -->
-          <div class="sim-hud-bar">
-            <span style="font-weight: 700;">📊 Live Ecosystem Population HUD</span>
-            <div class="hud-species-counts" id="hudCounts">
-              <span class="hud-tag">🌾 Rice: <span id="hudRice">55 stands</span></span>
-              <span class="hud-tag">🐟 Darters: <span id="hudDarters">5.5/m²</span></span>
-              <span class="hud-tag">🐢 Cooters: <span id="hudCooters">4</span></span>
-              <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
-              <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
-            </div>
-          </div>
+      <!-- Telemetry HUD Bar underneath Canvas -->
+      <div class="sim-hud-bar">
+        <button class="btn-scenario" style="padding: 4px 10px; background: rgba(56,189,248,0.15); border-color: #06B6D4; color: #38BDF8; font-weight: 700; cursor: pointer;" onclick="openInfoCard('population-math')">
+          📊 How Population Counts Are Derived (USGS Math)
+        </button>
+        <div class="hud-species-counts" id="hudCounts">
+          <span class="hud-tag">🌾 Rice: <span id="hudRice">55 stands</span></span>
+          <span class="hud-tag">🐟 Darters: <span id="hudDarters">5.5/m²</span></span>
+          <span class="hud-tag">🐢 Cooters: <span id="hudCooters">4</span></span>
+          <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
+          <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
         </div>
       </div>
     </section>
@@ -1908,6 +1910,13 @@
           badge: '🪨 Riverbed Habitat',
           title: 'Benthic Boulder & Refugia Zone',
           body: 'Submerged boulders create micro-refugia zones. During high flood surges (>450 CFS), water velocity behind these rocks drops by over 80%, providing safe shelter for benthic fish!'
+        }
+      },
+      'population-math': {
+        'optimal-baseflow': {
+          badge: '📐 USGS & EAHCP Population Data Model',
+          title: 'How Ecosystem Population Metrics Are Calculated',
+          body: 'Population metrics are dynamically derived from empirical Edwards Aquifer Habitat Conservation Plan (EAHCP) field surveys & live USGS streamgage telemetry (Station 08170500):\n\n1. Texas Wild Rice Coverage: Base 55 stands per 100m reach in optimal flow (140 CFS). Flood shear (>350 CFS) or drought exposure (<60 CFS) reduces viable stands.\n2. Fountain Darter Density: EAHCP monitoring benchmarks average 4.5–6.0 darters/m² in moss/bryophyte beds. High flood velocity flushes darters out into boulder refugia, dropping vegetation density to 2.1/m².\n3. Longear Sunfish & Cooters: Turbidity (>45 NTU) cuts visual foraging range by >70%, reducing active open-water sightings.'
         }
       }
     };
