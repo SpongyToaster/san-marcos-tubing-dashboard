@@ -653,29 +653,159 @@
       }
     }
 
+    .view-scroll-wrapper {
+      width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .eco-cross-section {
+      width: 100%;
+      height: 380px;
+      position: relative;
+      background: linear-gradient(180deg, #0284C7 0%, #0369A1 40%, #0F172A 100%);
+      transition: background 0.8s ease;
+      user-select: none;
+    }
+
+    .eco-cross-section svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Water Depth & Clarity State Overlays */
+    .turbidity-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(140, 80, 20, 0.45) 0%, rgba(90, 50, 10, 0.85) 100%);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 5;
+    }
+
+    .algae-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: rgba(101, 163, 13, 0.35);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 4;
+    }
+
+    /* Telemetry HUD Overlay inside Canvas */
+    .sim-hud-bar {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      right: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 8px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 10;
+      font-size: 0.76rem;
+      color: #E2E8F0;
+    }
+
+    .hud-species-counts {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-weight: 600;
+    }
+
+    .hud-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 3px 8px;
+      border-radius: 8px;
+    }
+
+    /* SVG Interactive Sprites */
+    .svg-sprite {
+      cursor: pointer;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.5s ease;
+    }
+
+    .svg-sprite:hover {
+      filter: drop-shadow(0 0 12px #38BDF8) brightness(1.3);
+    }
+
+    /* Wild Rice CSS State Animations */
+    .wild-rice-leaf {
+      transform-origin: bottom center;
+      transition: transform 0.8s ease, fill 0.8s ease;
+    }
+
+    /* Stage Specific CSS Styles */
+    [data-stage="optimal-baseflow"] .wild-rice-leaf {
+      animation: sway-optimal 3.5s ease-in-out infinite alternate;
+      fill: #22C55E;
+    }
+    [data-stage="elevated-surge"] .wild-rice-leaf {
+      transform: rotate(28deg);
+      fill: #16A34A;
+      animation: sway-elevated 1.8s ease-in-out infinite alternate;
+    }
+    [data-stage="severe-flood"] .wild-rice-leaf {
+      transform: rotate(68deg);
+      fill: #4D7C0F;
+    }
+    [data-stage="severe-flood"] .turbidity-layer {
+      opacity: 0.88;
+    }
+    [data-stage="critical-drought"] .wild-rice-leaf {
+      transform: rotate(-12deg);
+      fill: #CA8A04;
+    }
+    [data-stage="critical-drought"] .algae-layer {
+      opacity: 0.8;
+    }
+
+    @keyframes sway-optimal {
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(8deg); }
+    }
+
+    @keyframes sway-elevated {
+      0% { transform: rotate(18deg); }
+      100% { transform: rotate(32deg); }
+    }
+
     /* Fountain Darter Hop & Position Animations */
     #fountainDarterGroup {
       transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     [data-stage="optimal-baseflow"] #fountainDarterGroup {
-      transform: translate(180px, 248px);
+      transform: translate(280px, 285px);
       animation: darter-hop 4s ease-in-out infinite;
     }
     [data-stage="elevated-surge"] #fountainDarterGroup {
-      transform: translate(140px, 260px);
+      transform: translate(240px, 298px);
     }
     [data-stage="severe-flood"] #fountainDarterGroup {
-      transform: translate(520px, 262px);
+      transform: translate(520px, 300px);
     }
     [data-stage="critical-drought"] #fountainDarterGroup {
-      transform: translate(780px, 258px);
+      transform: translate(790px, 296px);
     }
 
     @keyframes darter-hop {
-      0%, 100% { transform: translate(180px, 248px); }
-      30% { transform: translate(220px, 230px); }
-      40% { transform: translate(250px, 248px); }
-      70% { transform: translate(170px, 235px); }
+      0%, 100% { transform: translate(280px, 285px); }
+      30% { transform: translate(320px, 265px); }
+      40% { transform: translate(350px, 285px); }
+      70% { transform: translate(270px, 275px); }
     }
 
     /* Longear Sunfish Hover & Stage Reactions */
@@ -981,6 +1111,18 @@
               <text x="-15" y="-14" fill="#F87171" font-size="11" font-weight="800">🦞 Native Crayfish</text>
             </g>
           </svg>
+
+          <!-- Telemetry HUD Bar inside Simulator -->
+          <div class="sim-hud-bar">
+            <span style="font-weight: 700;">📊 Live Ecosystem Population HUD</span>
+            <div class="hud-species-counts" id="hudCounts">
+              <span class="hud-tag">🌾 Rice: <span id="hudRice">55 stands</span></span>
+              <span class="hud-tag">🐟 Darters: <span id="hudDarters">5.5/m²</span></span>
+              <span class="hud-tag">🐢 Cooters: <span id="hudCooters">4</span></span>
+              <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
+              <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1627,6 +1769,21 @@
         activeBtn.classList.add('active');
         activeBtn.setAttribute('aria-pressed', 'true');
       }
+
+      // Update HUD Species Counts
+      const presetCounts = {
+        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', cooters: '4', sunfish: '12', crayfish: '6/m²' },
+        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', cooters: '3', sunfish: '10', crayfish: '5/m²' },
+        'severe-flood': { rice: '45 stands', darters: '2.1/m²', cooters: '1', sunfish: '4', crayfish: '8/m²' },
+        'critical-drought': { rice: '30 stands', darters: '1.5/m²', cooters: '5', sunfish: '15', crayfish: '3/m²' }
+      };
+
+      const sc = presetCounts[stageId] || presetCounts['optimal-baseflow'];
+      if (document.getElementById('hudRice')) document.getElementById('hudRice').innerText = sc.rice;
+      if (document.getElementById('hudDarters')) document.getElementById('hudDarters').innerText = sc.darters;
+      if (document.getElementById('hudCooters')) document.getElementById('hudCooters').innerText = sc.cooters;
+      if (document.getElementById('hudSunfish')) document.getElementById('hudSunfish').innerText = sc.sunfish;
+      if (document.getElementById('hudCrayfish')) document.getElementById('hudCrayfish').innerText = sc.crayfish;
 
       // Trigger Telemetry Store Simulation if loaded
       if (window.telemetryStore) {
