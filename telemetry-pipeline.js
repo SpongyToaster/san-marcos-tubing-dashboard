@@ -3,7 +3,7 @@
  * Role: Senior Backend Data Engineer
  * 
  * Modular pipeline fetching live USGS streamgage & NWS weather data,
- * with state distribution pub/sub store, caching, and hardware extension hooks.
+ * with 5-species state distribution pub/sub store, caching, and hardware extension hooks.
  */
 
 class TelemetryStore {
@@ -17,73 +17,92 @@ class TelemetryStore {
       lastUpdated: new Date().toISOString(),
       sourceType: 'USGS Live API',
       isSimulated: false,
-      error: null
+      error: null,
+      speciesCounts: {
+        wildRiceStands: 52,
+        fountainDartersPerM2: 5.2,
+        cooterTurtles: 4,
+        longearSunfish: 12,
+        nativeCrayfishPerM2: 6
+      }
     };
 
     this.listeners = new Set();
     this.cacheKey = 'sm_river_telemetry_cache';
-    this.cacheTTL = 5 * 60 * 1000; // 5 minutes cache
   }
 
-  /**
-   * Subscribe to telemetry state changes
-   * @param {Function} callback - Listener callback receiving (state)
-   * @returns {Function} Unsubscribe function
-   */
   subscribe(callback) {
     this.listeners.add(callback);
-    // Immediate broadcast on subscribe
     callback(this.state);
     return () => this.listeners.delete(callback);
   }
 
-  /**
-   * Broadcast state changes to all subscribers
-   */
   notify() {
     this.listeners.forEach(callback => {
       try {
         callback(this.state);
       } catch (err) {
-        console.error('[TelemetryStore] Listener notification error:', err);
+        console.error('[TelemetryStore] Listener error:', err);
       }
     });
   }
 
-  /**
-   * Evaluates raw hydrologic metrics against the Aquatic Biologist's 4-Stage Matrix
-   */
   classifyStage(cfs, turbidity, tempC) {
     if (cfs >= 400 || turbidity >= 35) {
       return {
         stage: 'severe-flood',
         stageName: 'Stage 3: Severe Flood Surge',
-        description: 'High velocity flood runoff. Hydrodynamic drag scours riverbed. Wildlife retreats to refugia.'
+        description: 'High velocity flood runoff (450+ CFS). Species take shelter in refugia eddies and rock crevices.',
+        speciesCounts: {
+          wildRiceStands: 45,
+          fountainDartersPerM2: 2.1,
+          cooterTurtles: 1,
+          longearSunfish: 4,
+          nativeCrayfishPerM2: 8
+        }
       };
     } else if (cfs < 70 || tempC >= 24.5) {
       return {
         stage: 'critical-drought',
         stageName: 'Stage 4: Critical Drought Stress',
-        description: 'Low spring discharge. Elevated surface temperature and low dissolved oxygen levels.'
+        description: 'Low spring discharge (<60 CFS). Thermal stress forces species into spring-head refuges.',
+        speciesCounts: {
+          wildRiceStands: 30,
+          fountainDartersPerM2: 1.5,
+          cooterTurtles: 5,
+          longearSunfish: 15,
+          nativeCrayfishPerM2: 3
+        }
       };
     } else if (cfs >= 175 || turbidity >= 5) {
       return {
         stage: 'elevated-surge',
         stageName: 'Stage 2: Elevated Flow Surge',
-        description: 'Increased flow velocity and mild silt turbidity. Species shift to plant canopy bases.'
+        description: 'Increased flow velocity and mild turbidity. Species shift to plant canopy bases.',
+        speciesCounts: {
+          wildRiceStands: 50,
+          fountainDartersPerM2: 4.8,
+          cooterTurtles: 3,
+          longearSunfish: 10,
+          nativeCrayfishPerM2: 5
+        }
       };
     } else {
       return {
         stage: 'optimal-baseflow',
         stageName: 'Stage 1: Optimal Baseflow',
-        description: 'Crystal clear artesian spring flow. Ideal light penetration and thermal stability.'
+        description: 'Crystal clear artesian spring flow. Ideal light penetration and thermal stability.',
+        speciesCounts: {
+          wildRiceStands: 55,
+          fountainDartersPerM2: 5.5,
+          cooterTurtles: 4,
+          longearSunfish: 12,
+          nativeCrayfishPerM2: 6
+        }
       };
     }
   }
 
-  /**
-   * Update internal telemetry state
-   */
   updateState(newData) {
     const cfs = Number(newData.cfs ?? this.state.cfs);
     const turbidity = Number(newData.turbidity ?? this.state.turbidity);
@@ -99,28 +118,23 @@ class TelemetryStore {
       stage: stageInfo.stage,
       stageName: stageInfo.stageName,
       stageDescription: stageInfo.description,
+      speciesCounts: stageInfo.speciesCounts,
       lastUpdated: new Date().toISOString(),
       sourceType: newData.sourceType || this.state.sourceType,
       isSimulated: Boolean(newData.isSimulated),
       error: newData.error || null
     };
 
-    // Cache updated state
     try {
       localStorage.setItem(this.cacheKey, JSON.stringify({
         timestamp: Date.now(),
         data: this.state
       }));
-    } catch (e) {
-      // Storage unavailable or quota exceeded
-    }
+    } catch (e) {}
 
     this.notify();
   }
 
-  /**
-   * Force manual state override (for simulation / K-12 educational demonstrations)
-   */
   simulateStage(stageId) {
     const presets = {
       'optimal-baseflow': { cfs: 145, turbidity: 1.2, temperatureC: 22.5 },
@@ -133,17 +147,13 @@ class TelemetryStore {
     if (preset) {
       this.updateState({
         ...preset,
-        sourceType: 'Interactive Demo Simulator',
+        sourceType: 'Interactive Multi-Species Simulator',
         isSimulated: true
       });
     }
   }
 }
 
-/**
- * USGS Instantaneous Values REST API Adapter
- * Station: 08170500 (San Marcos River at San Marcos, TX)
- */
 class USGSWebSource {
   constructor(siteId = '08170500') {
     this.siteId = siteId;
@@ -152,9 +162,7 @@ class USGSWebSource {
 
   async fetchTelemetry() {
     const response = await fetch(this.endpoint, { cache: 'no-cache' });
-    if (!response.ok) {
-      throw new Error(`USGS HTTP error ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`USGS HTTP error ${response.status}`);
     const json = await response.json();
 
     const timeSeries = json?.value?.timeSeries || [];
@@ -165,41 +173,26 @@ class USGSWebSource {
     timeSeries.forEach(series => {
       const paramCode = series?.variable?.variableCode?.[0]?.value;
       const latestValue = series?.values?.[0]?.value?.[0]?.value;
-
       if (latestValue !== undefined && !isNaN(parseFloat(latestValue))) {
         const val = parseFloat(latestValue);
-        if (paramCode === '00060') cfs = val; // Discharge CFS
-        else if (paramCode === '00010') tempC = val; // Temperature °C
-        else if (paramCode === '63680') turbidity = val; // Turbidity NTU
+        if (paramCode === '00060') cfs = val;
+        else if (paramCode === '00010') tempC = val;
+        else if (paramCode === '63680') turbidity = val;
       }
     });
 
-    return {
-      cfs,
-      turbidity,
-      temperatureC: tempC,
-      sourceType: 'USGS Gauge 08170500',
-      isSimulated: false
-    };
+    return { cfs, turbidity, temperatureC: tempC, sourceType: 'USGS Gauge 08170500', isSimulated: false };
   }
 }
 
-/**
- * Modular Pipeline Hardware & Ingestion Orchestrator
- * Supports live Web APIs, fallback mock buffers, and local hardware serial/LoRa drivers.
- */
 class TelemetryPipeline {
   constructor(store) {
     this.store = store;
     this.usgsSource = new USGSWebSource();
-    this.hardwareDriver = null; // Extension slot for WebSerial / LoRa bridge
+    this.hardwareDriver = null;
     this.pollingInterval = null;
   }
 
-  /**
-   * Start automated data ingestion loop
-   * @param {number} intervalMs - Polling frequency (default 60s)
-   */
   startIngestion(intervalMs = 60000) {
     this.fetchNext();
     this.pollingInterval = setInterval(() => this.fetchNext(), intervalMs);
@@ -214,19 +207,15 @@ class TelemetryPipeline {
 
   async fetchNext() {
     try {
-      // 1. Check Hardware Driver (Arduino / LoRa) if connected
       if (this.hardwareDriver && this.hardwareDriver.isConnected()) {
         const hwData = await this.hardwareDriver.readTelemetry();
         this.store.updateState({ ...hwData, sourceType: 'Local LoRa/Arduino Telemetry' });
         return;
       }
-
-      // 2. Fetch Live USGS API
       const apiData = await this.usgsSource.fetchTelemetry();
       this.store.updateState(apiData);
     } catch (err) {
-      console.warn('[TelemetryPipeline] Live API fetch failed. Reverting to cached/fallback metrics.', err);
-      // Fallback state with error alert
+      console.warn('[TelemetryPipeline] Live API fetch failed. Using spring baseline.', err);
       this.store.updateState({
         error: 'USGS API offline or CORS blocked. Utilizing local spring baseline.',
         sourceType: 'Baseline Fallback Buffer'
@@ -234,15 +223,11 @@ class TelemetryPipeline {
     }
   }
 
-  /**
-   * Modular extension method to attach local microcontroller (Arduino/ESP32 WebSerial or LoRa receiver)
-   */
   registerHardwareDriver(driverInstance) {
     this.hardwareDriver = driverInstance;
-    console.log('[TelemetryPipeline] Hardware telemetry driver registered:', driverInstance.name);
+    console.log('[TelemetryPipeline] Hardware driver registered:', driverInstance.name);
   }
 }
 
-// Global Singleton Export
 window.telemetryStore = new TelemetryStore();
 window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
