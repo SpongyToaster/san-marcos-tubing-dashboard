@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>San Marcos River Tubing & Environmental Dashboard</title>
+  <meta name="description" content="Real-time river flow, water quality, weather conditions, vibe score, and eco-impact assessment for tubing the San Marcos River in San Marcos, TX.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================
+       DESIGN SYSTEM & CSS VARIABLES
+       ========================================== */
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1E1E1E;
+      --card-bg-hover: #262626;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --text-subtle: #6B7280;
+      
+      --color-good: #4ADE80;
+      --color-good-glow: rgba(74, 222, 128, 0.35);
+      
+      --color-caution: #FACC15;
+      --color-caution-glow: rgba(250, 204, 21, 0.35);
+      
+      --color-danger: #EF4444;
+      --color-danger-glow: rgba(239, 68, 68, 0.4);
+      
+      --color-info: #3B82F6;
+      --color-info-glow: rgba(59, 130, 246, 0.35);
+
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+
+      --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    /* ==========================================
+       HEADER & GLASSMORPHISM
+       ========================================== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(18, 18, 18, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-branding {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .river-badge-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+
+    .header-titles h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .header-titles p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-refresh {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-refresh.spinning .spin-icon {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================
+       CONTAINER & LAYOUT
+       ========================================== */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    .status-bar-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .api-status-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--color-good);
+      display: inline-block;
+    }
+
+    .dot.live {
+      box-shadow: 0 0 8px var(--color-good);
+    }
+
+    .dot.warning {
+      background-color: var(--color-caution);
+    }
+
+    /* ==========================================
+       PRIMARY STATUS CARDS (FLEX STACK)
+       ========================================== */
+    .status-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dynamic Border & Glow Variations */
+    .card.border-good {
+      border: 2px solid var(--color-good);
+      box-shadow: 0 0 20px var(--color-good-glow);
+    }
+
+    .card.border-caution {
+      border: 2px solid var(--color-caution);
+      box-shadow: 0 0 20px var(--color-caution-glow);
+    }
+
+    .card.border-danger {
+      border: 2px solid var(--color-danger);
+      animation: pulse-danger-shadow 1.8s infinite;
+    }
+
+    @keyframes pulse-danger-shadow {
+      0% {
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 26px rgba(239, 68, 68, 0.7);
+        border-color: rgba(239, 68, 68, 1);
+      }
+      100% {
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.7);
+      }
+    }
+
+    /* Card Contents */
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vibe-main-content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .vibe-grade-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .vibe-grade-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #121212;
+      flex-shrink: 0;
+    }
+
+    .vibe-grade-badge.grade-A {
+      background: linear-gradient(135deg, #4ADE80, #22C55E);
+      box-shadow: 0 6px 16px rgba(74, 222, 128, 0.4);
+    }
+
+    .vibe-grade-badge.grade-B {
+      background: linear-gradient(135deg, #60A5FA, #3B82F6);
+      box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
+      color: #FFFFFF;
+    }
+
+    .vibe-grade-badge.grade-C {
+      background: linear-gradient(135deg, #FACC15, #EAB308);
+      box-shadow: 0 6px 16px rgba(250, 204, 21, 0.4);
+    }
+
+    .vibe-grade-badge.grade-F {
+      background: linear-gradient(135deg, #EF4444, #DC2626);
+      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+      color: #FFFFFF;
+    }
+
+    .vibe-text-group h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .vibe-text-group p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .vibe-reasons-list {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Eco-Impact Specific styling */
+    .eco-status-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .eco-icon {
+      font-size: 2rem;
+    }
+
+    .eco-text-group h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .eco-text-group p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .species-callout {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      color: #D1D5DB;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ==========================================
+       RAW DATA GRID (2-COLUMN LAYOUT)
+       ========================================== */
+    .grid-section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .data-card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .data-card:hover {
+      background-color: var(--card-bg-hover);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .data-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .data-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .data-emoji {
+      font-size: 1.1rem;
+    }
+
+    .data-val {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .data-subtext {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+    }
+
+    .data-status-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-normal { background: rgba(74, 222, 128, 0.15); color: #4ADE80; }
+    .badge-caution { background: rgba(250, 204, 21, 0.15); color: #FACC15; }
+    .badge-danger { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+
+    /* ==========================================
+       INTERACTIVE SCENARIO & CONTROL PANEL
+       ========================================== */
+    .control-panel {
+      margin-top: 28px;
+      background: rgba(30, 30, 30, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .control-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scenario-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .btn-scenario {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-scenario:hover, .btn-scenario.active {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: #06B6D4;
+      color: #38BDF8;
+    }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .slider-group label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .slider-group input[type="range"] {
+      width: 100%;
+      accent-color: #06B6D4;
+      cursor: pointer;
+    }
+
+    /* ==========================================
+       SAFETY RULES & INFO ACCORDION
+       ========================================== */
+    .info-section {
+      margin-top: 24px;
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .info-section h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rules-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ==========================================
+       RESPONSIVE UTILITIES
+       ========================================== */
+    @media (max-width: 480px) {
+      .header-titles h1 { font-size: 1.05rem; }
+      .vibe-grade-badge { width: 54px; height: 54px; font-size: 1.5rem; }
+      .vibe-text-group h2 { font-size: 1.2rem; }
+      .data-val { font-size: 1.25rem; }
+      .data-grid { gap: 10px; }
+      .data-card { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY GLASSMORPHISM HEADER -->
+  <header class="header">
+    <div class="header-branding">
+      <div class="river-badge-icon">🌊</div>
+      <div class="header-titles">
+        <h1>San Marcos River Tubing</h1>
+        <p>Real-Time River & Eco Dashboard • San Marcos, TX</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-refresh" id="btnRefresh" onclick="fetchLiveDashboardData()">
+        <span class="spin-icon">🔄</span>
+        <span class="btn-text">Refresh</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="container">
+
+    <!-- STATUS & METADATA BAR -->
+    <div class="status-bar-info">
+      <div>USGS Site 08170500 • NWS Grid EWX/161,54</div>
+      <div class="api-status-pills">
+        <span class="status-pill"><span class="dot live" id="usgsDot"></span> USGS Live</span>
+        <span class="status-pill"><span class="dot live" id="nwsDot"></span> NWS Weather</span>
+      </div>
+    </div>
+
+    <!-- PRIMARY STATUS CARDS (FLEX STACK, 16px GAP) -->
+    <div class="status-cards-stack">
+
+      <!-- CARD 1: THE VIBE SCORE -->
+      <article class="card" id="vibeCard">
+        <div class="card-header-row">
+          <span class="card-title">
+            <span>✨</span> The Vibe Score
+          </span>
+          <span id="vibeLastUpdated" style="font-size: 0.72rem; color: var(--text-subtle);">Updating...</span>
+        </div>
+
+        <div class="vibe-main-content">
+          <div class="vibe-grade-box">
+            <div class="vibe-grade-badge" id="vibeBadge">--</div>
+            <div class="vibe-text-group">
+              <h2 id="vibeTitle">Evaluating Conditions...</h2>
+              <p id="vibeDescription">Fetching streamflow and weather data to calculate river vibes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vibe-reasons-list" id="vibeTags">
+          <span class="tag">🌊 Loading Flow</span>
+          <span class="tag">☀️ Loading Weather</span>
+        </div>
+      </article>
+
+      <!-- CARD 2: ECO-IMPACT SCORE -->
+      <article class="card" id="ecoCard">
+        <div class="card-header-row">
+          <span class="card-title">
+            <span>🌱</span> Eco-Impact Assessment
+          </span>
+          <span id="seasonPill" class="tag" style="font-size: 0.7rem;">Checking Season...</span>
+        </div>
+
+        <div class="eco-status-box">
+          <div class="eco-icon" id="ecoIcon">🌿</div>
+          <div class="eco-text-group">
+            <h2 id="ecoTitle">Low Ecological Impact</h2>
+            <p id="ecoDescription">River ecosystem conditions are stable.</p>
+          </div>
+        </div>
+
+        <div class="species-callout" id="speciesCallout">
+          <span>🦎</span> <strong>Habitat Protection:</strong> The San Marcos River is home to endangered Texas Wild Rice (<i>Zizania texana</i>) and the Fountain Darter. Please float responsibly!
+        </div>
+      </article>
+
+    </div>
+
+    <!-- RAW DATA SECTION (2-COLUMN GRID) -->
+    <div class="grid-section-title">
+      <span>📊 Live Environmental Metrics</span>
+      <span style="font-size: 0.75rem; text-transform: none; color: var(--text-subtle);">Auto-synced</span>
+    </div>
+
+    <div class="data-grid">
+
+      <!-- AIR TEMP -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🌬️</span> Air Temp</span>
+          <span class="data-status-badge badge-normal" id="airBadge">Optimal</span>
+        </div>
+        <div>
+          <div class="data-val" id="valAirTemp">-- °F</div>
+          <div class="data-subtext" id="valWeatherDesc">NWS San Marcos Forecast</div>
+        </div>
+      </div>
+
+      <!-- WATER TEMP -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">💧</span> Water Temp</span>
+          <span class="data-status-badge badge-normal" id="waterBadge">Spring Fed</span>
+        </div>
+        <div>
+          <div class="data-val" id="valWaterTemp">72.0 °F</div>
+          <div class="data-subtext">Constant ~72°F Spring Water</div>
+        </div>
+      </div>
+
+      <!-- STREAMFLOW / CFS -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🌊</span> River Flow (CFS)</span>
+          <span class="data-status-badge badge-normal" id="cfsBadge">Checking</span>
+        </div>
+        <div>
+          <div class="data-val" id="valCFS">-- CFS</div>
+          <div class="data-subtext">Cubic Feet Per Second (USGS)</div>
+        </div>
+      </div>
+
+      <!-- TURBIDITY -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">👁️</span> Turbidity</span>
+          <span class="data-status-badge badge-normal" id="turbidityBadge">Clear</span>
+        </div>
+        <div>
+          <div class="data-val" id="valTurbidity">-- NTU</div>
+          <div class="data-subtext">Water Clarity Metric</div>
+        </div>
+      </div>
+
+      <!-- DISSOLVED OXYGEN -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🫧</span> Dissolved Oxygen</span>
+          <span class="data-status-badge badge-normal" id="doBadge">Healthy</span>
+        </div>
+        <div>
+          <div class="data-val" id="valDO">-- mg/L</div>
+          <div class="data-subtext">Aquatic Oxygen Level</div>
+        </div>
+      </div>
+
+      <!-- pH LEVEL -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🧪</span> Water pH</span>
+          <span class="data-status-badge badge-normal" id="phBadge">Neutral</span>
+        </div>
+        <div>
+          <div class="data-val" id="valPH">-- pH</div>
+          <div class="data-subtext">Alkalinity Standard (7.0-8.2)</div>
+        </div>
+      </div>
+
+      <!-- E. COLI BACTERIA (MOCKED / RANDOMIZED) -->
+      <div class="data-card" style="grid-column: span 2;">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🦠</span> E. Coli Concentration (Mocked)</span>
+          <span class="data-status-badge badge-normal" id="ecoliBadge">Safe</span>
+        </div>
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div>
+            <div class="data-val" id="valEColi">-- cfu/100mL</div>
+            <div class="data-subtext">Threshold: &lt; 399 cfu/100mL is safe for recreational contact.</div>
+          </div>
+          <button class="btn-scenario" onclick="randomizeEColi()" style="font-size: 0.7rem;">🎲 Re-roll E. coli</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- INTERACTIVE CONTROL / SIMULATOR PANEL -->
+    <section class="control-panel">
+      <div class="control-title">
+        <span>⚙️</span> Interactive Scenario Simulator
+        <span style="font-size: 0.7rem; font-weight: normal; color: var(--text-muted); margin-left: auto;">Test Vibe & Eco Rules</span>
+      </div>
+
+      <div class="scenario-buttons">
+        <button class="btn-scenario active" id="btnLive" onclick="setScenario('live')">🌐 Live USGS/NWS Data</button>
+        <button class="btn-scenario" id="btnChill" onclick="setScenario('chill')">😎 Perfect Chill & Float</button>
+        <button class="btn-scenario" id="btnBumper" onclick="setScenario('bumper')">🪨 Booty Bumper (&lt;100 CFS)</button>
+        <button class="btn-scenario" id="btnMuddy" onclick="setScenario('muddy')">🍫 Chocolate Milk (&gt;50 NTU)</button>
+        <button class="btn-scenario" id="btnFlood" onclick="setScenario('flood')">⚠️ Flood / Biohazard (&gt;500 CFS)</button>
+        <button class="btn-scenario" id="btnDarter" onclick="setScenario('darter')">🦤 Spring Darter Season</button>
+      </div>
+
+      <div class="sliders-grid">
+        <div class="slider-group">
+          <label>Streamflow (CFS): <b id="lblSimCFS">180</b></label>
+          <input type="range" id="simCFS" min="30" max="650" value="180" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>Turbidity (NTU): <b id="lblSimNTU">4.2</b></label>
+          <input type="range" id="simNTU" min="1" max="80" value="4" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>Air Temp (°F): <b id="lblSimAir">85</b></label>
+          <input type="range" id="simAir" min="55" max="105" value="85" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>E. coli (cfu): <b id="lblSimEcoli">110</b></label>
+          <input type="range" id="simEcoli" min="20" max="550" value="110" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>Month (Season): <b id="lblSimMonth">July</b></label>
+          <input type="range" id="simMonth" min="1" max="12" value="7" oninput="onSliderChange()">
+        </div>
+      </div>
+    </section>
+
+    <!-- RIVER RULES & TUBING CHECKLIST -->
+    <section class="info-section">
+      <h3><span>🛶</span> San Marcos River City Rules & Guidelines</h3>
+      <ul class="rules-list">
+        <li>🚫 <b>Can Ban:</b> No disposable containers allowed on river.</li>
+        <li>🥤 <b>Reusables:</b> Non-disposable insulated cups/bottles only.</li>
+        <li>🗑️ <b>Mesh Bags:</b> 1 mesh trash bag required per tube stack.</li>
+        <li>🍷 <b>No Glass/Styrofoam:</b> Strictly prohibited by city ordinance.</li>
+        <li>🌿 <b>Protect Texas Wild Rice:</b> Do not walk on underwater grass patches.</li>
+        <li>🔊 <b>Music Limit:</b> Keep music volume respectful to river wildlife.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // State object holding active environmental metrics
+    const state = {
+      isLiveMode: true,
+      cfs: 180,
+      turbidity: 4.5,
+      airTemp: 86,
+      waterTemp: 72.0,
+      dissolvedOxygen: 7.8,
+      ph: 7.6,
+      ecoli: Math.floor(Math.random() * (200 - 50 + 1)) + 50,
+      weatherDesc: 'Sunny & Warm',
+      monthIndex: new Date().getMonth() + 1, // 1-12
+      lastUpdatedText: 'Just now'
+    };
+
+    // Month Name helper
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // On page load initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchLiveDashboardData();
+    });
+
+    // Generate random E. coli value between 50 and 200 cfu
+    function randomizeEColi() {
+      state.ecoli = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
+      document.getElementById('simEcoli').value = state.ecoli;
+      document.getElementById('lblSimEcoli').innerText = state.ecoli;
+      renderDashboard();
+    }
+
+    // MAIN FETCH FUNCTION (USGS & NWS APIs with resilient fallbacks)
+    async function fetchLiveDashboardData() {
+      const btnRefresh = document.getElementById('btnRefresh');
+      btnRefresh.classList.add('spinning');
+
+      let usgsSuccess = false;
+      let nwsSuccess = false;
+
+      // 1. Fetch USGS Streamflow & Water Quality
+      try {
+        const usgsUrl = 'https://waterservices.usgs.gov/nwis/iv/?format=json&sites=08170500&parameterCd=00060,00010,00300,00400,63680';
+        const response = await fetch(usgsUrl);
+        if (response.ok) {
+          const data = await response.json();
+          const timeSeries = data?.value?.timeSeries || [];
+
+          timeSeries.forEach(ts => {
+            const paramCode = ts?.variable?.variableCode?.[0]?.value;
+            const latestVal = parseFloat(ts?.values?.[0]?.value?.[0]?.value);
+
+            if (!isNaN(latestVal)) {
+              if (paramCode === '00060') state.cfs = latestVal; // Discharge / Flow
+              if (paramCode === '00010') state.waterTemp = parseFloat(((latestVal * 9/5) + 32).toFixed(1)); // C to F
+              if (paramCode === '00300') state.dissolvedOxygen = latestVal; // DO mg/L
+              if (paramCode === '00400') state.ph = latestVal; // pH
+              if (paramCode === '63680' || paramCode === '00076') state.turbidity = latestVal; // Turbidity
+            }
+          });
+          usgsSuccess = true;
+        }
+      } catch (err) {
+        console.warn('USGS API Fetch issue (using realistic default fallback):', err);
+      }
+
+      // 2. Fetch NWS Forecast for San Marcos (EWX 161,54)
+      try {
+        const nwsUrl = 'https://api.weather.gov/gridpoints/EWX/161,54/forecast';
+        const response = await fetch(nwsUrl, {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          const nwsData = await response.json();
+          const currentPeriod = nwsData?.properties?.periods?.[0];
+          if (currentPeriod) {
+            state.airTemp = currentPeriod.temperature;
+            state.weatherDesc = currentPeriod.shortForecast;
+            nwsSuccess = true;
+          }
+        }
+      } catch (err) {
+        console.warn('NWS API Fetch issue (using realistic default fallback):', err);
+      }
+
+      // Update API Status dots
+      document.getElementById('usgsDot').className = usgsSuccess ? 'dot live' : 'dot warning';
+      document.getElementById('nwsDot').className = nwsSuccess ? 'dot live' : 'dot warning';
+
+      // Timestamp
+      const now = new Date();
+      state.lastUpdatedText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      btnRefresh.classList.remove('spinning');
+      
+      if (state.isLiveMode) {
+        updateSimulatorSlidersFromState();
+        renderDashboard();
+      }
+    }
+
+    // UPDATE SIMULATOR SLIDERS
+    function updateSimulatorSlidersFromState() {
+      document.getElementById('simCFS').value = Math.round(state.cfs);
+      document.getElementById('lblSimCFS').innerText = Math.round(state.cfs);
+
+      document.getElementById('simNTU').value = Math.round(state.turbidity);
+      document.getElementById('lblSimNTU').innerText = state.turbidity.toFixed(1);
+
+      document.getElementById('simAir').value = Math.round(state.airTemp);
+      document.getElementById('lblSimAir').innerText = Math.round(state.airTemp);
+
+      document.getElementById('simEcoli').value = state.ecoli;
+      document.getElementById('lblSimEcoli').innerText = state.ecoli;
+
+      document.getElementById('simMonth').value = state.monthIndex;
+      document.getElementById('lblSimMonth').innerText = monthNames[state.monthIndex - 1];
+    }
+
+    // SLIDER EVENT HANDLER
+    function onSliderChange() {
+      state.isLiveMode = false;
+      highlightScenarioBtn('');
+
+      state.cfs = parseFloat(document.getElementById('simCFS').value);
+      document.getElementById('lblSimCFS').innerText = Math.round(state.cfs);
+
+      state.turbidity = parseFloat(document.getElementById('simNTU').value);
+      document.getElementById('lblSimNTU').innerText = state.turbidity.toFixed(1);
+
+      state.airTemp = parseFloat(document.getElementById('simAir').value);
+      document.getElementById('lblSimAir').innerText = Math.round(state.airTemp);
+
+      state.ecoli = parseInt(document.getElementById('simEcoli').value);
+      document.getElementById('lblSimEcoli').innerText = state.ecoli;
+
+      state.monthIndex = parseInt(document.getElementById('simMonth').value);
+      document.getElementById('lblSimMonth').innerText = monthNames[state.monthIndex - 1];
+
+      renderDashboard();
+    }
+
+    // SCENARIO PRESETS
+    function setScenario(preset) {
+      highlightScenarioBtn('btn' + preset.charAt(0).toUpperCase() + preset.slice(1));
+
+      if (preset === 'live') {
+        state.isLiveMode = true;
+        fetchLiveDashboardData();
+        return;
+      }
+
+      state.isLiveMode = false;
+
+      if (preset === 'chill') {
+        state.cfs = 190;
+        state.turbidity = 3.5;
+        state.airTemp = 88;
+        state.ecoli = 85;
+        state.monthIndex = 7; // July
+      } else if (preset === 'bumper') {
+        state.cfs = 75;
+        state.turbidity = 5.0;
+        state.airTemp = 92;
+        state.ecoli = 120;
+        state.monthIndex = 8; // August
+      } else if (preset === 'muddy') {
+        state.cfs = 260;
+        state.turbidity = 65.0;
+        state.airTemp = 78;
+        state.ecoli = 210;
+        state.monthIndex = 6; // June
+      } else if (preset === 'flood') {
+        state.cfs = 540;
+        state.turbidity = 78.0;
+        state.airTemp = 74;
+        state.ecoli = 480;
+        state.monthIndex = 5; // May
+      } else if (preset === 'darter') {
+        state.cfs = 160;
+        state.turbidity = 4.0;
+        state.airTemp = 82;
+        state.ecoli = 90;
+        state.monthIndex = 4; // April (Spawning)
+      }
+
+      updateSimulatorSlidersFromState();
+      renderDashboard();
+    }
+
+    function highlightScenarioBtn(btnId) {
+      document.querySelectorAll('.btn-scenario').forEach(b => b.classList.remove('active'));
+      if (btnId) {
+        const el = document.getElementById(btnId);
+        if (el) el.classList.add('active');
+      }
+    }
+
+    // RENDER DASHBOARD CORE LOGIC
+    function renderDashboard() {
+      // --- 1. EVALUATE THE VIBE SCORE ---
+      let vibeGrade = 'A+';
+      let vibeTitle = "Chill & Float";
+      let vibeDesc = "Optimal lazy river conditions! Clear spring waters & perfect sunny weather.";
+      let vibeBorderClass = 'border-good';
+      let vibeBadgeClass = 'grade-A';
+      let tags = [];
+
+      // Check conditions in specified hierarchy
+      if (state.ecoli > 399 || state.cfs > 500) {
+        vibeGrade = 'F';
+        vibeTitle = "Biohazard or Washout";
+        vibeDesc = state.cfs > 500 
+          ? "DANGER: High flood velocity (>500 CFS). Tubing suspended!" 
+          : "SAFETY ALERT: High bacterial count (>399 cfu). Water contact unsafe!";
+        vibeBorderClass = 'border-danger';
+        vibeBadgeClass = 'grade-F';
+        tags = [
+          state.cfs > 500 ? '🚨 Dangerous Velocity' : '🦠 High E. coli',
+          '⛔ Avoid Tubing'
+        ];
+      } else if (state.turbidity > 50) {
+        vibeGrade = 'C';
+        vibeTitle = "Chocolate Milk";
+        vibeDesc = "High turbidity (>50 NTU) following upstream rain. Water is murky brown.";
+        vibeBorderClass = 'border-caution';
+        vibeBadgeClass = 'grade-C';
+        tags = ['🍫 Murky Water', '⚠️ Low Visibility', '🌊 Moderate Velocity'];
+      } else if (state.cfs < 100) {
+        vibeGrade = 'B';
+        vibeTitle = "Booty Bumper";
+        vibeDesc = "Shallow water flow (<100 CFS). Prepare to scrape rocks in shallow rapids!";
+        vibeBorderClass = 'border-caution';
+        vibeBadgeClass = 'grade-B';
+        tags = ['🪨 Shallow Rapids', '🐢 Slow Drift', '☀️ Warm Sun'];
+      } else if (state.cfs >= 150 && state.cfs <= 250 && state.turbidity < 10 && state.airTemp > 80) {
+        vibeGrade = 'A+';
+        vibeTitle = "Chill & Float";
+        vibeDesc = "Prime San Marcos tubing! Crisp 72°F spring water, crystal clarity, and warm sunshine.";
+        vibeBorderClass = 'border-good';
+        vibeBadgeClass = 'grade-A';
+        tags = ['🌊 Ideal Flow (150-250 CFS)', '💎 Crystal Clear', '☀️ Hot Air (>80°F)'];
+      } else {
+        // Moderate / Good default condition
+        vibeGrade = 'A';
+        vibeTitle = "Great Floating";
+        vibeDesc = "Solid river conditions for an enjoyable float down the San Marcos.";
+        vibeBorderClass = 'border-good';
+        vibeBadgeClass = 'grade-A';
+        tags = [`🌊 Flow: ${Math.round(state.cfs)} CFS`, `👁️ Clarity: ${state.turbidity.toFixed(1)} NTU`, `🌬️ ${Math.round(state.airTemp)}°F` ];
+      }
+
+      // Update Vibe Card UI
+      const vibeCard = document.getElementById('vibeCard');
+      vibeCard.className = `card ${vibeBorderClass}`;
+      
+      const vibeBadge = document.getElementById('vibeBadge');
+      vibeBadge.className = `vibe-grade-badge ${vibeBadgeClass}`;
+      vibeBadge.innerText = vibeGrade;
+
+      document.getElementById('vibeTitle').innerText = vibeTitle;
+      document.getElementById('vibeDescription').innerText = vibeDesc;
+      document.getElementById('vibeLastUpdated').innerText = `Updated: ${state.lastUpdatedText}`;
+
+      const vibeTagsContainer = document.getElementById('vibeTags');
+      vibeTagsContainer.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+      // --- 2. EVALUATE ECO-IMPACT SCORE ---
+      let ecoTitle = "Low Ecological Impact";
+      let ecoDesc = "River ecosystem conditions are healthy. Enjoy the water while respecting aquatic life!";
+      let ecoBorderClass = "border-good";
+      let ecoIcon = "🌿";
+      let seasonText = monthNames[state.monthIndex - 1];
+
+      // March - May check (Spawning)
+      if (state.monthIndex >= 3 && state.monthIndex <= 5) {
+        ecoTitle = "Caution: Fountain Darter Spawning Season";
+        ecoDesc = "Spring spawning period for endangered Fountain Darters. Avoid disturbing algae mats and riverbed vegetation.";
+        ecoBorderClass = "border-caution";
+        ecoIcon = "🦤";
+        seasonText += " • Spawning Season";
+      } 
+      // June - August AND CFS < 150 check
+      else if (state.monthIndex >= 6 && state.monthIndex <= 8 && state.cfs < 150) {
+        ecoTitle = "CRITICAL IMPACT: Low Water & Endangered Grass";
+        ecoDesc = "CRITICAL IMPACT: Low water levels (<150 CFS). Do not stand up or you will trample endangered Texas Wild Rice!";
+        ecoBorderClass = "border-danger";
+        ecoIcon = "⚠️";
+        seasonText += " • Critical Low Water Alert";
+      } else {
+        seasonText += " • Normal Season";
+      }
+
+      // Update Eco Card UI
+      const ecoCard = document.getElementById('ecoCard');
+      ecoCard.className = `card ${ecoBorderClass}`;
+
+      document.getElementById('ecoIcon').innerText = ecoIcon;
+      document.getElementById('ecoTitle').innerText = ecoTitle;
+      document.getElementById('ecoDescription').innerText = ecoDesc;
+      document.getElementById('seasonPill').innerText = seasonText;
+
+      // --- 3. RENDER RAW DATA GRID METRICS ---
+      // Air Temp
+      document.getElementById('valAirTemp').innerText = `${Math.round(state.airTemp)} °F`;
+      document.getElementById('valWeatherDesc').innerText = state.weatherDesc;
+      const airBadge = document.getElementById('airBadge');
+      if (state.airTemp >= 80) {
+        airBadge.innerText = 'Hot & Sunny';
+        airBadge.className = 'data-status-badge badge-normal';
+      } else if (state.airTemp >= 70) {
+        airBadge.innerText = 'Pleasant';
+        airBadge.className = 'data-status-badge badge-normal';
+      } else {
+        airBadge.innerText = 'Cool Air';
+        airBadge.className = 'data-status-badge badge-caution';
+      }
+
+      // Water Temp
+      document.getElementById('valWaterTemp').innerText = `${state.waterTemp.toFixed(1)} °F`;
+
+      // CFS / Streamflow
+      document.getElementById('valCFS').innerText = `${Math.round(state.cfs)} CFS`;
+      const cfsBadge = document.getElementById('cfsBadge');
+      if (state.cfs > 500) {
+        cfsBadge.innerText = 'Flood High';
+        cfsBadge.className = 'data-status-badge badge-danger';
+      } else if (state.cfs < 100) {
+        cfsBadge.innerText = 'Shallow Low';
+        cfsBadge.className = 'data-status-badge badge-caution';
+      } else if (state.cfs >= 150 && state.cfs <= 250) {
+        cfsBadge.innerText = 'Optimal Float';
+        cfsBadge.className = 'data-status-badge badge-normal';
+      } else {
+        cfsBadge.innerText = 'Normal Flow';
+        cfsBadge.className = 'data-status-badge badge-normal';
+      }
+
+      // Turbidity
+      document.getElementById('valTurbidity').innerText = `${state.turbidity.toFixed(1)} NTU`;
+      const turbidityBadge = document.getElementById('turbidityBadge');
+      if (state.turbidity > 50) {
+        turbidityBadge.innerText = 'Very Muddy';
+        turbidityBadge.className = 'data-status-badge badge-danger';
+      } else if (state.turbidity > 15) {
+        turbidityBadge.innerText = 'Slight Murk';
+        turbidityBadge.className = 'data-status-badge badge-caution';
+      } else {
+        turbidityBadge.innerText = 'Crystal Clear';
+        turbidityBadge.className = 'data-status-badge badge-normal';
+      }
+
+      // Dissolved Oxygen
+      document.getElementById('valDO').innerText = `${state.dissolvedOxygen.toFixed(1)} mg/L`;
+      const doBadge = document.getElementById('doBadge');
+      if (state.dissolvedOxygen < 5.0) {
+        doBadge.innerText = 'Depleted';
+        doBadge.className = 'data-status-badge badge-danger';
+      } else {
+        doBadge.innerText = 'Rich Oxygen';
+        doBadge.className = 'data-status-badge badge-normal';
+      }
+
+      // pH Level
+      document.getElementById('valPH').innerText = `${state.ph.toFixed(1)} pH`;
+      const phBadge = document.getElementById('phBadge');
+      if (state.ph >= 7.0 && state.ph <= 8.4) {
+        phBadge.innerText = 'Balanced';
+        phBadge.className = 'data-status-badge badge-normal';
+      } else {
+        phBadge.innerText = 'Elevated';
+        phBadge.className = 'data-status-badge badge-caution';
+      }
+
+      // E. Coli
+      document.getElementById('valEColi').innerText = `${state.ecoli} cfu/100mL`;
+      const ecoliBadge = document.getElementById('ecoliBadge');
+      if (state.ecoli > 399) {
+        ecoliBadge.innerText = 'UNSAFE (>399)';
+        ecoliBadge.className = 'data-status-badge badge-danger';
+      } else if (state.ecoli > 200) {
+        ecoliBadge.innerText = 'Moderate';
+        ecoliBadge.className = 'data-status-badge badge-caution';
+      } else {
+        ecoliBadge.innerText = 'Safe Contact';
+        ecoliBadge.className = 'data-status-badge badge-normal';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+*.json
+*.log
+*.tmp
+test_out.html
+usgs_test.json
+nws_test.json
