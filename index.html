@@ -11,6 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Telemetry Data Pipeline -->
+  <script src="telemetry-pipeline.js"></script>
+
   <style>
     /* ==========================================
        DESIGN SYSTEM & CSS VARIABLES
@@ -583,8 +586,262 @@
     }
 
     /* ==========================================
-       RESPONSIVE UTILITIES
+       SIDE-SCROLLING SVG ECOSYSTEM SIMULATOR
        ========================================== */
+    .ecosystem-container {
+      margin-bottom: 24px;
+      background: #0B1726;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .eco-sim-header {
+      padding: 14px 18px;
+      background: rgba(15, 23, 42, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .eco-sim-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #38BDF8;
+    }
+
+    .stage-toggle-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-stage {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      padding: 10px 14px;
+      min-height: 44px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+
+    .btn-stage:focus-visible, .svg-sprite:focus-visible {
+      outline: 3px solid #38BDF8;
+      outline-offset: 3px;
+    }
+
+    .wild-rice-leaf, #fountainDarterGroup {
+      will-change: transform;
+    }
+
+    /* Motion Sensitivity Support (WCAG 2.1 AA 2.3.3) */
+    @media (prefers-reduced-motion: reduce) {
+      .wild-rice-leaf, #fountainDarterGroup {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    .btn-stage:hover, .btn-stage.active {
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      color: #FFF;
+      border-color: #38BDF8;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+    }
+
+    .view-scroll-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #06B6D4 #0F172A;
+    }
+
+    .eco-cross-section {
+      width: 900px;
+      height: 340px;
+      position: relative;
+      background: linear-gradient(180deg, #38BDF8 0%, #0284C7 20%, #0369A1 50%, #0F172A 100%);
+      transition: background 0.8s ease;
+      user-select: none;
+    }
+
+    /* Water Depth & Clarity State Overlays */
+    .turbidity-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(120, 70, 20, 0.4) 0%, rgba(80, 45, 10, 0.75) 100%);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 5;
+    }
+
+    .algae-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: rgba(101, 163, 13, 0.3);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 4;
+    }
+
+    /* Riverbed Substrate */
+    .riverbed-substrate {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(180deg, #475569 0%, #1E293B 100%);
+      border-top: 3px solid #64748B;
+    }
+
+    /* SVG Interactive Sprites */
+    .svg-sprite {
+      cursor: pointer;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.5s ease;
+    }
+
+    .svg-sprite:hover {
+      filter: drop-shadow(0 0 10px #38BDF8) brightness(1.25);
+    }
+
+    /* Wild Rice CSS State Animations */
+    .wild-rice-leaf {
+      transform-origin: bottom center;
+      transition: transform 0.8s ease, fill 0.8s ease;
+    }
+
+    /* Stage Specific CSS Styles */
+    [data-stage="optimal-baseflow"] .wild-rice-leaf {
+      animation: sway-optimal 3.5s ease-in-out infinite alternate;
+      fill: #22C55E;
+    }
+    [data-stage="elevated-surge"] .wild-rice-leaf {
+      transform: rotate(28deg);
+      fill: #16A34A;
+      animation: sway-elevated 1.8s ease-in-out infinite alternate;
+    }
+    [data-stage="severe-flood"] .wild-rice-leaf {
+      transform: rotate(68deg);
+      fill: #4D7C0F;
+    }
+    [data-stage="severe-flood"] .turbidity-layer {
+      opacity: 0.85;
+    }
+    [data-stage="critical-drought"] .wild-rice-leaf {
+      transform: rotate(-12deg);
+      fill: #A16207;
+    }
+    [data-stage="critical-drought"] .algae-layer {
+      opacity: 0.75;
+    }
+
+    @keyframes sway-optimal {
+      0% { transform: rotate(-4deg); }
+      100% { transform: rotate(8deg); }
+    }
+
+    @keyframes sway-elevated {
+      0% { transform: rotate(20deg); }
+      100% { transform: rotate(34deg); }
+    }
+
+    /* Fountain Darter Hop & Position Animations */
+    #fountainDarterGroup {
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    [data-stage="optimal-baseflow"] #fountainDarterGroup {
+      transform: translate(320px, 245px);
+      animation: darter-hop 4s ease-in-out infinite;
+    }
+
+    [data-stage="elevated-surge"] #fountainDarterGroup {
+      transform: translate(220px, 262px);
+    }
+
+    [data-stage="severe-flood"] #fountainDarterGroup {
+      transform: translate(520px, 265px);
+    }
+
+    [data-stage="critical-drought"] #fountainDarterGroup {
+      transform: translate(750px, 260px);
+    }
+
+    @keyframes darter-hop {
+      0%, 100% { transform: translate(320px, 245px); }
+      30% { transform: translate(360px, 225px); }
+      40% { transform: translate(390px, 245px); }
+      70% { transform: translate(310px, 230px); }
+    }
+
+    /* Modal Overlay for K-12 Info Cards */
+    .info-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .info-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .info-modal-card {
+      background: #1E293B;
+      border: 2px solid #06B6D4;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .info-modal-backdrop.active .info-modal-card {
+      transform: scale(1);
+    }
+
+    .modal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      color: #FFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    /* RESPONSIVE UTILITIES */
     @media (max-width: 480px) {
       .header-titles h1 { font-size: 1.05rem; }
       .vibe-grade-badge { width: 54px; height: 54px; font-size: 1.5rem; }
@@ -623,6 +880,89 @@
       <div class="api-status-pills">
         <span class="status-pill"><span class="dot live" id="usgsDot"></span> USGS Live</span>
         <span class="status-pill"><span class="dot live" id="nwsDot"></span> NWS Weather</span>
+      </div>
+    </div>
+
+    <!-- SIDE-SCROLLING SVG ECOSYSTEM CROSS-SECTION SIMULATOR -->
+    <section class="ecosystem-container" id="ecosystemView" data-stage="optimal-baseflow">
+      <div class="eco-sim-header">
+        <div class="eco-sim-title">
+          <span>🌿</span> San Marcos River Ecosystem Simulator
+        </div>
+        <div class="stage-toggle-btns">
+          <button class="btn-stage active" id="btnStage1" onclick="setSimStage('optimal-baseflow')">Stage 1: Optimal</button>
+          <button class="btn-stage" id="btnStage2" onclick="setSimStage('elevated-surge')">Stage 2: Elevated</button>
+          <button class="btn-stage" id="btnStage3" onclick="setSimStage('severe-flood')">Stage 3: Flood</button>
+          <button class="btn-stage" id="btnStage4" onclick="setSimStage('critical-drought')">Stage 4: Drought</button>
+        </div>
+      </div>
+
+      <div class="view-scroll-wrapper">
+        <div class="eco-cross-section" id="crossSectionCanvas">
+          <!-- Overlays -->
+          <div class="turbidity-layer"></div>
+          <div class="algae-layer"></div>
+
+          <!-- Inline SVG Cross-Section Scene -->
+          <svg width="900" height="340" viewBox="0 0 900 340" style="position: absolute; inset: 0;">
+            <!-- Water Surface Rays & Waves -->
+            <path d="M0 30 Q 150 20, 300 30 T 600 30 T 900 30 L 900 0 L 0 0 Z" fill="rgba(255,255,255,0.25)" />
+            <polygon points="120,0 220,260 260,260 140,0" fill="rgba(255,255,255,0.08)" />
+            <polygon points="450,0 580,260 620,260 480,0" fill="rgba(255,255,255,0.06)" />
+
+            <!-- Substrate & Boulders (Refugia) -->
+            <path d="M0 260 Q 200 255, 400 260 T 900 260 L 900 340 L 0 340 Z" fill="#334155" />
+            
+            <!-- Large Benthic Boulder (Refugia Spot for Stage 3) -->
+            <g id="refugiaBoulder" class="svg-sprite" role="button" tabindex="0" aria-label="Inspect Refugia Rock" onclick="openInfoCard('refugia')" onkeydown="if(event.key==='Enter'||event.key===' ') openInfoCard('refugia')">
+              <path d="M 460 260 Q 490 200, 550 210 Q 590 220, 610 260 Z" fill="#475569" stroke="#64748B" stroke-width="2" />
+              <text x="500" y="245" fill="#94A3B8" font-size="11" font-weight="600">Refugia Rock</text>
+            </g>
+
+            <!-- Spring Vent Orifice (Stage 4 Deep Refuge) -->
+            <g id="springVent">
+              <ellipse cx="780" cy="270" rx="35" ry="12" fill="#0284C7" opacity="0.6" />
+              <text x="750" y="295" fill="#38BDF8" font-size="10">Spring Vent</text>
+            </g>
+
+            <!-- Texas Wild Rice (Zizania texana) Group -->
+            <g id="wildRiceGroup" class="svg-sprite" role="button" tabindex="0" aria-label="Inspect Texas Wild Rice" transform="translate(140, 260)" onclick="openInfoCard('wild-rice')" onkeydown="if(event.key==='Enter'||event.key===' ') openInfoCard('wild-rice')">
+              <!-- Multiple Ribbon Leaf Blades -->
+              <path class="wild-rice-leaf" d="M 0 0 C -15 -80, -25 -140, -10 -200 C -5 -140, 5 -80, 0 0 Z" />
+              <path class="wild-rice-leaf" d="M 12 0 C 5 -90, -10 -150, 15 -215 C 20 -150, 15 -90, 12 0 Z" style="animation-delay: 0.3s;" />
+              <path class="wild-rice-leaf" d="M -12 0 C -30 -70, -40 -130, -25 -185 C -15 -130, -5 -70, -12 0 Z" style="animation-delay: 0.6s;" />
+              <text x="-40" y="-210" fill="#4ADE80" font-size="12" font-weight="700">🌾 Texas Wild Rice</text>
+            </g>
+
+            <!-- Fountain Darter (Etheostoma fonticola) Group -->
+            <g id="fountainDarterGroup" class="svg-sprite" role="button" tabindex="0" aria-label="Inspect Fountain Darter" onclick="openInfoCard('darter')" onkeydown="if(event.key==='Enter'||event.key===' ') openInfoCard('darter')">
+              <!-- Darter Body SVG -->
+              <ellipse cx="20" cy="10" rx="22" ry="8" fill="#A3E635" stroke="#4D7C0F" stroke-width="1.5" />
+              <!-- Tail Fin -->
+              <polygon points="42,10 52,3 52,17" fill="#65A30D" />
+              <!-- Pectoral Fin Anchor -->
+              <polygon points="12,14 6,24 18,18" fill="#4D7C0F" />
+              <!-- Eye -->
+              <circle cx="6" cy="8" r="2.5" fill="#0F172A" />
+              <circle cx="5" cy="7" r="0.8" fill="#FFF" />
+              <!-- Camouflage Stippling -->
+              <circle cx="15" cy="8" r="1" fill="#365314" />
+              <circle cx="22" cy="12" r="1.2" fill="#365314" />
+              <circle cx="28" cy="7" r="1" fill="#365314" />
+              <text x="-10" y="-8" fill="#A3E635" font-size="11" font-weight="700">🐟 Fountain Darter</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- K-12 INTERACTIVE FIELD INFO-CARD MODAL -->
+    <div class="info-modal-backdrop" id="infoCardModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeInfoCard(event)">
+      <div class="info-modal-card" onclick="event.stopPropagation()">
+        <div class="modal-badge" id="modalBadge">🌟 Field Guide Quest</div>
+        <h2 id="modalTitle" style="font-size: 1.25rem; color: #F8FAFC; margin-bottom: 8px;">Species Discovery</h2>
+        <p id="modalBody" style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; margin-bottom: 16px;"></p>
+        <button class="btn-refresh" style="width: 100%; justify-content: center; background: #06B6D4;" aria-label="Close field guide info card" onclick="closeInfoCard()">Got It!</button>
       </div>
     </div>
 
@@ -1229,6 +1569,130 @@
         ecoliBadge.className = 'data-status-badge badge-normal';
       }
     }
+
+    // ==========================================
+    // ECOSYSTEM SIMULATOR & TELEMETRY SUBSCRIBER
+    // ==========================================
+    let currentSimStage = 'optimal-baseflow';
+
+    function setSimStage(stageId) {
+      currentSimStage = stageId;
+      const ecoView = document.getElementById('ecosystemView');
+      if (ecoView) {
+        ecoView.dataset.stage = stageId;
+      }
+
+      // Update Active Stage Button Styling & ARIA State
+      document.querySelectorAll('.btn-stage').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      const stageBtnMap = {
+        'optimal-baseflow': 'btnStage1',
+        'elevated-surge': 'btnStage2',
+        'severe-flood': 'btnStage3',
+        'critical-drought': 'btnStage4'
+      };
+      const activeBtn = document.getElementById(stageBtnMap[stageId]);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.setAttribute('aria-pressed', 'true');
+      }
+
+      // Trigger Telemetry Store Simulation if loaded
+      if (window.telemetryStore) {
+        window.telemetryStore.simulateStage(stageId);
+      }
+    }
+
+    // K-12 Interactive Info Card Popup Handler
+    const loreDatabase = {
+      'wild-rice': {
+        'optimal-baseflow': {
+          badge: '🌾 San Marcos Guardian Badge',
+          title: 'Texas Wild Rice — The Emerald Canopy',
+          body: 'Texas Wild Rice (Zizania texana) is one of the rarest plants on Earth—it grows ONLY in the upper 2.5 miles of the San Marcos River! In crystal-clear water (<2 NTU), sunlight reaches deep down to feed every leaf.'
+        },
+        'elevated-surge': {
+          badge: '⚡ Current Navigator Badge',
+          title: 'Texas Wild Rice — The Angled Streamer',
+          body: 'As flow speeds up to 250 CFS, Texas Wild Rice bends at a 45-degree angle! Slanting allows it to slice through fast water while capturing sunlight through the mild turbidity haze.'
+        },
+        'severe-flood': {
+          badge: '🛡️ Flood Survivor Badge',
+          title: 'Texas Wild Rice — Hydrodynamic Shield',
+          body: 'In 450+ CFS floodwaters, Texas Wild Rice flattens completely horizontal! Pinning its long leaves into tight parallel strands lets raging currents glide right over without tearing its roots.'
+        },
+        'critical-drought': {
+          badge: '🚨 Aquifer Sentinel Badge',
+          title: 'Texas Wild Rice — Heat-Stressed Stand',
+          body: 'When spring flow drops below 60 CFS, shallow water leaves foliage floating limply on the surface. Scorching Texas summer sun can burn the leaf tips brown.'
+        }
+      },
+      'darter': {
+        'optimal-baseflow': {
+          badge: '🐟 Darter Tracker Badge',
+          title: 'Fountain Darter — The Benthic Hop-Master',
+          body: 'Zip! Hop! The endangered Fountain Darter grows to just 1 inch long. With no swim bladder to float around, it uses its fins like tiny legs to hop along moss beds hunting for snacks!'
+        },
+        'elevated-surge': {
+          badge: '🌿 Micro-Habitat Master Badge',
+          title: 'Fountain Darter — Plant Shelter Seeker',
+          body: 'In 250 CFS currents, Fountain Darters stay low, ducking deep into dense mats of Texas Wild Rice roots and native mosses to block the swift flow.'
+        },
+        'severe-flood': {
+          badge: '🪨 Bunker Boss Badge',
+          title: 'Fountain Darter — The Rock Bunker',
+          body: 'In 450+ CFS floodwaters, tiny darters press flat into deep rock crevices (refugia) behind large boulders, holding on tight until the storm subsides!'
+        },
+        'critical-drought': {
+          badge: '🫧 Thermal Refuge Finder Badge',
+          title: 'Fountain Darter — Spring-Head Seekers',
+          body: 'Warm drought water holds less dissolved oxygen! Fountain Darters gather around deep, shaded spring openings where cool, oxygen-rich aquifer water still trickles from underground.'
+        }
+      },
+      'refugia': {
+        'optimal-baseflow': {
+          badge: '🪨 Riverbed Habitat',
+          title: 'Benthic Boulder & Refugia Zone',
+          body: 'Submerged boulders create micro-refugia zones. During high flood surges (>450 CFS), water velocity behind these rocks drops by over 80%, providing safe shelter for benthic fish!'
+        }
+      }
+    };
+
+    function openInfoCard(targetType) {
+      const stageData = loreDatabase[targetType]?.[currentSimStage] || loreDatabase[targetType]?.['optimal-baseflow'];
+      if (!stageData) return;
+
+      document.getElementById('modalBadge').innerText = stageData.badge;
+      document.getElementById('modalTitle').innerText = stageData.title;
+      document.getElementById('modalBody').innerText = stageData.body;
+
+      const modal = document.getElementById('infoCardModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeInfoCard(event) {
+      const modal = document.getElementById('infoCardModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Keyboard Escape key handler to close modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeInfoCard();
+    });
+
+    // Subscribe UI to Backend Data Engineer Telemetry Store
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.telemetryStore) {
+        window.telemetryStore.subscribe((tState) => {
+          if (tState.stage && tState.stage !== currentSimStage) {
+            setSimStage(tState.stage);
+          }
+        });
+        window.telemetryPipeline?.startIngestion(60000);
+      }
+    });
   </script>
 </body>
 </html>
