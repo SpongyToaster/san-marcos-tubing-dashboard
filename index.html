@@ -323,6 +323,42 @@
       color: var(--text-muted);
     }
 
+    .vibe-illustration-box {
+      flex-shrink: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      background: #0F172A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .vibe-illustration-box:hover {
+      transform: scale(1.05) rotate(1deg);
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .vibe-illustration-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      .vibe-illustration-box {
+        width: 100%;
+        height: 160px;
+        order: -1;
+      }
+    }
+
     .vibe-reasons-list {
       margin-top: 12px;
       padding-top: 12px;
@@ -1066,6 +1102,9 @@
               <p id="vibeDescription">Fetching streamflow and weather data to calculate river vibes.</p>
             </div>
           </div>
+          <div class="vibe-illustration-box" id="vibeIllustrationBox" title="Current Tubing Vibe">
+            <img id="vibeIllustrationImg" src="assets/vibes/chill-float.jpg" alt="San Marcos Tubing Vibe Cartoon" />
+          </div>
         </div>
 
         <div class="vibe-reasons-list" id="vibeTags">
@@ -1687,6 +1726,9 @@
       let vibeBadgeClass = 'grade-A';
       let tags = [];
 
+      let vibeImage = 'assets/vibes/chill-float.jpg';
+      let vibeImageAlt = 'Chill and Float Vibe Cartoon';
+
       // Check conditions in specified hierarchy
       if (state.ecoli > 399 || state.cfs > 500) {
         vibeGrade = 'F';
@@ -1696,6 +1738,8 @@
           : "SAFETY ALERT: High bacterial count (>399 cfu). Water contact unsafe!";
         vibeBorderClass = 'border-danger';
         vibeBadgeClass = 'grade-F';
+        vibeImage = 'assets/vibes/washout.jpg';
+        vibeImageAlt = 'Wild Washout Chaos Cartoon';
         tags = [
           state.cfs > 500 ? '🚨 Dangerous Velocity' : '🦠 High E. coli',
           '⛔ Avoid Tubing'
@@ -1706,6 +1750,8 @@
         vibeDesc = "High turbidity (>50 NTU) following upstream rain. Water is murky brown.";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-C';
+        vibeImage = 'assets/vibes/chocolate-milk.jpg';
+        vibeImageAlt = 'Chocolate Milk Muddy Water Cartoon';
         tags = ['🍫 Murky Water', '⚠️ Low Visibility', '🌊 Moderate Velocity'];
       } else if (state.cfs < 100) {
         vibeGrade = 'B';
@@ -1713,6 +1759,8 @@
         vibeDesc = "Shallow water flow (<100 CFS). Prepare to scrape rocks in shallow rapids!";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-B';
+        vibeImage = 'assets/vibes/booty-bumper.jpg';
+        vibeImageAlt = 'Booty Bumper Rock Scrape Cartoon';
         tags = ['🪨 Shallow Rapids', '🐢 Slow Drift', '☀️ Warm Sun'];
       } else if (state.cfs >= 150 && state.cfs <= 250 && state.turbidity < 10 && state.airTemp > 80) {
         vibeGrade = 'A+';
@@ -1720,6 +1768,8 @@
         vibeDesc = "Prime San Marcos tubing! Crisp 72°F spring water, crystal clarity, and warm sunshine.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
+        vibeImage = 'assets/vibes/chill-float.jpg';
+        vibeImageAlt = 'Chill and Float Vibe Cartoon';
         tags = ['🌊 Ideal Flow (150-250 CFS)', '💎 Crystal Clear', '☀️ Hot Air (>80°F)'];
       } else {
         // Moderate / Good default condition
@@ -1728,6 +1778,8 @@
         vibeDesc = "Solid river conditions for an enjoyable float down the San Marcos.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
+        vibeImage = 'assets/vibes/great-floating.jpg';
+        vibeImageAlt = 'Great Floating Texas Potato Cartoon';
         tags = [`🌊 Flow: ${Math.round(state.cfs)} CFS`, `👁️ Clarity: ${state.turbidity.toFixed(1)} NTU`, `🌬️ ${Math.round(state.airTemp)}°F` ];
       }
 
@@ -1742,6 +1794,12 @@
       document.getElementById('vibeTitle').innerText = vibeTitle;
       document.getElementById('vibeDescription').innerText = vibeDesc;
       document.getElementById('vibeLastUpdated').innerText = `Updated: ${state.lastUpdatedText}`;
+
+      const vibeImgEl = document.getElementById('vibeIllustrationImg');
+      if (vibeImgEl) {
+        vibeImgEl.src = vibeImage;
+        vibeImgEl.alt = vibeImageAlt;
+      }
 
       const vibeTagsContainer = document.getElementById('vibeTags');
       vibeTagsContainer.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
