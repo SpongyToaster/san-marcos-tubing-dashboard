@@ -857,9 +857,46 @@
       stroke: #FFFFFF;
     }
 
+    /* Category Specific Styling */
+    .eco-hotspot.invasive .hotspot-ring {
+      stroke: #F43F5E;
+      fill: rgba(244, 63, 94, 0.08);
+    }
+    .eco-hotspot.invasive .hotspot-beacon-dot { fill: #F43F5E; filter: drop-shadow(0 0 6px #F43F5E); }
+    .eco-hotspot.invasive .hotspot-beacon-pulse { stroke: #F43F5E; }
+    .eco-hotspot.invasive:hover .hotspot-ring,
+    .eco-hotspot.invasive:focus .hotspot-ring {
+      stroke: #FF4D6D;
+      fill: rgba(244, 63, 94, 0.28);
+      filter: drop-shadow(0 0 16px #F43F5E);
+    }
+    .eco-hotspot.invasive:hover .hotspot-badge-bg,
+    .eco-hotspot.invasive:focus .hotspot-badge-bg {
+      fill: #E11D48;
+      stroke: #FFFFFF;
+    }
+
+    .eco-hotspot.plant .hotspot-ring {
+      stroke: #10B981;
+      fill: rgba(16, 185, 129, 0.08);
+    }
+    .eco-hotspot.plant .hotspot-beacon-dot { fill: #10B981; filter: drop-shadow(0 0 6px #10B981); }
+    .eco-hotspot.plant .hotspot-beacon-pulse { stroke: #10B981; }
+    .eco-hotspot.plant:hover .hotspot-ring,
+    .eco-hotspot.plant:focus .hotspot-ring {
+      stroke: #34D399;
+      fill: rgba(16, 185, 129, 0.28);
+      filter: drop-shadow(0 0 16px #10B981);
+    }
+    .eco-hotspot.plant:hover .hotspot-badge-bg,
+    .eco-hotspot.plant:focus .hotspot-badge-bg {
+      fill: #059669;
+      stroke: #FFFFFF;
+    }
+
     @keyframes beacon-pulse {
-      0% { r: 5; opacity: 1; }
-      100% { r: 26; opacity: 0; }
+      0% { r: 4; opacity: 1; }
+      100% { r: 20; opacity: 0; }
     }
 
     /* Floating Interactive Preview Tooltip Card (Mouse-Over & Focus) */
@@ -971,11 +1008,13 @@
       border: 2px solid #06B6D4;
       border-radius: var(--radius-lg);
       padding: 24px;
-      max-width: 480px;
+      max-width: 520px;
       width: 100%;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       transform: scale(0.9);
       transition: transform 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .info-modal-backdrop.active .info-modal-card {
@@ -993,6 +1032,67 @@
       font-size: 0.75rem;
       font-weight: 700;
       margin-bottom: 12px;
+    }
+
+    .modal-badge.invasive {
+      background: linear-gradient(135deg, #E11D48, #F43F5E);
+    }
+
+    .modal-badge.plant {
+      background: linear-gradient(135deg, #059669, #10B981);
+    }
+
+    .modal-species-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .modal-species-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1.5px solid #06B6D4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .modal-species-info {
+      flex: 1;
+    }
+
+    .modal-scientific-name {
+      font-size: 0.78rem;
+      color: #38BDF8;
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .modal-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .modal-stat-item {
+      font-size: 0.75rem;
+      color: #94A3B8;
+    }
+
+    .modal-stat-item b {
+      color: #F8FAFC;
+      display: block;
     }
 
     /* RESPONSIVE UTILITIES */
@@ -1259,10 +1359,10 @@
       <div class="view-scroll-wrapper">
         <div class="canvas-prompt-badge">🔍 Hover over or tap any highlighted animal or plant to inspect its live field guide!</div>
         <div class="eco-cross-section" id="crossSectionCanvas">
-          <!-- Inline Interactive SVG Scene using San Marcos Underwater Scene as Primary Background -->
+          <!-- Inline Interactive SVG Scene using San Marcos Rich Ecosystem Scene as Primary Background -->
           <svg width="100%" height="100%" viewBox="0 0 1000 562.5" preserveAspectRatio="xMidYMid slice" id="ecoSceneSvg">
-            <!-- 1. San Marcos Underwater Scene Primary Background Artwork -->
-            <image href="assets/san-marcos-underwater-scene.jpg" x="0" y="0" width="1000" height="562.5" preserveAspectRatio="xMidYMid slice" id="ecoSceneBg" />
+            <!-- 1. San Marcos Rich Ecosystem Primary Background Artwork -->
+            <image href="assets/san-marcos-rich-ecosystem.jpg" x="0" y="0" width="1000" height="562.5" preserveAspectRatio="xMidYMid slice" id="ecoSceneBg" />
 
             <!-- 2. Environmental Stage Overlays (Turbidity Murk & Drought Tint) -->
             <rect class="scene-turbidity-overlay" width="1000" height="562.5" fill="#78350F" opacity="0" pointer-events="none" />
@@ -1270,83 +1370,127 @@
 
             <!-- 3. Interactive Highlight Hotspots Anchored to Existing Species in Artwork -->
 
-            <!-- 🐢 Texas River Cooter (Basking atop center moss boulder) -->
-            <g class="eco-hotspot" id="hotspot-cooter" tabindex="0" role="button" aria-label="Inspect Texas River Cooter"
-               onclick="openInfoCard('cooter')"
-               onmouseenter="showHotspotPreview('cooter', event)"
+            <!-- 🪶 1. Yellow-crowned Night Heron (Top Left Branch) -->
+            <g class="eco-hotspot" id="hotspot-heron" tabindex="0" role="button" aria-label="Inspect Yellow-crowned Night Heron"
+               onclick="openInfoCard('heron')"
+               onmouseenter="showHotspotPreview('heron', event)"
                onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('cooter', event)"
+               onfocus="showHotspotPreview('heron', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('cooter')">
-              <ellipse cx="518" cy="292" rx="72" ry="42" class="hotspot-ring" />
-              <circle cx="518" cy="254" r="5" class="hotspot-beacon-dot" />
-              <circle cx="518" cy="254" r="5" class="hotspot-beacon-pulse" />
-              <rect x="442" y="222" width="152" height="24" class="hotspot-badge-bg" />
-              <text x="518" y="238" text-anchor="middle" class="hotspot-badge-text">🐢 Texas River Cooter</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('heron')">
+              <ellipse cx="178" cy="165" rx="55" ry="85" class="hotspot-ring" />
+              <circle cx="195" cy="72" r="5" class="hotspot-beacon-dot" />
+              <circle cx="195" cy="72" r="5" class="hotspot-beacon-pulse" />
+              <rect x="108" y="42" width="176" height="24" class="hotspot-badge-bg" />
+              <text x="196" y="58" text-anchor="middle" class="hotspot-badge-text">🪶 Yellow-crowned Heron</text>
             </g>
 
-            <!-- 🐟 Fountain Darter (Camouflaged on center riverbed pebbles) -->
-            <g class="eco-hotspot" id="hotspot-darter" tabindex="0" role="button" aria-label="Inspect Fountain Darter"
-               onclick="openInfoCard('darter')"
-               onmouseenter="showHotspotPreview('darter', event)"
+            <!-- 🌿 2. Elephant Ears (Riverbank Canopy) -->
+            <g class="eco-hotspot plant" id="hotspot-elephant-ears" tabindex="0" role="button" aria-label="Inspect Elephant Ears"
+               onclick="openInfoCard('elephant-ears')"
+               onmouseenter="showHotspotPreview('elephant-ears', event)"
                onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('darter', event)"
+               onfocus="showHotspotPreview('elephant-ears', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('darter')">
-              <ellipse cx="522" cy="484" rx="66" ry="26" class="hotspot-ring" />
-              <circle cx="522" cy="450" r="5" class="hotspot-beacon-dot" />
-              <circle cx="522" cy="450" r="5" class="hotspot-beacon-pulse" />
-              <rect x="450" y="420" width="144" height="24" class="hotspot-badge-bg" />
-              <text x="522" y="436" text-anchor="middle" class="hotspot-badge-text">🐟 Fountain Darter</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('elephant-ears')">
+              <ellipse cx="560" cy="155" rx="90" ry="55" class="hotspot-ring" />
+              <circle cx="560" cy="95" r="5" class="hotspot-beacon-dot" />
+              <circle cx="560" cy="95" r="5" class="hotspot-beacon-pulse" />
+              <rect x="502" y="66" width="116" height="24" class="hotspot-badge-bg" />
+              <text x="560" y="82" text-anchor="middle" class="hotspot-badge-text">🌿 Elephant Ears</text>
             </g>
 
-            <!-- 🐠 Longear Sunfish (Main foreground sunfish & left school) -->
-            <g class="eco-hotspot" id="hotspot-sunfish" tabindex="0" role="button" aria-label="Inspect Longear Sunfish"
-               onclick="openInfoCard('sunfish')"
-               onmouseenter="showHotspotPreview('sunfish', event)"
+            <!-- 🐸 3. Native Leopard Frog (Riverbank Shoreline) -->
+            <g class="eco-hotspot" id="hotspot-frog" tabindex="0" role="button" aria-label="Inspect Native Leopard Frog"
+               onclick="openInfoCard('frog')"
+               onmouseenter="showHotspotPreview('frog', event)"
                onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('sunfish', event)"
+               onfocus="showHotspotPreview('frog', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('sunfish')">
-              <ellipse cx="382" cy="418" rx="60" ry="36" class="hotspot-ring" />
-              <ellipse cx="230" cy="335" rx="85" ry="55" class="hotspot-ring" />
-              <circle cx="382" cy="374" r="5" class="hotspot-beacon-dot" />
-              <circle cx="382" cy="374" r="5" class="hotspot-beacon-pulse" />
-              <rect x="312" y="344" width="140" height="24" class="hotspot-badge-bg" />
-              <text x="382" y="360" text-anchor="middle" class="hotspot-badge-text">🐠 Longear Sunfish</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('frog')">
+              <ellipse cx="798" cy="168" rx="38" ry="24" class="hotspot-ring" />
+              <circle cx="798" cy="138" r="5" class="hotspot-beacon-dot" />
+              <circle cx="798" cy="138" r="5" class="hotspot-beacon-pulse" />
+              <rect x="740" y="108" width="116" height="24" class="hotspot-badge-bg" />
+              <text x="798" y="124" text-anchor="middle" class="hotspot-badge-text">🐸 Leopard Frog</text>
             </g>
 
-            <!-- 🌾 Texas Wild Rice (Flowing emerald ribbon canopy on the right) -->
-            <g class="eco-hotspot" id="hotspot-wild-rice" tabindex="0" role="button" aria-label="Inspect Texas Wild Rice"
+            <!-- 🐍 4. Diamondback Water Snake (Waterline Swimmer) -->
+            <g class="eco-hotspot" id="hotspot-snake" tabindex="0" role="button" aria-label="Inspect Diamondback Water Snake"
+               onclick="openInfoCard('snake')"
+               onmouseenter="showHotspotPreview('snake', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('snake', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('snake')">
+              <ellipse cx="770" cy="202" rx="155" ry="22" class="hotspot-ring" />
+              <circle cx="635" cy="198" r="5" class="hotspot-beacon-dot" />
+              <circle cx="635" cy="198" r="5" class="hotspot-beacon-pulse" />
+              <rect x="580" y="168" width="110" height="24" class="hotspot-badge-bg" />
+              <text x="635" y="184" text-anchor="middle" class="hotspot-badge-text">🐍 Water Snake</text>
+            </g>
+
+            <!-- 🌾 5. Texas Wild Rice (Left Riverbed Canopy) -->
+            <g class="eco-hotspot plant" id="hotspot-wild-rice" tabindex="0" role="button" aria-label="Inspect Texas Wild Rice"
                onclick="openInfoCard('wild-rice')"
                onmouseenter="showHotspotPreview('wild-rice', event)"
                onmouseleave="hideHotspotPreview()"
                onfocus="showHotspotPreview('wild-rice', event)"
                onblur="hideHotspotPreview()"
                onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('wild-rice')">
-              <ellipse cx="800" cy="310" rx="140" ry="145" class="hotspot-ring" />
-              <circle cx="760" cy="184" r="5" class="hotspot-beacon-dot" />
-              <circle cx="760" cy="184" r="5" class="hotspot-beacon-pulse" />
-              <rect x="690" y="154" width="142" height="24" class="hotspot-badge-bg" />
-              <text x="760" y="170" text-anchor="middle" class="hotspot-badge-text">🌾 Texas Wild Rice</text>
+              <ellipse cx="230" cy="245" rx="140" ry="42" class="hotspot-ring" />
+              <circle cx="310" cy="245" r="5" class="hotspot-beacon-dot" />
+              <circle cx="310" cy="245" r="5" class="hotspot-beacon-pulse" />
+              <rect x="235" y="215" width="150" height="24" class="hotspot-badge-bg" />
+              <text x="310" y="231" text-anchor="middle" class="hotspot-badge-text">🌾 Texas Wild Rice</text>
             </g>
 
-            <!-- 🪨 Benthic Refugia Boulder (Large mossy shelter rock) -->
-            <g class="eco-hotspot" id="hotspot-refugia" tabindex="0" role="button" aria-label="Inspect Benthic Refugia Boulder"
-               onclick="openInfoCard('refugia')"
-               onmouseenter="showHotspotPreview('refugia', event)"
+            <!-- 🐌 6. Invasive Ramshorn Snail (Lower Left Broad Leaf) -->
+            <g class="eco-hotspot invasive" id="hotspot-snail" tabindex="0" role="button" aria-label="Inspect Invasive Ramshorn Snail"
+               onclick="openInfoCard('snail')"
+               onmouseenter="showHotspotPreview('snail', event)"
                onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('refugia', event)"
+               onfocus="showHotspotPreview('snail', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('refugia')">
-              <ellipse cx="510" cy="385" rx="135" ry="60" class="hotspot-ring" />
-              <circle cx="585" cy="350" r="5" class="hotspot-beacon-dot" />
-              <circle cx="585" cy="350" r="5" class="hotspot-beacon-pulse" />
-              <rect x="515" y="320" width="140" height="24" class="hotspot-badge-bg" />
-              <text x="585" y="336" text-anchor="middle" class="hotspot-badge-text">🪨 Refugia Boulder</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('snail')">
+              <ellipse cx="72" cy="370" rx="38" ry="48" class="hotspot-ring" />
+              <circle cx="72" cy="315" r="5" class="hotspot-beacon-dot" />
+              <circle cx="72" cy="315" r="5" class="hotspot-beacon-pulse" />
+              <rect x="16" y="285" width="112" height="24" class="hotspot-badge-bg" />
+              <text x="72" y="301" text-anchor="middle" class="hotspot-badge-text">🐌 Ramshorn Snail</text>
             </g>
 
-            <!-- 🦞 Native River Crayfish (Substrate crevices on bottom left) -->
+            <!-- 🐢 7. Eastern Musk Turtle / Stinkpot (Bottom Left Riverbed) -->
+            <g class="eco-hotspot" id="hotspot-musk-turtle" tabindex="0" role="button" aria-label="Inspect Musk Turtle"
+               onclick="openInfoCard('musk-turtle')"
+               onmouseenter="showHotspotPreview('musk-turtle', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('musk-turtle', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('musk-turtle')">
+              <ellipse cx="125" cy="485" rx="42" ry="30" class="hotspot-ring" />
+              <circle cx="125" cy="445" r="5" class="hotspot-beacon-dot" />
+              <circle cx="125" cy="445" r="5" class="hotspot-beacon-pulse" />
+              <rect x="75" y="415" width="100" height="24" class="hotspot-badge-bg" />
+              <text x="125" y="431" text-anchor="middle" class="hotspot-badge-text">🐢 Musk Turtle</text>
+            </g>
+
+            <!-- 🐢 8. Spiny Softshell Turtle (Bottom Sandy Substrate) -->
+            <g class="eco-hotspot" id="hotspot-softshell" tabindex="0" role="button" aria-label="Inspect Spiny Softshell Turtle"
+               onclick="openInfoCard('softshell')"
+               onmouseenter="showHotspotPreview('softshell', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('softshell', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('softshell')">
+              <ellipse cx="285" cy="460" rx="115" ry="55" class="hotspot-ring" />
+              <circle cx="365" cy="455" r="5" class="hotspot-beacon-dot" />
+              <circle cx="365" cy="455" r="5" class="hotspot-beacon-pulse" />
+              <rect x="300" y="425" width="130" height="24" class="hotspot-badge-bg" />
+              <text x="365" y="441" text-anchor="middle" class="hotspot-badge-text">🐢 Softshell Turtle</text>
+            </g>
+
+            <!-- 🦞 9. Native River Crayfish (Bottom Center-Left Pebbles) -->
             <g class="eco-hotspot" id="hotspot-crayfish" tabindex="0" role="button" aria-label="Inspect Native River Crayfish"
                onclick="openInfoCard('crayfish')"
                onmouseenter="showHotspotPreview('crayfish', event)"
@@ -1354,11 +1498,146 @@
                onfocus="showHotspotPreview('crayfish', event)"
                onblur="hideHotspotPreview()"
                onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('crayfish')">
-              <ellipse cx="115" cy="495" rx="55" ry="30" class="hotspot-ring" />
-              <circle cx="115" cy="460" r="5" class="hotspot-beacon-dot" />
-              <circle cx="115" cy="460" r="5" class="hotspot-beacon-pulse" />
-              <rect x="45" y="430" width="140" height="24" class="hotspot-badge-bg" />
-              <text x="115" y="446" text-anchor="middle" class="hotspot-badge-text">🦞 Native Crayfish</text>
+              <ellipse cx="535" cy="485" rx="55" ry="28" class="hotspot-ring" />
+              <circle cx="535" cy="450" r="5" class="hotspot-beacon-dot" />
+              <circle cx="535" cy="450" r="5" class="hotspot-beacon-pulse" />
+              <rect x="475" y="420" width="120" height="24" class="hotspot-badge-bg" />
+              <text x="535" y="436" text-anchor="middle" class="hotspot-badge-text">🦞 Native Crayfish</text>
+            </g>
+
+            <!-- 🐟 10. Armored Catfish / Plecostomus (Bottom Center-Right Stone) -->
+            <g class="eco-hotspot invasive" id="hotspot-pleco" tabindex="0" role="button" aria-label="Inspect Invasive Armored Catfish"
+               onclick="openInfoCard('pleco')"
+               onmouseenter="showHotspotPreview('pleco', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('pleco', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('pleco')">
+              <ellipse cx="670" cy="460" rx="92" ry="52" class="hotspot-ring" />
+              <circle cx="670" cy="400" r="5" class="hotspot-beacon-dot" />
+              <circle cx="670" cy="400" r="5" class="hotspot-beacon-pulse" />
+              <rect x="585" y="370" width="170" height="24" class="hotspot-badge-bg" />
+              <text x="670" y="386" text-anchor="middle" class="hotspot-badge-text">⚠️ Armored Catfish (Pleco)</text>
+            </g>
+
+            <!-- 🐠 11. Longear Sunfish & River Perch (Mid-Water School Left) -->
+            <g class="eco-hotspot" id="hotspot-sunfish" tabindex="0" role="button" aria-label="Inspect Longear Sunfish and Perch"
+               onclick="openInfoCard('sunfish')"
+               onmouseenter="showHotspotPreview('sunfish', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('sunfish', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('sunfish')">
+              <ellipse cx="250" cy="335" rx="85" ry="45" class="hotspot-ring" />
+              <circle cx="280" cy="285" r="5" class="hotspot-beacon-dot" />
+              <circle cx="280" cy="285" r="5" class="hotspot-beacon-pulse" />
+              <rect x="205" y="255" width="150" height="24" class="hotspot-badge-bg" />
+              <text x="280" y="271" text-anchor="middle" class="hotspot-badge-text">🐠 Sunfish &amp; Perch</text>
+            </g>
+
+            <!-- 🌿 12. Cabomba / Fanwort (Mid-Bottom Fronds) -->
+            <g class="eco-hotspot plant" id="hotspot-cabomba" tabindex="0" role="button" aria-label="Inspect Cabomba Fanwort"
+               onclick="openInfoCard('cabomba')"
+               onmouseenter="showHotspotPreview('cabomba', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('cabomba', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('cabomba')">
+              <ellipse cx="380" cy="375" rx="42" ry="55" class="hotspot-ring" />
+              <circle cx="380" cy="315" r="5" class="hotspot-beacon-dot" />
+              <circle cx="380" cy="315" r="5" class="hotspot-beacon-pulse" />
+              <rect x="318" y="285" width="124" height="24" class="hotspot-badge-bg" />
+              <text x="380" y="301" text-anchor="middle" class="hotspot-badge-text">🌿 Cabomba (Fanwort)</text>
+            </g>
+
+            <!-- 🌿 13. Parrot Feather (Mid-Bottom Stems) -->
+            <g class="eco-hotspot plant" id="hotspot-parrot-feather" tabindex="0" role="button" aria-label="Inspect Parrot Feather"
+               onclick="openInfoCard('parrot-feather')"
+               onmouseenter="showHotspotPreview('parrot-feather', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('parrot-feather', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('parrot-feather')">
+              <ellipse cx="445" cy="370" rx="35" ry="60" class="hotspot-ring" />
+              <circle cx="445" cy="305" r="5" class="hotspot-beacon-dot" />
+              <circle cx="445" cy="305" r="5" class="hotspot-beacon-pulse" />
+              <rect x="385" y="275" width="120" height="24" class="hotspot-badge-bg" />
+              <text x="445" y="291" text-anchor="middle" class="hotspot-badge-text">🌿 Parrot Feather</text>
+            </g>
+
+            <!-- 🐟 14. Largemouth Bass (Center Mid-Water Predator) -->
+            <g class="eco-hotspot" id="hotspot-bass" tabindex="0" role="button" aria-label="Inspect Largemouth Bass"
+               onclick="openInfoCard('bass')"
+               onmouseenter="showHotspotPreview('bass', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('bass', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('bass')">
+              <ellipse cx="660" cy="325" rx="95" ry="40" class="hotspot-ring" />
+              <circle cx="660" cy="275" r="5" class="hotspot-beacon-dot" />
+              <circle cx="660" cy="275" r="5" class="hotspot-beacon-pulse" />
+              <rect x="585" y="245" width="150" height="24" class="hotspot-badge-bg" />
+              <text x="660" y="261" text-anchor="middle" class="hotspot-badge-text">🐟 Largemouth Bass</text>
+            </g>
+
+            <!-- 🐟 15. Fountain Darter (Small Mid-Gravel Fish) -->
+            <g class="eco-hotspot" id="hotspot-darter" tabindex="0" role="button" aria-label="Inspect Endangered Fountain Darter"
+               onclick="openInfoCard('darter')"
+               onmouseenter="showHotspotPreview('darter', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('darter', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('darter')">
+              <ellipse cx="575" cy="405" rx="42" ry="20" class="hotspot-ring" />
+              <circle cx="575" cy="378" r="5" class="hotspot-beacon-dot" />
+              <circle cx="575" cy="378" r="5" class="hotspot-beacon-pulse" />
+              <rect x="500" y="348" width="150" height="24" class="hotspot-badge-bg" />
+              <text x="575" y="364" text-anchor="middle" class="hotspot-badge-text">🐟 Fountain Darter</text>
+            </g>
+
+            <!-- 🐢 16. Texas River Cooter (Basking on Right Boulder) -->
+            <g class="eco-hotspot" id="hotspot-cooter" tabindex="0" role="button" aria-label="Inspect Texas River Cooter"
+               onclick="openInfoCard('cooter')"
+               onmouseenter="showHotspotPreview('cooter', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('cooter', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('cooter')">
+              <ellipse cx="830" cy="300" rx="65" ry="38" class="hotspot-ring" />
+              <circle cx="830" cy="255" r="5" class="hotspot-beacon-dot" />
+              <circle cx="830" cy="255" r="5" class="hotspot-beacon-pulse" />
+              <rect x="755" y="225" width="150" height="24" class="hotspot-badge-bg" />
+              <text x="830" y="241" text-anchor="middle" class="hotspot-badge-text">🐢 Texas River Cooter</text>
+            </g>
+
+            <!-- 🐍 17. American Freshwater Eel (Right Rock Crevice) -->
+            <g class="eco-hotspot" id="hotspot-eel" tabindex="0" role="button" aria-label="Inspect American Freshwater Eel"
+               onclick="openInfoCard('eel')"
+               onmouseenter="showHotspotPreview('eel', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('eel', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('eel')">
+              <ellipse cx="850" cy="405" rx="75" ry="38" class="hotspot-ring" />
+              <circle cx="850" cy="360" r="5" class="hotspot-beacon-dot" />
+              <circle cx="850" cy="360" r="5" class="hotspot-beacon-pulse" />
+              <rect x="780" y="330" width="140" height="24" class="hotspot-badge-bg" />
+              <text x="850" y="346" text-anchor="middle" class="hotspot-badge-text">🐍 Freshwater Eel</text>
+            </g>
+
+            <!-- 🌿 18. Invasive Hydrilla (Far Right Ribbon Canopy) -->
+            <g class="eco-hotspot invasive" id="hotspot-hydrilla" tabindex="0" role="button" aria-label="Inspect Invasive Hydrilla"
+               onclick="openInfoCard('hydrilla')"
+               onmouseenter="showHotspotPreview('hydrilla', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('hydrilla', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('hydrilla')">
+              <ellipse cx="945" cy="340" rx="45" ry="85" class="hotspot-ring" />
+              <circle cx="930" cy="245" r="5" class="hotspot-beacon-dot" />
+              <circle cx="930" cy="245" r="5" class="hotspot-beacon-pulse" />
+              <rect x="855" y="215" width="150" height="24" class="hotspot-badge-bg" />
+              <text x="930" y="231" text-anchor="middle" class="hotspot-badge-text">⚠️ Invasive Hydrilla</text>
             </g>
           </svg>
 
@@ -1385,9 +1664,10 @@
         <div class="hud-species-counts" id="hudCounts">
           <span class="hud-tag">🌾 Rice: <span id="hudRice">55 stands</span></span>
           <span class="hud-tag">🐟 Darters: <span id="hudDarters">5.5/m²</span></span>
-          <span class="hud-tag">🐢 Cooters: <span id="hudCooters">4</span></span>
+          <span class="hud-tag">🐢 Turtles: <span id="hudTurtles">7 (Cooter/Softshell/Musk)</span></span>
           <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
           <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
+          <span class="hud-tag" style="border-color: rgba(244,63,94,0.4); color: #FDA4AF;">⚠️ Plecos: <span id="hudPleco">3 (Burrow Risk)</span></span>
         </div>
       </div>
 
@@ -1420,8 +1700,21 @@
     <div class="info-modal-backdrop" id="infoCardModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeInfoCard(event)">
       <div class="info-modal-card" onclick="event.stopPropagation()">
         <div class="modal-badge" id="modalBadge">🌟 Field Guide Quest</div>
-        <h2 id="modalTitle" style="font-size: 1.25rem; color: #F8FAFC; margin-bottom: 8px;">Species Discovery</h2>
-        <p id="modalBody" style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; margin-bottom: 16px;"></p>
+        
+        <div class="modal-species-row">
+          <div class="modal-species-thumb" id="modalThumb">🐟</div>
+          <div class="modal-species-info">
+            <h2 id="modalTitle" style="font-size: 1.25rem; color: #F8FAFC; line-height: 1.2;">Species Discovery</h2>
+            <div class="modal-scientific-name" id="modalScientific">Scientific Name</div>
+          </div>
+        </div>
+
+        <div class="modal-stats-grid" id="modalStatsGrid">
+          <div class="modal-stat-item">Conservation Status: <b id="modalStatus">Native Wildlife</b></div>
+          <div class="modal-stat-item">Habitat Zone: <b id="modalHabitat">Spring-Fed Riverbed</b></div>
+        </div>
+
+        <p id="modalBody" style="font-size: 0.88rem; color: #CBD5E1; line-height: 1.6; margin-bottom: 16px; white-space: pre-line;"></p>
         <button class="btn-refresh" style="width: 100%; justify-content: center; background: #06B6D4;" aria-label="Close field guide info card" onclick="closeInfoCard()">Got It!</button>
       </div>
     </div>
@@ -1901,18 +2194,19 @@
 
       // Update HUD Species Counts
       const presetCounts = {
-        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', cooters: '4', sunfish: '12', crayfish: '6/m²' },
-        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', cooters: '3', sunfish: '10', crayfish: '5/m²' },
-        'severe-flood': { rice: '45 stands', darters: '2.1/m²', cooters: '1', sunfish: '4', crayfish: '8/m²' },
-        'critical-drought': { rice: '30 stands', darters: '1.5/m²', cooters: '5', sunfish: '15', crayfish: '3/m²' }
+        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', turtles: '7 (3 Cooter / 2 Softshell / 2 Musk)', sunfish: '12', crayfish: '6/m²', plecos: '3 (Low Risk)' },
+        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', turtles: '5 (Submerged Swimmers)', sunfish: '10', crayfish: '5/m²', plecos: '4 (Active Burrowing)' },
+        'severe-flood': { rice: '45 stands', darters: '2.1/m²', turtles: '2 (Eddy Refuge)', sunfish: '4', crayfish: '8/m²', plecos: '2 (Tunnel Hidden)' },
+        'critical-drought': { rice: '30 stands', darters: '1.5/m²', turtles: '9 (Spring Vent Clustered)', sunfish: '15', crayfish: '3/m²', plecos: '7 (Air Breather Advantage)' }
       };
 
       const sc = presetCounts[stageId] || presetCounts['optimal-baseflow'];
       if (document.getElementById('hudRice')) document.getElementById('hudRice').innerText = sc.rice;
       if (document.getElementById('hudDarters')) document.getElementById('hudDarters').innerText = sc.darters;
-      if (document.getElementById('hudCooters')) document.getElementById('hudCooters').innerText = sc.cooters;
+      if (document.getElementById('hudTurtles')) document.getElementById('hudTurtles').innerText = sc.turtles;
       if (document.getElementById('hudSunfish')) document.getElementById('hudSunfish').innerText = sc.sunfish;
       if (document.getElementById('hudCrayfish')) document.getElementById('hudCrayfish').innerText = sc.crayfish;
+      if (document.getElementById('hudPleco')) document.getElementById('hudPleco').innerText = sc.plecos;
 
       // Update Public Educational Explainer Text
       const explainerMessages = {
@@ -1933,140 +2227,524 @@
       }
     }
 
-    // K-12 Interactive Info Card Popup Handler (5 Species Field Guide)
+    // K-12 Interactive Info Card Popup Handler (18 Species Field Guide)
     const loreDatabase = {
+      'heron': {
+        icon: '🪶',
+        scientific: 'Nyctanassa violacea (Native Riparian Predator)',
+        status: 'Protected Native Migratory Bird',
+        habitat: 'Riverbank Trees, Overhanging Branches & Shallows',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🪶 Night Prowler Badge',
+          title: 'Yellow-crowned Night Heron — The Shoreline Hunter',
+          body: 'Look high on the riverbank branches! The Yellow-crowned Night Heron is a stocky wading bird with striking black-and-white facial plumes and an elegant creamy-white crown. Their favorite meal? Native River Crayfish and freshwater crabs! In optimal clear flows, they stand motionlessly on branches or wade into shallows to strike prey with lightning-fast beaks.'
+        },
+        'elevated-surge': {
+          badge: '🌊 Branch Percher Badge',
+          title: 'Yellow-crowned Night Heron — High Perch Scout',
+          body: 'As currents rise to 250 CFS, heron hunts move to backwater slack pockets and high tree boughs overlooking calmer flooded pools where crayfish crawl out of swift channels.'
+        },
+        'severe-flood': {
+          badge: '⛈️ Canopy Refuge Badge',
+          title: 'Yellow-crowned Night Heron — Floodplain Forager',
+          body: 'In 450+ CFS flood surges, roaring water covers standard wading shallows. Herons fly into nearby flooded woods and park lawns, hunting displaced worms, frogs, and crayfish!'
+        },
+        'critical-drought': {
+          badge: '☀️ Concentrated Prey Badge',
+          title: 'Yellow-crowned Night Heron — Pool Stalker',
+          body: 'During low-flow droughts (<60 CFS), shrinking river width concentrates crayfish and small fish into shallow isolated pools, giving herons an abundant hunting feast!'
+        }
+      },
+      'elephant-ears': {
+        icon: '🌿',
+        scientific: 'Colocasia esculenta (Introduced / Invasive Riparian)',
+        status: 'Invasive Riparian Vegetation',
+        habitat: 'Muddy Riverbanks & Shallow Margins',
+        badgeClass: 'invasive',
+        'optimal-baseflow': {
+          badge: '⚠️ Invasive Plant Alert',
+          title: 'Elephant Ears — Spreading Riverbank Colonizer',
+          body: 'With colossal heart-shaped leaves resembling elephant ears, this non-native tropical plant lines parts of the San Marcos shoreline. While its huge leaves look lush, dense stands crowd out native buttonbush, black willows, and river rushes, destabilizing banks and altering bank shading.'
+        },
+        'elevated-surge': {
+          badge: '🛡️ Silt Trap Badge',
+          title: 'Elephant Ears — Bank Sediment Accumulator',
+          body: 'In elevated flows, the broad surface area of drooping elephant ear leaves collects sediment and drifting debris, occasionally snapping off fleshy stems in swift water.'
+        },
+        'severe-flood': {
+          badge: '🚨 Rhizome Dispersal Alert',
+          title: 'Elephant Ears — Flood Fragmentation',
+          body: 'Raging 450+ CFS floodwaters rip loose elephant ear tuber bulbs and carry them downstream, creating new satellite infestations along previously pristine banks.'
+        },
+        'critical-drought': {
+          badge: '🍂 Summer Wilt Badge',
+          title: 'Elephant Ears — Edge Drought Stress',
+          body: 'When water levels recede below the root zone, upper bank leaves turn yellow and droop, though underground tuber networks easily survive dry spells.'
+        }
+      },
+      'frog': {
+        icon: '🐸',
+        scientific: 'Lithobates berlandieri (Rio Grande Leopard Frog)',
+        status: 'Native Amphibian Wildlife',
+        habitat: 'Moist River Margins, Reeds & Emergent Moss',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🐸 Amphibian Explorer Badge',
+          title: 'Native Leopard Frog — Camouflage Champion',
+          body: 'Ribbit! Blending into the moist shoreline gravel sits the native Rio Grande Leopard Frog. Covered in bronze-green skin with irregular brown spots ringed in yellow halos, these agile jumpers hunt beetles, dragonflies, and water striders right along the waterline.'
+        },
+        'elevated-surge': {
+          badge: '🌿 Margin Clinger Badge',
+          title: 'Native Leopard Frog — Eddy Seeker',
+          body: 'Rising river flow pushes leopard frogs out of the main channel into dense vegetation beds and gentle eddies where they can stay afloat without tiring.'
+        },
+        'severe-flood': {
+          badge: '🪵 High Bank Climber Badge',
+          title: 'Native Leopard Frog — Floodplain Hopper',
+          body: 'During 450+ CFS floods, frogs hop high up onto tree bases, park slopes, and riverside boulders to escape turbulent rushing water.'
+        },
+        'critical-drought': {
+          badge: '💧 Damp Shelter Badge',
+          title: 'Native Leopard Frog — Spring Vent Hugger',
+          body: 'In hot summer droughts, leopard frogs stay tucked under moist undercut limestone banks and cool spring trickles to keep their permeable skin from drying out.'
+        }
+      },
+      'snake': {
+        icon: '🐍',
+        scientific: 'Nerodia rhombifer (Diamondback Water Snake)',
+        status: 'Native Non-Venomous Reptile',
+        habitat: 'River Surface, Shoreline Snags & Willow Roots',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🐍 Streamlined Swimmer Badge',
+          title: 'Diamondback Water Snake — Gentle River Predator',
+          body: 'Often mistaken for venomous snakes, the Diamondback Water Snake is a completely non-venomous native river resident with dark chain-like diamond markings on brown scales. They are expert swimmers that cruise riverbanks hunting injured or small rough fish, frogs, and crayfish, playing a vital role in maintaining aquatic balance!'
+        },
+        'elevated-surge': {
+          badge: '🪵 Snag Anchor Badge',
+          title: 'Diamondback Water Snake — Driftwood Basking',
+          body: 'When currents rise, water snakes haul out onto elevated shoreline branches and fallen logs, basking in warm sunlight until foraging conditions calm down.'
+        },
+        'severe-flood': {
+          badge: '🌊 Floodplain Slough Badge',
+          title: 'Diamondback Water Snake — Slackwater Hunter',
+          body: 'In major flood surges, water snakes avoid center currents entirely, hunting sluggish prey trapped in slow-moving flooded backwaters and side ditches.'
+        },
+        'critical-drought': {
+          badge: '🐟 Night Fisher Badge',
+          title: 'Diamondback Water Snake — Pool Ambush',
+          body: 'During severe droughts, shallow water makes fish easy targets in deep pools. Water snakes hunt predominantly at dawn and dusk to avoid the scorching daytime sun.'
+        }
+      },
       'wild-rice': {
+        icon: '🌾',
+        scientific: 'Zizania texana (Federally Endangered Aquatic Grass)',
+        status: 'Federally Endangered Endemic',
+        habitat: 'Upper 2.5 Miles of San Marcos River Substrate',
+        badgeClass: 'plant',
         'optimal-baseflow': {
           badge: '🌾 San Marcos Guardian Badge',
           title: 'Texas Wild Rice — The Emerald Canopy',
-          body: 'Texas Wild Rice (Zizania texana) is one of the rarest plants on Earth—it grows ONLY in the upper 2.5 miles of the San Marcos River! In crystal-clear water (<2 NTU), sunlight reaches deep down to feed every leaf.'
+          body: 'Texas Wild Rice (Zizania texana) is one of the rarest aquatic plants on planet Earth—it grows naturally ONLY in the upper 2.5 miles of the San Marcos River! In crystal-clear water (<2 NTU), sunlight reaches deep underwater to nourish its emerald ribbon blades that can stretch up to 8 feet long.'
         },
         'elevated-surge': {
-          badge: '⚡ Current Navigator Badge',
+          badge: '⚡ Hydrodynamic Ribbon Badge',
           title: 'Texas Wild Rice — The Angled Streamer',
-          body: 'As flow speeds up to 250 CFS, Texas Wild Rice bends at a 45-degree angle! Slanting allows it to slice through fast water while capturing sunlight through the mild turbidity haze.'
+          body: 'As flow speeds up to 250 CFS, Texas Wild Rice bends at a 45-degree angle! Slanting allows its leaves to slice through fast current while continuing photosynthesis through the mild silt haze.'
         },
         'severe-flood': {
           badge: '🛡️ Flood Survivor Badge',
           title: 'Texas Wild Rice — Hydrodynamic Shield',
-          body: 'In 450+ CFS floodwaters, Texas Wild Rice flattens completely horizontal! Pinning its long leaves into tight parallel strands lets raging currents glide right over without tearing its roots.'
+          body: 'In 450+ CFS floodwaters, Texas Wild Rice flattens completely horizontal! Pinning its long leaves into tight parallel strands lets raging currents glide right over without tearing its deep root system.'
         },
         'critical-drought': {
           badge: '🚨 Aquifer Sentinel Badge',
           title: 'Texas Wild Rice — Heat-Stressed Stand',
-          body: 'When spring flow drops below 60 CFS, shallow water leaves foliage floating limply on the surface. Scorching Texas summer sun can burn the leaf tips brown.'
+          body: 'When spring flow drops below 60 CFS, shallow water leaves wild rice blades floating limply on the surface. Tubers and swimmers can accidentally trample stands, and hot summer sun burns leaf tips brown.'
         }
       },
-      'darter': {
+      'snail': {
+        icon: '🐌',
+        scientific: 'Planorbidae (Invasive Freshwater Ramshorn Snail)',
+        status: 'Introduced / Invasive Mollusk',
+        habitat: 'Submerged Leaves, Plants & Slow Eddies',
+        badgeClass: 'invasive',
         'optimal-baseflow': {
-          badge: '🐟 Darter Tracker Badge',
-          title: 'Fountain Darter — The Benthic Hop-Master',
-          body: 'Zip! Hop! The endangered Fountain Darter grows to just 1 inch long. With no swim bladder to float around, it uses its fins like tiny legs to hop along moss beds hunting for snacks!'
+          badge: '⚠️ Invasive Snail Alert',
+          title: 'Invasive Ramshorn Snail — Planorbid Grazer',
+          body: 'Easily identified by its flat, coiled shell resembling a curled ram’s horn, this introduced snail species proliferates in warm aquarium releases and slow river stretches. While they consume algae and plant detritus, exploding populations compete with rare native river snails for food and can strip delicate aquatic vegetation.'
         },
         'elevated-surge': {
-          badge: '🌿 Micro-Habitat Master Badge',
-          title: 'Fountain Darter — Plant Shelter Seeker',
-          body: 'In 250 CFS currents, Fountain Darters stay low, ducking deep into dense mats of Texas Wild Rice roots and native mosses to block the swift flow.'
+          badge: '🍃 Plant Clinger Badge',
+          title: 'Ramshorn Snail — Leaf Underside Shelter',
+          body: 'In brisk 250 CFS currents, ramshorn snails slide to the undersides of wide leaves and deep root crevices to avoid being swept away.'
         },
         'severe-flood': {
-          badge: '🪨 Bunker Boss Badge',
-          title: 'Fountain Darter — The Rock Bunker',
-          body: 'In 450+ CFS floodwaters, tiny darters press flat into deep rock crevices (refugia) behind large boulders, holding on tight until the storm subsides!'
+          badge: '🌊 Substrate Drift Badge',
+          title: 'Ramshorn Snail — Flood Scrubbing',
+          body: 'Roaring flood flows flush thousands of light snails downstream onto gravel banks, temporarily checking population densities in open river runs.'
         },
         'critical-drought': {
-          badge: '🫧 Thermal Refuge Finder Badge',
-          title: 'Fountain Darter — Spring-Head Seekers',
-          body: 'Warm drought water holds less dissolved oxygen! Fountain Darters gather around deep, shaded spring openings where cool, oxygen-rich aquifer water still trickles from underground.'
+          badge: '☀️ Estivation Sentinel Badge',
+          title: 'Ramshorn Snail — Shell Sealing',
+          body: 'When shallow pools shrink during droughts, ramshorn snails can seal their shells with hardened mucus to survive weeks out of water in damp mud.'
         }
       },
-      'cooter': {
+      'musk-turtle': {
+        icon: '🐢',
+        scientific: 'Sternotherus odoratus (Eastern Musk Turtle / Stinkpot)',
+        status: 'Native Aquatic Reptile',
+        habitat: 'Riverbed Gravel, Cobble Crevices & Debris Piles',
+        badgeClass: '',
         'optimal-baseflow': {
-          badge: '🐢 Turtle Tracker Badge',
-          title: 'Texas River Cooter — Sunbather Supreme',
-          body: 'Meet the river’s master sunbather! The Texas River Cooter is a native freshwater turtle with intricate yellow stripes. In 150 CFS flow, you’ll spot them basking on logs to warm their shells.'
+          badge: '🐢 Benthic Wanderer Badge',
+          title: 'Eastern Musk Turtle — The "Stinkpot" Scavenger',
+          body: 'This small, highly aquatic native turtle rarely exceeds 4–5 inches in length. With a domed dark carapace and two distinct yellow stripes along its head, the Musk Turtle crawls along the river bottom instead of swimming in open water. Nicknamed the "Stinkpot," it can release a pungent musk from glands under its shell when threatened by predators!'
         },
         'elevated-surge': {
-          badge: '🌊 Current Diver Badge',
-          title: 'Texas River Cooter — Submerged Swimmer',
-          body: 'When current picks up to 250 CFS, cooters slide off basking logs and swim down into riverbed weed beds to avoid being pushed downstream.'
+          badge: '🪨 Cobble Anchor Badge',
+          title: 'Musk Turtle — Riverbed Bottom Hugger',
+          body: 'Because they are bottom crawlers rather than fast swimmers, musk turtles wedge their bodies under heavy riverbed rocks and sunken logs when currents pick up.'
         },
         'severe-flood': {
-          badge: '🛡️ Eddy Refuge Badge',
-          title: 'Texas River Cooter — Flood Shelter Seeker',
-          body: 'In 450+ CFS floodwaters, turtles abandon exposed logs and retreat into deep calm eddies and undercut bank roots until the roaring current calms down.'
+          badge: '🛡️ Root Wad Shelter Badge',
+          title: 'Musk Turtle — Deep Crevice Bunkering',
+          body: 'In 450+ CFS floods, musk turtles seek out massive undercut cypress root networks and large limestone crevices where water moves slowly.'
         },
         'critical-drought': {
-          badge: '☀️ Deep Pool Sentinel Badge',
-          title: 'Texas River Cooter — Pool Gatherer',
-          body: 'During severe low-flow droughts (<60 CFS), cooters gather in deep, shaded spring-fed pools to stay cool under overhanging root wads.'
+          badge: '💧 Shaded Spring Pool Badge',
+          title: 'Musk Turtle — Pool Retreat',
+          body: 'Musk turtles are susceptible to overheating; during droughts they congregate under deep overhangs where subterranean 72°F spring vents keep water refreshingly cool.'
         }
       },
-      'sunfish': {
+      'softshell': {
+        icon: '🐢',
+        scientific: 'Apalone spinifera (Spiny Softshell Turtle)',
+        status: 'Native Aquatic Reptile',
+        habitat: 'Sandy & Silt Riverbeds, Open Channels & Sandbars',
+        badgeClass: '',
         'optimal-baseflow': {
-          badge: '🐠 Sunfish Scout Badge',
-          title: 'Longear Sunfish — The Turquoise Jewel',
-          body: 'Look at those colors! Male Longear Sunfish boast vibrant blue facial stripes, an orange belly, and a long ear flap. In clear spring water, they fan out circular gravel nests.'
+          badge: '🐢 Sand Glider Badge',
+          title: 'Spiny Softshell Turtle — The Submerged Hovercraft',
+          body: 'Unlike hard-shelled turtles, the Spiny Softshell has a flat, leathery, flexible olive-tan carapace with tiny spines along the front edge! Equipped with a long snorkel-like tubular snout and large webbed feet, they bury themselves under soft sand, sticking only their nostrils above the riverbed to breathe while waiting to ambush crayfish and minnows.'
         },
         'elevated-surge': {
-          badge: '⚡ Reef Explorer Badge',
-          title: 'Longear Sunfish — Current Shelterer',
-          body: 'In 250 CFS currents, sunfish drop down toward riverbed cobbles, staying close to underwater structures where current speed is lower.'
+          badge: '⚡ Jet Swimmer Badge',
+          title: 'Spiny Softshell — High-Velocity Swimmer',
+          body: 'Thanks to their ultra-flattened hydrodynamic shell, softshells are among the fastest swimming turtles on Earth and slice through 250 CFS currents with effortless agility!'
         },
         'severe-flood': {
-          badge: '👁️ Silt Navigation Badge',
-          title: 'Longear Sunfish — Turbidity Rest',
-          body: 'When flood silt turns the river brown (45+ NTU), visual hunting gets tough! Sunfish rest behind large boulder shadows until clarity returns.'
+          badge: '🏖️ Sandbar Burrower Badge',
+          title: 'Spiny Softshell — Sediment Anchoring',
+          body: 'During floods, softshells burrow deep into dense sandbanks behind protective boulders, letting high water surge overhead.'
         },
         'critical-drought': {
-          badge: '🫧 Spring Oxygen Guard Badge',
-          title: 'Longear Sunfish — Thermal Refuge Seeker',
-          body: 'In warm drought waters (>24.5°C), sunfish crowd around cool spring vents, defending shaded territories where oxygen levels remain rich.'
+          badge: '☀️ Sandbar Basking Badge',
+          title: 'Spiny Softshell — Sunbather Supreme',
+          body: 'In low summer flows, exposed sandbars become prime basking sites where softshells soak up UV light while remaining poised to dive into water at the first sign of danger.'
         }
       },
       'crayfish': {
+        icon: '🦞',
+        scientific: 'Procambarus species (Native River Crayfish)',
+        status: 'Native Keystone Detritivore',
+        habitat: 'Gravel Crevices, Under Flat Boulders & Macrophytes',
+        badgeClass: '',
         'optimal-baseflow': {
           badge: '🦞 Crayfish Keeper Badge',
-          title: 'Native River Crayfish — Armored Scavenger',
-          body: 'Click-clack! Hidden under flat rocks lives the river’s hard-working cleanup crew! With armored shells and sharp pincers, crayfish scavenge leaf detritus and algae.'
+          title: 'Native River Crayfish — Armored Riverbed Janitor',
+          body: 'Click-clack! Under flat cobbles lives the river’s indispensable cleanup crew! With armored carapaces, sensitive antennae, and powerful claws (chelae), native crayfish feed on fallen leaf detritus, dead organic matter, and algae, recycling vital nutrients throughout the San Marcos food web.'
         },
         'elevated-surge': {
           badge: '🪨 Cobble Anchor Badge',
           title: 'Native River Crayfish — Rock Hugger',
-          body: 'As currents rise, crayfish tuck their legs tight under cobble edges, using their pincers to hold fast to the riverbed.'
+          body: 'As currents rise, crayfish tuck their legs tight under cobble edges, flattening their claws against the gravel to hold fast against increasing shear forces.'
         },
         'severe-flood': {
           badge: '🛠️ Crevice Clamping Badge',
           title: 'Native River Crayfish — Crevice Anchoring',
-          body: 'In 450+ CFS floodwaters, crayfish wedge deep into boulder crevices, locking their pincers like climbing clamps so high shear forces can’t dislodge them!'
+          body: 'In 450+ CFS flood surges, crayfish wedge deep into boulder refugia and root hollows, locking their claws like climbing clamps to resist dislodgement.'
         },
         'critical-drought': {
           badge: '🧱 Mud Chimney Builder Badge',
           title: 'Native River Crayfish — Underground Burrower',
-          body: 'During extreme droughts, crayfish dig vertical mud chimneys along riverbanks, burrowing deep down to the water table to stay damp!'
+          body: 'During extreme droughts, crayfish dig vertical mud chimneys along the water margins, burrowing down to the aquifer water table to stay safely moist!'
         }
       },
-      'refugia': {
+      'pleco': {
+        icon: '⚠️',
+        scientific: 'Hypostomus plecostomus (Armored Suckermouth Catfish)',
+        status: 'Highly Destructive Invasive Species',
+        habitat: 'Riverbanks, Under Limestone Ledges & Hard Substrate',
+        badgeClass: 'invasive',
         'optimal-baseflow': {
-          badge: '🪨 Riverbed Habitat',
-          title: 'Benthic Boulder & Refugia Zone',
-          body: 'Submerged boulders create micro-refugia zones. During high flood surges (>450 CFS), water velocity behind these rocks drops by over 80%, providing safe shelter for benthic fish!'
+          badge: '🚨 Invasive Threat Alert',
+          title: 'Armored Catfish (Pleco) — Riverbank Destabilizer',
+          body: 'Introduced from aquarium releases, the Armored Catfish (Plecostomus) has become a severe threat to the San Marcos River. Protected by bony armored plates, these fish burrow deep nesting tunnels up to 3–5 feet into riverbanks, causing massive bank collapses, destroying native vegetation roots, and consuming algae beds critical to Fountain Darters!'
+        },
+        'elevated-surge': {
+          badge: '🪨 Suction Anchor Badge',
+          title: 'Armored Catfish — Rock Suction Anchor',
+          body: 'Using their powerful downturned suction mouths, plecos grip boulders tightly, easily enduring strong currents while rasping away algae.'
+        },
+        'severe-flood': {
+          badge: '🕳️ Tunnel Fortress Badge',
+          title: 'Armored Catfish — Burrow Haven',
+          body: 'In roaring 450+ CFS flood surges, plecos retreat deep inside their excavated riverbank tunnels, protected from rushing currents and debris.'
+        },
+        'critical-drought': {
+          badge: '🫁 Accessory Breather Badge',
+          title: 'Armored Catfish — Oxygen Starvation Survivor',
+          body: 'Plecos possess specialized vascularized stomachs that allow them to breathe atmospheric air in warm, low-oxygen drought pools where native fish struggle!'
+        }
+      },
+      'sunfish': {
+        icon: '🐠',
+        scientific: 'Lepomis megalotis & Lepomis spp. (Longear Sunfish & River Perch)',
+        status: 'Native Freshwater Gamefish',
+        habitat: 'Mid-Water Current, Brush Piles & Vegetation Margins',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🐠 Turquoise Jewel Badge',
+          title: 'Longear Sunfish & Perch — The Iridescent Dazzler',
+          body: 'Admire those dazzling colors! Native Longear Sunfish feature brilliant turquoise-blue facial vermiculations, vibrant orange bellies, and an elongated ear flap edged in pure white. In clear spring water, males use their tail fins to fan out circular gravel nesting beds that look like underwater craters!'
+        },
+        'elevated-surge': {
+          badge: '⚡ Reef Explorer Badge',
+          title: 'Longear Sunfish — Current Shelterer',
+          body: 'In 250 CFS currents, sunfish drop down toward riverbed boulders and weed edges, staying in boundary layers where current velocity is substantially lower.'
+        },
+        'severe-flood': {
+          badge: '👁️ Turbidity Haven Badge',
+          title: 'Longear Sunfish — Benthic Rest',
+          body: 'When flood sediment clouds the river (45+ NTU), visual hunting becomes difficult. Sunfish rest behind large limestone boulders until clarity returns.'
+        },
+        'critical-drought': {
+          badge: '🫧 Thermal Refuge Seeker Badge',
+          title: 'Longear Sunfish — Cool Spring Defender',
+          body: 'In warm drought waters (>24.5°C), sunfish crowd around cool 72°F spring vents, aggressively defending territories rich in dissolved oxygen.'
+        }
+      },
+      'cabomba': {
+        icon: '🌿',
+        scientific: 'Cabomba caroliniana (Carolina Fanwort)',
+        status: 'Native Submerged Macrophyte',
+        habitat: 'Clear Spring Channels & Slow-to-Moderate Currents',
+        badgeClass: 'plant',
+        'optimal-baseflow': {
+          badge: '🌿 Fanwort Forester Badge',
+          title: 'Cabomba (Fanwort) — Delicate Underwater Canopy',
+          body: 'Cabomba caroliniana produces delicate, finely divided, fan-shaped submerged leaves radiating in opposite pairs along green stems. These soft, feathery fronds serve as vital nursery habitat, sheltering tiny Fountain Darter fry and native invertebrates from predators.'
+        },
+        'elevated-surge': {
+          badge: '🌊 Streamlined Frond Badge',
+          title: 'Cabomba — Current Compression',
+          body: 'Rising current compresses Cabomba stems into dense, streamlined braids that flow with the water, reducing mechanical drag.'
+        },
+        'severe-flood': {
+          badge: '🛡️ Fragment Regrowth Badge',
+          title: 'Cabomba — Vegetative Regeneration',
+          body: 'High shear forces may break delicate Cabomba stems; however, broken fragments drift downstream, quickly rooting in fresh sand to start new colonies.'
+        },
+        'critical-drought': {
+          badge: '☀️ Clear Channel Thrive Badge',
+          title: 'Cabomba — Dense Submerged Forest',
+          body: 'In calm, low-flow drought conditions with full sunlight, Cabomba blooms with tiny white flowers held just above the water surface.'
+        }
+      },
+      'parrot-feather': {
+        icon: '🌿',
+        scientific: 'Myriophyllum aquaticum (Parrot Feather / Water Milfoil)',
+        status: 'Introduced / Invasive Aquatic Macrophyte',
+        habitat: 'Shallow Waters, Sluggish Channels & Shorelines',
+        badgeClass: 'plant',
+        'optimal-baseflow': {
+          badge: '🌿 Feathery Foliage Badge',
+          title: 'Parrot Feather — Whorled Needle Carpet',
+          body: 'Native to South America, Parrot Feather features pale bluish-green leaves finely divided into tiny needle-like segments arranged in whorls of 4–6 around stems. The stems emerge above the water like miniature pine trees. While decorative, thick mats choke waterways and shade out native Texas Wild Rice.'
+        },
+        'elevated-surge': {
+          badge: '⚡ Stem Flexibility Badge',
+          title: 'Parrot Feather — Pliant Flow Bending',
+          body: 'Flexible submerged stems bend gracefully in 250 CFS water, while stiff emergent tips trail right along the waterline surface.'
+        },
+        'severe-flood': {
+          badge: '🚨 Flood Dispersal Alert',
+          title: 'Parrot Feather — Stem Fragmentation',
+          body: 'Floodwaters break brittle stems into hundreds of pieces; each fragment can sprout roots and establish an invasive patch downstream.'
+        },
+        'critical-drought': {
+          badge: '🧱 Water-Loss Stretcher Badge',
+          title: 'Parrot Feather — Emergent Thickening',
+          body: 'During low-water periods, Parrot Feather forms thick terrestrial mats over wet mud, retaining moisture with waxy leaf coatings.'
+        }
+      },
+      'bass': {
+        icon: '🐟',
+        scientific: 'Micropterus salmoides (Largemouth Bass)',
+        status: 'Native Apex Aquatic Predator',
+        habitat: 'Deep Pools, Boulder Edges & Submerged Vegetation',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🐟 Apex Ambush Badge',
+          title: 'Largemouth Bass — The River’s Top Predator',
+          body: 'Patrolling the mid-water channel is the mighty Largemouth Bass! Recognized by its olive-green body, jagged dark horizontal lateral stripe, and enormous jaw extending past the eye. Bass use camouflage to ambush unwary sunfish, crayfish, frogs, and water snakes with explosive bursts of speed!'
+        },
+        'elevated-surge': {
+          badge: '⚡ Velocity Brake Badge',
+          title: 'Largemouth Bass — Eddy Cruiser',
+          body: 'In 250 CFS flows, bass conserve swimming energy by tucking into the reverse-flow eddies behind submerged boulders and fallen cypress trunks.'
+        },
+        'severe-flood': {
+          badge: '🌊 Flood Bounty Badge',
+          title: 'Largemouth Bass — Floodplain Feast',
+          body: 'During 450+ CFS surges, bass venture into flooded banks, gorging on earthworms, displaced terrestrial insects, and disoriented baitfish.'
+        },
+        'critical-drought': {
+          badge: '☀️ Deep Hole Guardian Badge',
+          title: 'Largemouth Bass — Blue Hole Sentinel',
+          body: 'When river depth drops during hot droughts, trophy bass defend the deepest spring-fed limestone drop-offs where cold water pools.'
+        }
+      },
+      'darter': {
+        icon: '🐟',
+        scientific: 'Etheostoma fonticola (Federally Endangered Fountain Darter)',
+        status: 'Federally Endangered Native Species',
+        habitat: 'Spring-Fed Bryophyte, Moss & Gravel Beds',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🐟 Darter Tracker Badge',
+          title: 'Fountain Darter — The Benthic Hop-Master',
+          body: 'Zip! Hop! The federally endangered Fountain Darter grows to just 1–1.5 inches long. Lacking a swim bladder, it doesn’t swim through open water—instead, it uses wide pectoral fins like tiny legs to hop along gravel and moss beds, hunting midge larvae and tiny amphipods!'
+        },
+        'elevated-surge': {
+          badge: '🌿 Plant Shelter Seeker Badge',
+          title: 'Fountain Darter — Moss Bed Anchor',
+          body: 'In 250 CFS currents, Fountain Darters stay low, ducking deep into dense mats of Texas Wild Rice roots and native mosses to avoid the swift flow.'
+        },
+        'severe-flood': {
+          badge: '🪨 Bunker Boss Badge',
+          title: 'Fountain Darter — Boulder Crevice Bunker',
+          body: 'In 450+ CFS floodwaters, tiny darters press flat into rock crevices behind large boulders (micro-refugia), holding on tight until velocity drops!'
+        },
+        'critical-drought': {
+          badge: '🫧 Thermal Refuge Finder Badge',
+          title: 'Fountain Darter — Spring-Head Sanctuary',
+          body: 'Warm drought water holds less dissolved oxygen! Darters gather around deep spring orifices where 72°F oxygen-rich groundwater continues bubbling.'
+        }
+      },
+      'cooter': {
+        icon: '🐢',
+        scientific: 'Pseudemys texana (Texas River Cooter)',
+        status: 'Native Texas Endemic Turtle',
+        habitat: 'Logs, Basking Rocks, Deep Pools & Weed Beds',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🐢 Turtle Tracker Badge',
+          title: 'Texas River Cooter — Sunbather Supreme',
+          body: 'Meet the river’s master sunbather! The Texas River Cooter is an endemic freshwater turtle with vivid yellow-orange striping on its head and neck. In optimal 150 CFS flow, you will see them stacked on boulders and logs absorbing UV rays to warm their blood and synthesize vitamin D.'
+        },
+        'elevated-surge': {
+          badge: '🌊 Current Diver Badge',
+          title: 'Texas River Cooter — Submerged Swimmer',
+          body: 'When currents pick up to 250 CFS, cooters slide off basking perches and forage down among submerged vegetation beds sheltered from fast flow.'
+        },
+        'severe-flood': {
+          badge: '🛡️ Eddy Refuge Badge',
+          title: 'Texas River Cooter — Flood Shelter Seeker',
+          body: 'In 450+ CFS floodwaters, turtles abandon exposed logs and retreat into deep calm eddies and undercut bank root cavities until currents subside.'
+        },
+        'critical-drought': {
+          badge: '☀️ Deep Pool Sentinel Badge',
+          title: 'Texas River Cooter — Spring Pool Gatherer',
+          body: 'During severe droughts (<60 CFS), cooters gather in shaded, spring-fed pools, feeding on aquatic weeds and staying protected from the Texas heat.'
+        }
+      },
+      'eel': {
+        icon: '🐍',
+        scientific: 'Anguilla rostrata (American Freshwater Eel)',
+        status: 'Native Catadromous Migratory Species',
+        habitat: 'Deep Rock Crevices, Substrate Caves & Spring Orifices',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🌊 Ocean Wanderer Badge',
+          title: 'American Freshwater Eel — The Sargasso Voyager',
+          body: 'A true marvel of nature! The American Freshwater Eel is catadromous: born thousands of miles away in the deep ocean waters of the Sargasso Sea, juvenile "glass eels" migrate up the Gulf of Mexico and river channels into the San Marcos River! They hunt nocturnally in deep rock crevices before returning to the Atlantic to spawn.'
+        },
+        'elevated-surge': {
+          badge: '⚡ Crevice Slink Badge',
+          title: 'American Eel — Nocturnal Current Prowler',
+          body: 'With ultra-slender, muscular bodies coated in protective slime, eels navigate swift currents with ease, slinking through bottom crevices.'
+        },
+        'severe-flood': {
+          badge: '⛈️ Migration Trigger Badge',
+          title: 'American Eel — Flood Passage Explorer',
+          body: 'Major flood surges open up migration routes over river weirs and dams, allowing adult silver eels to begin their downstream journey to the sea!'
+        },
+        'critical-drought': {
+          badge: '🕳️ Subterranean Cavern Badge',
+          title: 'American Eel — Aquifer Cave Refuge',
+          body: 'In droughts, eels retreat deep into underground limestone caverns connected to San Marcos spring vents where groundwater remains abundant.'
+        }
+      },
+      'hydrilla': {
+        icon: '⚠️',
+        scientific: 'Hydrilla verticillata (Invasive Water Thyme)',
+        status: 'Federally Prohibited Noxious Invasive Weed',
+        habitat: 'Dense Monoculture Mats Throughout Channel',
+        badgeClass: 'invasive',
+        'optimal-baseflow': {
+          badge: '🚨 Severe Invasive Alert',
+          title: 'Hydrilla — The River-Choking Weed',
+          body: 'Hydrilla is one of the most destructive aquatic invasive plants in North America. Growing in dense whorls of 4–8 sharply serrated leaves along long stems, it grows up to an inch per day! Hydrilla forms thick, impenetrable surface canopies that block 95% of sunlight, choking out endangered Texas Wild Rice and trapping tubers.'
+        },
+        'elevated-surge': {
+          badge: '🌊 Current Dam Badge',
+          title: 'Hydrilla — Flow Resistance Dam',
+          body: 'Massive hydrilla mats resist river current, catching drifting trash and causing upstream water levels to back up and flood shoreline trails.'
+        },
+        'severe-flood': {
+          badge: '🚨 Tuber Tangle Alert',
+          title: 'Hydrilla — Flood Scour & Re-infestation',
+          body: 'Floods uproot surface hydrilla mats, but dormant subterranean tubers buried deep in the mud withstand raging floods and sprout vigorously days later.'
+        },
+        'critical-drought': {
+          badge: '💀 Oxygen Crash Hazard',
+          title: 'Hydrilla — Nighttime Oxygen Depletion',
+          body: 'During hot drought spells, huge decomposing mats of hydrilla consume dissolved oxygen at night, creating localized hypoxic dead zones for fish.'
         }
       },
       'population-math': {
+        icon: '📐',
+        scientific: 'USGS Streamgage 08170500 & EAHCP Field Ecology Models',
+        status: 'Scientific Data & Survey Algorithms',
+        habitat: 'San Marcos River Hydrological Basin',
+        badgeClass: '',
         'optimal-baseflow': {
           badge: '📐 USGS & EAHCP Population Data Model',
           title: 'How Ecosystem Population Metrics Are Calculated',
-          body: 'Population metrics are dynamically derived from empirical Edwards Aquifer Habitat Conservation Plan (EAHCP) field surveys & live USGS streamgage telemetry (Station 08170500):\n\n1. Texas Wild Rice Coverage: Base 55 stands per 100m reach in optimal flow (140 CFS). Flood shear (>350 CFS) or drought exposure (<60 CFS) reduces viable stands.\n2. Fountain Darter Density: EAHCP monitoring benchmarks average 4.5–6.0 darters/m² in moss/bryophyte beds. High flood velocity flushes darters out into boulder refugia, dropping vegetation density to 2.1/m².\n3. Longear Sunfish & Cooters: Turbidity (>45 NTU) cuts visual foraging range by >70%, reducing active open-water sightings.'
+          body: 'Population metrics are dynamically derived from empirical Edwards Aquifer Habitat Conservation Plan (EAHCP) field surveys & live USGS streamgage telemetry (Station 08170500):\n\n1. Texas Wild Rice Coverage: Base 55 stands per 100m reach in optimal flow (140 CFS). Flood shear (>350 CFS) or drought exposure (<60 CFS) reduces viable stands.\n2. Fountain Darter Density: EAHCP monitoring benchmarks average 4.5–6.0 darters/m² in moss/bryophyte beds. High flood velocity flushes darters out into boulder refugia, dropping vegetation density to 2.1/m².\n3. Longear Sunfish & Cooters: Turbidity (>45 NTU) cuts visual foraging range by >70%, reducing active open-water sightings.\n4. Invasive Pleco & Hydrilla: Thrive in warm, low-flow conditions, competing aggressively against native biodiversity.'
         }
       }
     };
 
     function openInfoCard(targetType) {
-      const stageData = loreDatabase[targetType]?.[currentSimStage] || loreDatabase[targetType]?.['optimal-baseflow'];
+      const speciesEntry = loreDatabase[targetType];
+      if (!speciesEntry) return;
+
+      const stageData = speciesEntry[currentSimStage] || speciesEntry['optimal-baseflow'];
       if (!stageData) return;
 
-      document.getElementById('modalBadge').innerText = stageData.badge;
+      const badgeElem = document.getElementById('modalBadge');
+      badgeElem.innerText = stageData.badge;
+      badgeElem.className = `modal-badge ${speciesEntry.badgeClass || ''}`;
+
+      document.getElementById('modalThumb').innerText = speciesEntry.icon || '🌿';
       document.getElementById('modalTitle').innerText = stageData.title;
+      document.getElementById('modalScientific').innerText = speciesEntry.scientific || '';
+      document.getElementById('modalStatus').innerText = speciesEntry.status || 'Native River Species';
+      document.getElementById('modalHabitat').innerText = speciesEntry.habitat || 'Spring-Fed Riverbed';
       document.getElementById('modalBody').innerText = stageData.body;
 
       const modal = document.getElementById('infoCardModal');
@@ -2079,49 +2757,133 @@
     }
 
     // ==========================================
-    // HOTSPOT MOUSE-OVER / FOCUS PREVIEWS
+    // HOTSPOT MOUSE-OVER / FOCUS PREVIEWS (18 SPECIES)
     // ==========================================
     const hotspotPreviews = {
-      'darter': {
-        emoji: '🐟',
-        title: 'Fountain Darter',
-        subtitle: 'Etheostoma fonticola (Endangered)',
-        fact: 'Resting on gravel bed among bryophytes. Uses pectoral fins to hop along substrate.',
+      'heron': {
+        emoji: '🪶',
+        title: 'Yellow-crowned Night Heron',
+        subtitle: 'Nyctanassa violacea (Native Bird)',
+        fact: 'Perched on bank branches watching for crayfish. Lightning-quick precision hunter.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       },
-      'cooter': {
-        emoji: '🐢',
-        title: 'Texas River Cooter',
-        subtitle: 'Pseudemys texana (Native)',
-        fact: 'Basking atop center mossy boulder to absorb UV sunlight and warm its shell.',
+      'elephant-ears': {
+        emoji: '🌿',
+        title: 'Elephant Ears',
+        subtitle: 'Colocasia esculenta (Invasive Plant)',
+        fact: 'Colossal heart-shaped leaves that spread along banks and displace native buttonbush.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       },
-      'sunfish': {
-        emoji: '🐠',
-        title: 'Longear Sunfish',
-        subtitle: 'Lepomis megalotis (Native)',
-        fact: 'Bright iridescent blue cheeks and orange belly fanning gravel beds near boulder.',
+      'frog': {
+        emoji: '🐸',
+        title: 'Rio Grande Leopard Frog',
+        subtitle: 'Lithobates berlandieri (Native Amphibian)',
+        fact: 'Camouflaged in bank pebbles; agile jumper hunting insects along the waterline.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'snake': {
+        emoji: '🐍',
+        title: 'Diamondback Water Snake',
+        subtitle: 'Nerodia rhombifer (Native Non-Venomous)',
+        fact: 'Cruising surface current near shoreline; vital native predator of rough fish and bugs.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       },
       'wild-rice': {
         emoji: '🌾',
         title: 'Texas Wild Rice',
         subtitle: 'Zizania texana (Federally Endangered)',
-        fact: 'Endemic emerald leaves ribboning in current; grows only in upper 2.5 miles of San Marcos River.',
+        fact: 'Endemic emerald ribbon leaves; grows naturally ONLY in the upper 2.5 miles of San Marcos River!',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       },
-      'refugia': {
-        emoji: '🪨',
-        title: 'Benthic Refugia Boulder',
-        subtitle: 'Substrate Habitat & Hydrodynamic Shield',
-        fact: 'Reduces current velocity by >80% behind the rock face, sheltering darters and fry during floods.',
+      'snail': {
+        emoji: '🐌',
+        title: 'Invasive Ramshorn Snail',
+        subtitle: 'Planorbidae (Introduced Mollusk)',
+        fact: 'Coiled horn-shaped shell; voracious grazer that competes with rare native river snails.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'musk-turtle': {
+        emoji: '🐢',
+        title: 'Eastern Musk Turtle',
+        subtitle: 'Sternotherus odoratus ("Stinkpot")',
+        fact: 'Small bottom-crawling turtle with yellow head stripes. Emits musk if grabbed by predators.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'softshell': {
+        emoji: '🐢',
+        title: 'Spiny Softshell Turtle',
+        subtitle: 'Apalone spinifera (Native Reptile)',
+        fact: 'Leathery flat carapace and snorkel snout; buries in sand to ambush prey.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       },
       'crayfish': {
         emoji: '🦞',
         title: 'Native River Crayfish',
         subtitle: 'Procambarus species (Benthic Detritivore)',
-        fact: 'Tucked inside pebble substrate crevices; nocturnal cleanup crew of river detritus.',
+        fact: 'Armored riverbed cleanup crew active under rocks, recycling nutrients and algae.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'pleco': {
+        emoji: '⚠️',
+        title: 'Armored Suckermouth Catfish',
+        subtitle: 'Hypostomus plecostomus (Destructive Invasive)',
+        fact: 'Burrows 3–5 ft into riverbanks causing severe bank erosion and destroying darter nests.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'sunfish': {
+        emoji: '🐠',
+        title: 'Longear Sunfish & Perch',
+        subtitle: 'Lepomis megalotis (Native Fish)',
+        fact: 'Brilliant turquoise facial stripes and orange bellies fanning gravel spawning beds.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'cabomba': {
+        emoji: '🌿',
+        title: 'Cabomba (Fanwort)',
+        subtitle: 'Cabomba caroliniana (Native Macrophyte)',
+        fact: 'Feathery fan-shaped submerged fronds providing vital nursery cover for tiny darter fry.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'parrot-feather': {
+        emoji: '🌿',
+        title: 'Parrot Feather',
+        subtitle: 'Myriophyllum aquaticum (Invasive Plant)',
+        fact: 'Whorled needle-like leaves emerging like miniature fir trees; can choke channels.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'bass': {
+        emoji: '🐟',
+        title: 'Largemouth Bass',
+        subtitle: 'Micropterus salmoides (Apex Predator)',
+        fact: 'Cruising mid-channel predator with dark lateral stripe hunting minnows and crayfish.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'darter': {
+        emoji: '🐟',
+        title: 'Fountain Darter',
+        subtitle: 'Etheostoma fonticola (Federally Endangered)',
+        fact: '1-inch endangered hop-master using pectoral fins to skip along moss and pebbles.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'cooter': {
+        emoji: '🐢',
+        title: 'Texas River Cooter',
+        subtitle: 'Pseudemys texana (Native Endemic)',
+        fact: 'Basking atop sunny river boulders to warm its shell and regulate body temperature.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'eel': {
+        emoji: '🐍',
+        title: 'American Freshwater Eel',
+        subtitle: 'Anguilla rostrata (Catadromous Migrant)',
+        fact: 'Born in the distant Sargasso Sea! Migrated thousands of miles into San Marcos spring caverns.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'hydrilla': {
+        emoji: '⚠️',
+        title: 'Invasive Hydrilla',
+        subtitle: 'Hydrilla verticillata (Prohibited Weed)',
+        fact: 'Aggressive weed forming dense surface mats that block sunlight and smother wild rice.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       }
     };
