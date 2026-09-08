@@ -398,16 +398,58 @@
     /* ==========================================
        RAW DATA GRID (2-COLUMN LAYOUT)
        ========================================== */
+    .grid-section-header-block {
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .grid-section-title {
       font-size: 0.9rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
-      margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .live-metrics-source-tag {
+      font-size: 0.74rem;
+      text-transform: none;
+      letter-spacing: normal;
+      color: #38BDF8;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      padding: 3px 9px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .metrics-timestamp-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .metrics-timestamp-bar strong {
+      color: var(--text-main);
+      font-weight: 600;
     }
 
     .data-grid {
@@ -1004,7 +1046,209 @@
       </div>
     </div>
 
-    <!-- SIDE-SCROLLING SVG ECOSYSTEM CROSS-SECTION SIMULATOR -->
+    <!-- PRIMARY STATUS CARDS (FLEX STACK, 16px GAP) -->
+    <div class="status-cards-stack">
+
+      <!-- CARD 1: THE VIBE SCORE -->
+      <article class="card" id="vibeCard">
+        <div class="card-header-row">
+          <span class="card-title">
+            <span>✨</span> The Vibe Score
+          </span>
+          <span id="vibeLastUpdated" style="font-size: 0.72rem; color: var(--text-subtle);">Updating...</span>
+        </div>
+
+        <div class="vibe-main-content">
+          <div class="vibe-grade-box">
+            <div class="vibe-grade-badge" id="vibeBadge">--</div>
+            <div class="vibe-text-group">
+              <h2 id="vibeTitle">Evaluating Conditions...</h2>
+              <p id="vibeDescription">Fetching streamflow and weather data to calculate river vibes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vibe-reasons-list" id="vibeTags">
+          <span class="tag">🌊 Loading Flow</span>
+          <span class="tag">☀️ Loading Weather</span>
+        </div>
+      </article>
+
+      <!-- CARD 2: ECO-IMPACT SCORE -->
+      <article class="card" id="ecoCard">
+        <div class="card-header-row">
+          <span class="card-title">
+            <span>🌱</span> Eco-Impact Assessment
+          </span>
+          <span id="seasonPill" class="tag" style="font-size: 0.7rem;">Checking Season...</span>
+        </div>
+
+        <div class="eco-status-box">
+          <div class="eco-icon" id="ecoIcon">🌿</div>
+          <div class="eco-text-group">
+            <h2 id="ecoTitle">Low Ecological Impact</h2>
+            <p id="ecoDescription">River ecosystem conditions are stable.</p>
+          </div>
+        </div>
+
+        <div class="species-callout" id="speciesCallout">
+          <span class="callout-icon">🦎</span>
+          <div class="callout-content">
+            <strong>Habitat Protection:</strong> The San Marcos River is home to endangered Texas Wild Rice (<i>Zizania texana</i>) and the Fountain Darter. Please float responsibly!
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- RAW DATA SECTION (2-COLUMN GRID) -->
+    <div class="grid-section-header-block">
+      <div class="grid-section-title">
+        <span>📊 Live Environmental Metrics</span>
+        <span class="live-metrics-source-tag">Source: USGS Streamgage 08170500 &amp; NWS San Marcos (EWX)</span>
+      </div>
+      <div class="metrics-timestamp-bar">
+        <span>🕒 Station Observation: <strong id="metricsTimestampText">Updating live telemetry...</strong></span>
+        <span>Telemetry Type: <strong>USGS Instantaneous 15-Min Streamgage</strong></span>
+      </div>
+    </div>
+
+    <div class="data-grid">
+
+      <!-- AIR TEMP -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🌬️</span> Air Temp</span>
+          <span class="data-status-badge badge-normal" id="airBadge">Optimal</span>
+        </div>
+        <div>
+          <div class="data-val" id="valAirTemp">-- °F</div>
+          <div class="data-subtext" id="valWeatherDesc">NWS San Marcos Forecast</div>
+        </div>
+      </div>
+
+      <!-- WATER TEMP -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">💧</span> Water Temp</span>
+          <span class="data-status-badge badge-normal" id="waterBadge">Spring Fed</span>
+        </div>
+        <div>
+          <div class="data-val" id="valWaterTemp">72.0 °F</div>
+          <div class="data-subtext">Constant ~72°F Spring Water</div>
+        </div>
+      </div>
+
+      <!-- STREAMFLOW / CFS -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🌊</span> River Flow (CFS)</span>
+          <span class="data-status-badge badge-normal" id="cfsBadge">Checking</span>
+        </div>
+        <div>
+          <div class="data-val" id="valCFS">-- CFS</div>
+          <div class="data-subtext">Cubic Feet Per Second (USGS)</div>
+        </div>
+      </div>
+
+      <!-- TURBIDITY -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">👁️</span> Turbidity</span>
+          <span class="data-status-badge badge-normal" id="turbidityBadge">Clear</span>
+        </div>
+        <div>
+          <div class="data-val" id="valTurbidity">-- NTU</div>
+          <div class="data-subtext">Water Clarity Metric</div>
+        </div>
+      </div>
+
+      <!-- DISSOLVED OXYGEN -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🫧</span> Dissolved Oxygen</span>
+          <span class="data-status-badge badge-normal" id="doBadge">Healthy</span>
+        </div>
+        <div>
+          <div class="data-val" id="valDO">-- mg/L</div>
+          <div class="data-subtext">Aquatic Oxygen Level</div>
+        </div>
+      </div>
+
+      <!-- pH LEVEL -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🧪</span> Water pH</span>
+          <span class="data-status-badge badge-normal" id="phBadge">Neutral</span>
+        </div>
+        <div>
+          <div class="data-val" id="valPH">-- pH</div>
+          <div class="data-subtext">Alkalinity Standard (7.0-8.2)</div>
+        </div>
+      </div>
+
+      <!-- E. COLI BACTERIA (MOCKED / RANDOMIZED) -->
+      <div class="data-card" style="grid-column: span 2;">
+        <div class="data-card-header">
+          <span class="data-label"><span class="data-emoji">🦠</span> E. Coli Concentration (Mocked)</span>
+          <span class="data-status-badge badge-normal" id="ecoliBadge">Safe</span>
+        </div>
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div>
+            <div class="data-val" id="valEColi">-- cfu/100mL</div>
+            <div class="data-subtext">Threshold: &lt; 399 cfu/100mL is safe for recreational contact.</div>
+          </div>
+          <button class="btn-scenario" onclick="randomizeEColi()" style="font-size: 0.7rem;">🎲 Re-roll E. coli</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- INTERACTIVE CONTROL / SIMULATOR PANEL -->
+    <section class="control-panel">
+      <div class="control-title">
+        <span>⚙️</span> Interactive Scenario Simulator
+        <span style="font-size: 0.7rem; font-weight: normal; color: var(--text-muted); margin-left: auto;">Test Vibe & Eco Rules</span>
+      </div>
+
+      <div class="scenario-buttons">
+        <button class="btn-scenario active" id="btnLive" onclick="setScenario('live')">🌐 Live USGS/NWS Data</button>
+        <button class="btn-scenario" id="btnChill" onclick="setScenario('chill')">😎 Perfect Chill & Float</button>
+        <button class="btn-scenario" id="btnBumper" onclick="setScenario('bumper')">🪨 Booty Bumper (&lt;100 CFS)</button>
+        <button class="btn-scenario" id="btnMuddy" onclick="setScenario('muddy')">🍫 Chocolate Milk (&gt;50 NTU)</button>
+        <button class="btn-scenario" id="btnFlood" onclick="setScenario('flood')">⚠️ Flood / Biohazard (&gt;500 CFS)</button>
+        <button class="btn-scenario" id="btnDarter" onclick="setScenario('darter')">🦤 Spring Darter Season</button>
+      </div>
+
+      <div class="sliders-grid">
+        <div class="slider-group">
+          <label>Streamflow (CFS): <b id="lblSimCFS">180</b></label>
+          <input type="range" id="simCFS" min="30" max="650" value="180" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>Turbidity (NTU): <b id="lblSimNTU">4.2</b></label>
+          <input type="range" id="simNTU" min="1" max="80" value="4" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>Air Temp (°F): <b id="lblSimAir">85</b></label>
+          <input type="range" id="simAir" min="55" max="105" value="85" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>E. coli (cfu): <b id="lblSimEcoli">110</b></label>
+          <input type="range" id="simEcoli" min="20" max="550" value="110" oninput="onSliderChange()">
+        </div>
+
+        <div class="slider-group">
+          <label>Month (Season): <b id="lblSimMonth">July</b></label>
+          <input type="range" id="simMonth" min="1" max="12" value="7" oninput="onSliderChange()">
+        </div>
+      </div>
+    </section>
+
+    <!-- SIDE-SCROLLING SVG ECOSYSTEM CROSS-SECTION SIMULATOR (MOVED TO BOTTOM) -->
     <section class="ecosystem-container" id="ecosystemView" data-stage="optimal-baseflow">
       <div class="eco-sim-header">
         <div class="eco-sim-title">
@@ -1182,212 +1426,6 @@
       </div>
     </section>
 
-    <!-- K-12 INTERACTIVE FIELD INFO-CARD MODAL -->
-    <div class="info-modal-backdrop" id="infoCardModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeInfoCard(event)">
-      <div class="info-modal-card" onclick="event.stopPropagation()">
-        <div class="modal-badge" id="modalBadge">🌟 Field Guide Quest</div>
-        <h2 id="modalTitle" style="font-size: 1.25rem; color: #F8FAFC; margin-bottom: 8px;">Species Discovery</h2>
-        <p id="modalBody" style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; margin-bottom: 16px;"></p>
-        <button class="btn-refresh" style="width: 100%; justify-content: center; background: #06B6D4;" aria-label="Close field guide info card" onclick="closeInfoCard()">Got It!</button>
-      </div>
-    </div>
-
-    <!-- PRIMARY STATUS CARDS (FLEX STACK, 16px GAP) -->
-    <div class="status-cards-stack">
-
-      <!-- CARD 1: THE VIBE SCORE -->
-      <article class="card" id="vibeCard">
-        <div class="card-header-row">
-          <span class="card-title">
-            <span>✨</span> The Vibe Score
-          </span>
-          <span id="vibeLastUpdated" style="font-size: 0.72rem; color: var(--text-subtle);">Updating...</span>
-        </div>
-
-        <div class="vibe-main-content">
-          <div class="vibe-grade-box">
-            <div class="vibe-grade-badge" id="vibeBadge">--</div>
-            <div class="vibe-text-group">
-              <h2 id="vibeTitle">Evaluating Conditions...</h2>
-              <p id="vibeDescription">Fetching streamflow and weather data to calculate river vibes.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="vibe-reasons-list" id="vibeTags">
-          <span class="tag">🌊 Loading Flow</span>
-          <span class="tag">☀️ Loading Weather</span>
-        </div>
-      </article>
-
-      <!-- CARD 2: ECO-IMPACT SCORE -->
-      <article class="card" id="ecoCard">
-        <div class="card-header-row">
-          <span class="card-title">
-            <span>🌱</span> Eco-Impact Assessment
-          </span>
-          <span id="seasonPill" class="tag" style="font-size: 0.7rem;">Checking Season...</span>
-        </div>
-
-        <div class="eco-status-box">
-          <div class="eco-icon" id="ecoIcon">🌿</div>
-          <div class="eco-text-group">
-            <h2 id="ecoTitle">Low Ecological Impact</h2>
-            <p id="ecoDescription">River ecosystem conditions are stable.</p>
-          </div>
-        </div>
-
-        <div class="species-callout" id="speciesCallout">
-          <span class="callout-icon">🦎</span>
-          <div class="callout-content">
-            <strong>Habitat Protection:</strong> The San Marcos River is home to endangered Texas Wild Rice (<i>Zizania texana</i>) and the Fountain Darter. Please float responsibly!
-          </div>
-        </div>
-      </article>
-
-    </div>
-
-    <!-- RAW DATA SECTION (2-COLUMN GRID) -->
-    <div class="grid-section-title">
-      <span>📊 Live Environmental Metrics</span>
-      <span style="font-size: 0.75rem; text-transform: none; color: var(--text-subtle);">Auto-synced</span>
-    </div>
-
-    <div class="data-grid">
-
-      <!-- AIR TEMP -->
-      <div class="data-card">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">🌬️</span> Air Temp</span>
-          <span class="data-status-badge badge-normal" id="airBadge">Optimal</span>
-        </div>
-        <div>
-          <div class="data-val" id="valAirTemp">-- °F</div>
-          <div class="data-subtext" id="valWeatherDesc">NWS San Marcos Forecast</div>
-        </div>
-      </div>
-
-      <!-- WATER TEMP -->
-      <div class="data-card">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">💧</span> Water Temp</span>
-          <span class="data-status-badge badge-normal" id="waterBadge">Spring Fed</span>
-        </div>
-        <div>
-          <div class="data-val" id="valWaterTemp">72.0 °F</div>
-          <div class="data-subtext">Constant ~72°F Spring Water</div>
-        </div>
-      </div>
-
-      <!-- STREAMFLOW / CFS -->
-      <div class="data-card">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">🌊</span> River Flow (CFS)</span>
-          <span class="data-status-badge badge-normal" id="cfsBadge">Checking</span>
-        </div>
-        <div>
-          <div class="data-val" id="valCFS">-- CFS</div>
-          <div class="data-subtext">Cubic Feet Per Second (USGS)</div>
-        </div>
-      </div>
-
-      <!-- TURBIDITY -->
-      <div class="data-card">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">👁️</span> Turbidity</span>
-          <span class="data-status-badge badge-normal" id="turbidityBadge">Clear</span>
-        </div>
-        <div>
-          <div class="data-val" id="valTurbidity">-- NTU</div>
-          <div class="data-subtext">Water Clarity Metric</div>
-        </div>
-      </div>
-
-      <!-- DISSOLVED OXYGEN -->
-      <div class="data-card">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">🫧</span> Dissolved Oxygen</span>
-          <span class="data-status-badge badge-normal" id="doBadge">Healthy</span>
-        </div>
-        <div>
-          <div class="data-val" id="valDO">-- mg/L</div>
-          <div class="data-subtext">Aquatic Oxygen Level</div>
-        </div>
-      </div>
-
-      <!-- pH LEVEL -->
-      <div class="data-card">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">🧪</span> Water pH</span>
-          <span class="data-status-badge badge-normal" id="phBadge">Neutral</span>
-        </div>
-        <div>
-          <div class="data-val" id="valPH">-- pH</div>
-          <div class="data-subtext">Alkalinity Standard (7.0-8.2)</div>
-        </div>
-      </div>
-
-      <!-- E. COLI BACTERIA (MOCKED / RANDOMIZED) -->
-      <div class="data-card" style="grid-column: span 2;">
-        <div class="data-card-header">
-          <span class="data-label"><span class="data-emoji">🦠</span> E. Coli Concentration (Mocked)</span>
-          <span class="data-status-badge badge-normal" id="ecoliBadge">Safe</span>
-        </div>
-        <div style="display: flex; align-items: baseline; justify-content: space-between;">
-          <div>
-            <div class="data-val" id="valEColi">-- cfu/100mL</div>
-            <div class="data-subtext">Threshold: &lt; 399 cfu/100mL is safe for recreational contact.</div>
-          </div>
-          <button class="btn-scenario" onclick="randomizeEColi()" style="font-size: 0.7rem;">🎲 Re-roll E. coli</button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- INTERACTIVE CONTROL / SIMULATOR PANEL -->
-    <section class="control-panel">
-      <div class="control-title">
-        <span>⚙️</span> Interactive Scenario Simulator
-        <span style="font-size: 0.7rem; font-weight: normal; color: var(--text-muted); margin-left: auto;">Test Vibe & Eco Rules</span>
-      </div>
-
-      <div class="scenario-buttons">
-        <button class="btn-scenario active" id="btnLive" onclick="setScenario('live')">🌐 Live USGS/NWS Data</button>
-        <button class="btn-scenario" id="btnChill" onclick="setScenario('chill')">😎 Perfect Chill & Float</button>
-        <button class="btn-scenario" id="btnBumper" onclick="setScenario('bumper')">🪨 Booty Bumper (&lt;100 CFS)</button>
-        <button class="btn-scenario" id="btnMuddy" onclick="setScenario('muddy')">🍫 Chocolate Milk (&gt;50 NTU)</button>
-        <button class="btn-scenario" id="btnFlood" onclick="setScenario('flood')">⚠️ Flood / Biohazard (&gt;500 CFS)</button>
-        <button class="btn-scenario" id="btnDarter" onclick="setScenario('darter')">🦤 Spring Darter Season</button>
-      </div>
-
-      <div class="sliders-grid">
-        <div class="slider-group">
-          <label>Streamflow (CFS): <b id="lblSimCFS">180</b></label>
-          <input type="range" id="simCFS" min="30" max="650" value="180" oninput="onSliderChange()">
-        </div>
-
-        <div class="slider-group">
-          <label>Turbidity (NTU): <b id="lblSimNTU">4.2</b></label>
-          <input type="range" id="simNTU" min="1" max="80" value="4" oninput="onSliderChange()">
-        </div>
-
-        <div class="slider-group">
-          <label>Air Temp (°F): <b id="lblSimAir">85</b></label>
-          <input type="range" id="simAir" min="55" max="105" value="85" oninput="onSliderChange()">
-        </div>
-
-        <div class="slider-group">
-          <label>E. coli (cfu): <b id="lblSimEcoli">110</b></label>
-          <input type="range" id="simEcoli" min="20" max="550" value="110" oninput="onSliderChange()">
-        </div>
-
-        <div class="slider-group">
-          <label>Month (Season): <b id="lblSimMonth">July</b></label>
-          <input type="range" id="simMonth" min="1" max="12" value="7" oninput="onSliderChange()">
-        </div>
-      </div>
-    </section>
-
     <!-- RIVER RULES & TUBING CHECKLIST -->
     <section class="info-section">
       <h3><span>🛶</span> San Marcos River City Rules & Guidelines</h3>
@@ -1401,10 +1439,21 @@
       </ul>
     </section>
 
+    <!-- K-12 INTERACTIVE FIELD INFO-CARD MODAL -->
+    <div class="info-modal-backdrop" id="infoCardModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeInfoCard(event)">
+      <div class="info-modal-card" onclick="event.stopPropagation()">
+        <div class="modal-badge" id="modalBadge">🌟 Field Guide Quest</div>
+        <h2 id="modalTitle" style="font-size: 1.25rem; color: #F8FAFC; margin-bottom: 8px;">Species Discovery</h2>
+        <p id="modalBody" style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; margin-bottom: 16px;"></p>
+        <button class="btn-refresh" style="width: 100%; justify-content: center; background: #06B6D4;" aria-label="Close field guide info card" onclick="closeInfoCard()">Got It!</button>
+      </div>
+    </div>
+
   </main>
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
+    const nowInit = new Date();
     // State object holding active environmental metrics
     const state = {
       isLiveMode: true,
@@ -1416,8 +1465,9 @@
       ph: 7.6,
       ecoli: Math.floor(Math.random() * (200 - 50 + 1)) + 50,
       weatherDesc: 'Sunny & Warm',
-      monthIndex: new Date().getMonth() + 1, // 1-12
-      lastUpdatedText: 'Just now'
+      monthIndex: nowInit.getMonth() + 1, // 1-12
+      lastUpdatedText: nowInit.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      fullTimestampText: `${nowInit.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${nowInit.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true })}`
     };
 
     // Month Name helper
@@ -1455,9 +1505,17 @@
           const data = await response.json();
           const timeSeries = data?.value?.timeSeries || [];
 
+          let usgsObsDate = null;
           timeSeries.forEach(ts => {
             const paramCode = ts?.variable?.variableCode?.[0]?.value;
-            const latestVal = parseFloat(ts?.values?.[0]?.value?.[0]?.value);
+            const valObj = ts?.values?.[0]?.value?.[0];
+            const latestVal = parseFloat(valObj?.value);
+            if (valObj?.dateTime && !usgsObsDate) {
+              const parsed = new Date(valObj.dateTime);
+              if (!isNaN(parsed.getTime())) {
+                usgsObsDate = parsed;
+              }
+            }
 
             if (!isNaN(latestVal)) {
               if (paramCode === '00060') state.cfs = latestVal; // Discharge / Flow
@@ -1467,6 +1525,9 @@
               if (paramCode === '63680' || paramCode === '00076') state.turbidity = latestVal; // Turbidity
             }
           });
+          if (usgsObsDate) {
+            state.usgsObservationDate = usgsObsDate;
+          }
           usgsSuccess = true;
         }
       } catch (err) {
@@ -1499,6 +1560,8 @@
       // Timestamp
       const now = new Date();
       state.lastUpdatedText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const displayDate = state.usgsObservationDate || now;
+      state.fullTimestampText = `${displayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${displayDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true })}`;
 
       btnRefresh.classList.remove('spinning');
       
@@ -1530,6 +1593,7 @@
     function onSliderChange() {
       state.isLiveMode = false;
       highlightScenarioBtn('');
+      state.fullTimestampText = `Custom Manual Simulation (Reference Station USGS 08170500)`;
 
       state.cfs = parseFloat(document.getElementById('simCFS').value);
       document.getElementById('lblSimCFS').innerText = Math.round(state.cfs);
@@ -1560,6 +1624,14 @@
       }
 
       state.isLiveMode = false;
+      const presetLabels = {
+        chill: 'Chill & Float (Ideal Flow)',
+        bumper: 'Booty Bumper (<100 CFS)',
+        muddy: 'Chocolate Milk (>50 NTU)',
+        flood: 'Flood / Washout (>500 CFS)',
+        darter: 'Spring Darter Spawning Season'
+      };
+      state.fullTimestampText = `Scenario Simulation: ${presetLabels[preset] || preset} (Reference Station USGS 08170500)`;
 
       if (preset === 'chill') {
         state.cfs = 190;
@@ -1793,6 +1865,12 @@
       } else {
         ecoliBadge.innerText = 'Safe Contact';
         ecoliBadge.className = 'data-status-badge badge-normal';
+      }
+
+      // Update Live Environmental Metrics Timestamp & Source Bar
+      const tsElem = document.getElementById('metricsTimestampText');
+      if (tsElem && state.fullTimestampText) {
+        tsElem.innerText = state.fullTimestampText;
       }
     }
 
