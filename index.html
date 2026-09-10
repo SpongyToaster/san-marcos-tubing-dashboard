@@ -196,15 +196,87 @@
 
     .status-bar-info {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 10px;
       margin-bottom: 16px;
-      padding: 8px 12px;
+      padding: 10px 14px;
       background: rgba(255, 255, 255, 0.03);
       border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
       font-size: 0.78rem;
       color: var(--text-muted);
+    }
+
+    .status-bar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .status-bar-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-main);
+      font-size: 0.79rem;
+      font-weight: 500;
+    }
+
+    .status-bar-title code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.75rem;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .status-bar-context {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 18px;
+      font-size: 0.74rem;
+      line-height: 1.45;
+      color: var(--text-subtle);
+    }
+
+    @media (max-width: 680px) {
+      .status-bar-context {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
+
+    .context-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .context-icon {
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .context-text {
+      flex: 1;
+    }
+
+    .context-strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .context-highlight {
+      color: #93c5fd;
+      font-weight: 500;
     }
 
     .api-status-pills {
@@ -2700,10 +2772,31 @@
 
     <!-- STATUS & METADATA BAR -->
     <div class="status-bar-info">
-      <div>USGS Site 08170500 • NWS Grid EWX/161,54</div>
-      <div class="api-status-pills">
-        <span class="status-pill"><span class="dot live" id="usgsDot"></span> USGS Live</span>
-        <span class="status-pill"><span class="dot live" id="nwsDot"></span> NWS Weather</span>
+      <div class="status-bar-header">
+        <div class="status-bar-title">
+          <span>📡</span>
+          <span><strong>Live Telemetry:</strong> <code>USGS Site 08170500</code> &bull; <code>NWS Grid EWX/161,54</code></span>
+        </div>
+        <div class="api-status-pills">
+          <span class="status-pill"><span class="dot live" id="usgsDot"></span> USGS Live</span>
+          <span class="status-pill"><span class="dot live" id="nwsDot"></span> NWS Weather</span>
+        </div>
+      </div>
+      <div class="status-bar-context">
+        <div class="context-item">
+          <span class="context-icon">📍</span>
+          <div class="context-text">
+            <strong class="context-strong">USGS River Sensor (Site 08170500):</strong>
+            Mounted on the San Marcos River right bank at the <span class="context-highlight">University Drive bridge</span> (immediately downstream of City Park tubing launch and upstream of Rio Vista Park). Streams real-time flow rate (CFS), water depth, water temperature, dissolved oxygen, and turbidity.
+          </div>
+        </div>
+        <div class="context-item">
+          <span class="context-icon">🌤️</span>
+          <div class="context-text">
+            <strong class="context-strong">Local Weather Station (Grid EWX/161,54):</strong>
+            Provided by the <span class="context-highlight">NOAA/NWS Austin–San Antonio Forecast Office</span> and anchored by the local <span class="context-highlight">San Marcos Regional Airport (KHYI) ASOS</span> weather station (~4 miles east). Streams real-time air temp, heat index, wind velocity, and storm precipitation.
+          </div>
+        </div>
       </div>
     </div>
 
