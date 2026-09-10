@@ -63,15 +63,12 @@
     }
 
     /* ==========================================
-       HEADER & GLASSMORPHISM
+       HEADER (NON-STICKY TO PREVENT OVERLAY OBFUSCATION)
        ========================================== */
     .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(18, 18, 18, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+      z-index: 20;
+      background: #0f141c;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       padding: 14px 20px;
       display: flex;
@@ -1826,24 +1823,32 @@
       border-color: #1f2937;
     }
 
+    .stereo-btn-transport {
+      min-width: 58px;
+    }
+
     .stereo-led {
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: #232832;
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981, 0 0 3px #34D399;
       margin-bottom: 2px;
       transition: all 0.2s ease;
     }
 
-    .stereo-btn.active-play .stereo-led {
+    /* Not Playing: Green Light on Play Button */
+    .stereo-btn.state-play .stereo-led,
+    .stereo-btn:not(.is-playing) .stereo-led {
       background: #10B981;
       box-shadow: 0 0 8px #10B981, 0 0 3px #34D399;
     }
 
-    .stereo-btn.active-pause .stereo-led {
-      background: #F59E0B;
-      box-shadow: 0 0 8px #F59E0B, 0 0 3px #FBBF24;
+    /* Is Playing: Red Light on Stop Button */
+    .stereo-btn.state-stop .stereo-led,
+    .stereo-btn.is-playing .stereo-led {
+      background: #EF4444;
+      box-shadow: 0 0 8px #EF4444, 0 0 4px #F87171;
     }
 
     .stereo-btn-label {
@@ -2598,15 +2603,11 @@
             <span class="stereo-brand-sub">45W&times;4</span>
           </div>
 
-          <!-- Dedicated PLAY and PAUSE cluster with active LED indicators -->
+          <!-- Dynamic PLAY (Green Light) / STOP (Red Light) Button -->
           <div class="stereo-transport-cluster">
-            <button class="stereo-btn" id="btnStereoPlay" onclick="stereoPlay()" title="Play Live Music" aria-label="Play Live Radio">
+            <button class="stereo-btn stereo-btn-transport state-play" id="btnStereoPlay" onclick="stereoToggle()" title="Play Live Music" aria-label="Play Live Radio">
               <span class="stereo-led" id="ledStereoPlay"></span>
-              <span class="stereo-btn-label">&#9654; PLAY</span>
-            </button>
-            <button class="stereo-btn active-pause" id="btnStereoPause" onclick="stereoPause()" title="Pause Live Music" aria-label="Pause Live Radio">
-              <span class="stereo-led" id="ledStereoPause"></span>
-              <span class="stereo-btn-label">&#10074;&#10074; PAUSE</span>
+              <span class="stereo-btn-label" id="lblStereoPlay">&#9654; PLAY</span>
             </button>
           </div>
 
@@ -6209,6 +6210,7 @@
 
       updateUI() {
         const playBtn = document.getElementById('btnStereoPlay');
+        const playLbl = document.getElementById('lblStereoPlay');
         const pauseBtn = document.getElementById('btnStereoPause');
         const legacyBtn = document.getElementById('musicToggleBtn');
         const eq = document.getElementById('musicEqBars');
@@ -6248,10 +6250,18 @@
         updateStereoModalSpotlight(this.currentStation);
 
         if (this.isPlaying) {
-          if (playBtn) playBtn.classList.add('active-play');
+          if (playBtn) {
+            playBtn.classList.add('is-playing', 'state-stop');
+            playBtn.classList.remove('not-playing', 'state-play');
+            playBtn.title = 'Stop Live Music';
+            playBtn.setAttribute('aria-label', 'Stop Live Radio');
+          }
+          if (playLbl) {
+            playLbl.innerHTML = '&#9632; STOP';
+          }
           if (pauseBtn) pauseBtn.classList.remove('active-pause');
           if (legacyBtn) {
-            legacyBtn.innerHTML = '&#10074;&#10074;';
+            legacyBtn.innerHTML = '&#9632;';
             legacyBtn.classList.add('playing');
           }
           if (eq) eq.classList.add('playing');
@@ -6266,7 +6276,15 @@
             }
           }
         } else {
-          if (playBtn) playBtn.classList.remove('active-play');
+          if (playBtn) {
+            playBtn.classList.add('not-playing', 'state-play');
+            playBtn.classList.remove('is-playing', 'state-stop');
+            playBtn.title = 'Play Live Music';
+            playBtn.setAttribute('aria-label', 'Play Live Radio');
+          }
+          if (playLbl) {
+            playLbl.innerHTML = '&#9654; PLAY';
+          }
           if (pauseBtn) pauseBtn.classList.add('active-pause');
           if (legacyBtn) {
             legacyBtn.innerHTML = '&#9654;';
