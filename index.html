@@ -356,6 +356,45 @@
       color: #FFFFFF;
     }
 
+    .condition-state-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #38BDF8;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 2px 8px;
+    }
+
+    .vibe-condition-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+
+    .vibe-condition-kicker .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #06B6D4;
+      display: inline-block;
+      box-shadow: 0 0 8px #06B6D4;
+      animation: pulseGlow 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
     .vibe-text-group h2 {
       font-size: 1.4rem;
       font-weight: 700;
@@ -1846,25 +1885,31 @@
     <!-- PRIMARY STATUS CARDS (FLEX STACK, 16px GAP) -->
     <div class="status-cards-stack">
 
-      <!-- CARD 1: THE VIBE SCORE -->
+      <!-- CARD 1: RIVER FLOAT CONDITION & VIBE STATE -->
       <article class="card" id="vibeCard">
         <div class="card-header-row">
           <span class="card-title">
-            <span>✨</span> The Vibe Score
+            <span>🌊</span> River Float Condition &amp; Tubing Vibe
           </span>
-          <span id="vibeLastUpdated" style="font-size: 0.72rem; color: var(--text-subtle);">Updating...</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="condition-state-pill">Real-Time State</span>
+            <span id="vibeLastUpdated" style="font-size: 0.72rem; color: var(--text-subtle);">Updating...</span>
+          </div>
         </div>
 
         <div class="vibe-main-content">
           <div class="vibe-grade-box">
             <div class="vibe-grade-badge" id="vibeBadge">--</div>
             <div class="vibe-text-group">
+              <div class="vibe-condition-kicker">
+                <span class="pulse-dot"></span> Current River Condition &bull; Flow State
+              </div>
               <h2 id="vibeTitle">Evaluating Conditions...</h2>
-              <p id="vibeDescription">Fetching streamflow and weather data to calculate river vibes.</p>
+              <p id="vibeDescription">Fetching streamflow and weather data to calculate river floating conditions.</p>
             </div>
           </div>
-          <div class="vibe-illustration-box" id="vibeIllustrationBox" title="Current Tubing Vibe">
-            <img id="vibeIllustrationImg" src="assets/vibes/chill-float.jpg" alt="San Marcos Tubing Vibe Cartoon" />
+          <div class="vibe-illustration-box" id="vibeIllustrationBox" title="Current Tubing Condition Illustration">
+            <img id="vibeIllustrationImg" src="assets/vibes/chill-float.jpg" alt="San Marcos River Tubing Condition Illustration" />
           </div>
         </div>
 
@@ -2013,10 +2058,10 @@
 
       <div class="scenario-buttons">
         <button class="btn-scenario active" id="btnLive" onclick="setScenario('live')">🌐 Live USGS/NWS Data</button>
-        <button class="btn-scenario" id="btnChill" onclick="setScenario('chill')">😎 Perfect Chill & Float</button>
-        <button class="btn-scenario" id="btnBumper" onclick="setScenario('bumper')">🪨 Booty Bumper (&lt;100 CFS)</button>
-        <button class="btn-scenario" id="btnMuddy" onclick="setScenario('muddy')">🍫 Chocolate Milk (&gt;50 NTU)</button>
-        <button class="btn-scenario" id="btnFlood" onclick="setScenario('flood')">⚠️ Flood / Biohazard (&gt;500 CFS)</button>
+        <button class="btn-scenario" id="btnChill" onclick="setScenario('chill')">😎 Optimal Flow: "Chill &amp; Float"</button>
+        <button class="btn-scenario" id="btnBumper" onclick="setScenario('bumper')">🪨 Low Flow: "Booty Bumper" (&lt;100 CFS)</button>
+        <button class="btn-scenario" id="btnMuddy" onclick="setScenario('muddy')">🍫 Murky Flow: "Chocolate Milk" (&gt;50 NTU)</button>
+        <button class="btn-scenario" id="btnFlood" onclick="setScenario('flood')">⚠️ Flood Flow: Washout (&gt;500 CFS)</button>
         <button class="btn-scenario" id="btnDarter" onclick="setScenario('darter')">🦤 Spring Darter Season</button>
       </div>
 
@@ -2867,50 +2912,51 @@
       // Check conditions in specified hierarchy
       if (state.ecoli > 399 || state.cfs > 500) {
         vibeGrade = 'F';
-        vibeTitle = "Biohazard or Washout";
+        vibeTitle = 'Condition: "Biohazard / Washout"';
         vibeDesc = state.cfs > 500 
-          ? "DANGER: High flood velocity (>500 CFS). Tubing suspended!" 
-          : "SAFETY ALERT: High bacterial count (>399 cfu). Water contact unsafe!";
+          ? "Dangerous flood flow condition (>500 CFS). Extreme current velocity — river suspended for tubing!" 
+          : "Safety alert condition: High bacterial count (>399 cfu). Water contact unsafe!";
         vibeBorderClass = 'border-danger';
         vibeBadgeClass = 'grade-F';
         vibeImage = 'assets/vibes/washout.jpg';
         vibeImageAlt = 'Wild Washout Chaos Cartoon';
         tags = [
-          state.cfs > 500 ? '🚨 Dangerous Velocity' : '🦠 High E. coli',
-          '⛔ Avoid Tubing'
+          state.cfs > 500 ? '🚨 Dangerous Flood Flow' : '🦠 High E. coli Alert',
+          '⛔ Avoid Tubing',
+          '📊 Status: Unsafe Flow'
         ];
       } else if (state.turbidity > 50) {
         vibeGrade = 'C';
-        vibeTitle = "Chocolate Milk";
-        vibeDesc = "High turbidity (>50 NTU) following upstream rain. Water is murky brown.";
+        vibeTitle = 'Condition: "Chocolate Milk" (Murky Flow)';
+        vibeDesc = "Murky water condition (>50 NTU) following upstream rain runoff. River is cloudy brown with low underwater visibility.";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-C';
         vibeImage = 'assets/vibes/chocolate-milk.jpg';
         vibeImageAlt = 'Chocolate Milk Muddy Water Cartoon';
-        tags = ['🍫 Murky Water', '⚠️ Low Visibility', '🌊 Moderate Velocity'];
+        tags = ['🍫 Murky Flow (>50 NTU)', '⚠️ Low Visibility', '🌊 Moderate Drift'];
       } else if (state.cfs < 100) {
         vibeGrade = 'B';
-        vibeTitle = "Booty Bumper";
-        vibeDesc = "Shallow water flow (<100 CFS). Prepare to scrape rocks in shallow rapids!";
+        vibeTitle = 'Condition: "Booty Bumper" (Shallow Flow)';
+        vibeDesc = "Shallow water flow condition (<100 CFS). Low river levels expose riverbed rocks — expect your tube to bump rocks in shallow rapids!";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-B';
         vibeImage = 'assets/vibes/booty-bumper.jpg';
         vibeImageAlt = 'Booty Bumper Rock Scrape Cartoon';
-        tags = ['🪨 Shallow Rapids', '🐢 Slow Drift', '☀️ Warm Sun'];
+        tags = ['📊 Low Flow (<100 CFS)', '🪨 Shallow Rapids', '🐢 Slow Drift'];
       } else if (state.cfs >= 150 && state.cfs <= 250 && state.turbidity < 10 && state.airTemp > 80) {
         vibeGrade = 'A+';
-        vibeTitle = "Chill & Float";
-        vibeDesc = "Prime San Marcos tubing! Crisp 72°F spring water, crystal clarity, and warm sunshine.";
+        vibeTitle = 'Condition: "Chill & Float" (Optimal Flow)';
+        vibeDesc = "Prime San Marcos tubing condition! Crisp 72°F spring water, crystal clarity, and warm sunshine.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
         vibeImage = 'assets/vibes/chill-float.jpg';
         vibeImageAlt = 'Chill and Float Vibe Cartoon';
-        tags = ['🌊 Ideal Flow (150-250 CFS)', '💎 Crystal Clear', '☀️ Hot Air (>80°F)'];
+        tags = ['🌊 Ideal Flow (150-250 CFS)', '💎 Crystal Clear', '☀️ Warm Sun (>80°F)'];
       } else {
         // Moderate / Good default condition
         vibeGrade = 'A';
-        vibeTitle = "Great Floating";
-        vibeDesc = "Solid river conditions for an enjoyable float down the San Marcos.";
+        vibeTitle = 'Condition: "Great Floating" (Standard Flow)';
+        vibeDesc = "Solid river flow conditions for an enjoyable float down the San Marcos.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
         vibeImage = 'assets/vibes/great-floating.jpg';
