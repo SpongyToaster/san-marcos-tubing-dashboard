@@ -2095,19 +2095,20 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
     .stereo-vfd-display {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: #021417;
+      gap: 9px;
+      background: #021215;
       background-image: 
-        linear-gradient(rgba(0, 240, 255, 0.035) 50%, rgba(0, 0, 0, 0.3) 50%),
-        radial-gradient(ellipse at center, rgba(4, 40, 46, 0.92) 0%, #021214 100%);
+        linear-gradient(rgba(0, 240, 255, 0.04) 50%, rgba(0, 0, 0, 0.35) 50%),
+        radial-gradient(ellipse at center, rgba(3, 45, 52, 0.95) 0%, #010f12 100%);
       background-size: 100% 2px, 100% 100%;
-      border: 1.5px solid #142e34;
-      border-top-color: #0b1d20;
-      border-bottom-color: #244b54;
+      border: 2px solid #142e34;
+      border-top-color: #07191c;
+      border-bottom-color: #29555f;
       border-radius: 4px;
-      padding: 3px 8px;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.1);
-      min-width: 175px;
+      padding: 4px 9px;
+      box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.12);
+      min-width: 225px;
+      max-width: 255px;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
@@ -2143,32 +2144,34 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       font-size: 11px;
       font-weight: 700;
       color: #00F0FF;
-      text-shadow: 0 0 7px rgba(0, 240, 255, 0.8), 0 0 14px rgba(0, 240, 255, 0.4);
-      letter-spacing: 0.06em;
+      text-shadow: 0 0 7px rgba(0, 240, 255, 0.85), 0 0 15px rgba(0, 240, 255, 0.45);
+      letter-spacing: 0.05em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 135px;
+      flex: 1;
+      min-width: 0;
     }
 
-    /* Multi-segment Spectrum Analyzer / VU Meter */
+    /* Multi-segment Spectrum Analyzer / Graphic Equalizer */
     .stereo-vu-meter {
       display: flex;
       align-items: flex-end;
       gap: 2px;
-      height: 14px;
-      padding: 1px;
-      background: rgba(0, 0, 0, 0.6);
+      height: 15px;
+      padding: 1px 2px;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(0, 240, 255, 0.2);
       border-radius: 2px;
       flex-shrink: 0;
     }
 
     .vu-bar {
-      width: 3px;
+      width: 3.5px;
       height: 100%;
       display: flex;
       align-items: flex-end;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 1px;
       overflow: hidden;
     }
@@ -2176,28 +2179,32 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
     .vu-bar-fill {
       width: 100%;
       height: 25%;
-      background: linear-gradient(to top, #10B981 0%, #10B981 60%, #FACC15 60%, #FACC15 85%, #EF4444 85%, #EF4444 100%);
+      background: linear-gradient(to top, #10B981 0%, #10B981 55%, #FACC15 55%, #FACC15 80%, #EF4444 80%, #EF4444 100%);
       border-radius: 1px;
-      transition: height 0.1s ease;
+      transition: height 0.08s ease;
     }
 
     .stereo-vu-meter.playing .vu-bar:nth-child(1) .vu-bar-fill {
-      animation: vuBounce1 0.45s infinite ease-in-out alternate;
+      animation: vuBounce1 0.42s infinite ease-in-out alternate;
     }
     .stereo-vu-meter.playing .vu-bar:nth-child(2) .vu-bar-fill {
-      animation: vuBounce2 0.35s infinite ease-in-out alternate 0.1s;
+      animation: vuBounce2 0.32s infinite ease-in-out alternate 0.08s;
     }
     .stereo-vu-meter.playing .vu-bar:nth-child(3) .vu-bar-fill {
-      animation: vuBounce3 0.55s infinite ease-in-out alternate 0.05s;
+      animation: vuBounce3 0.5s infinite ease-in-out alternate 0.04s;
     }
     .stereo-vu-meter.playing .vu-bar:nth-child(4) .vu-bar-fill {
-      animation: vuBounce4 0.4s infinite ease-in-out alternate 0.15s;
+      animation: vuBounce4 0.38s infinite ease-in-out alternate 0.12s;
+    }
+    .stereo-vu-meter.playing .vu-bar:nth-child(5) .vu-bar-fill {
+      animation: vuBounce5 0.46s infinite ease-in-out alternate 0.06s;
     }
 
     @keyframes vuBounce1 { 0% { height: 20%; } 100% { height: 95%; } }
     @keyframes vuBounce2 { 0% { height: 35%; } 100% { height: 100%; } }
     @keyframes vuBounce3 { 0% { height: 15%; } 100% { height: 85%; } }
-    @keyframes vuBounce4 { 0% { height: 30%; } 100% { height: 90%; } }
+    @keyframes vuBounce4 { 0% { height: 30%; } 100% { height: 92%; } }
+    @keyframes vuBounce5 { 0% { height: 25%; } 100% { height: 96%; } }
 
     /* Preset Selector styled like 90s CD/Cassette Slot */
     .stereo-preset-select, .music-preset-select {
@@ -2839,34 +2846,35 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
           </div>
 
           <!-- Recessed VFD / LCD Dot-Matrix Display Screen -->
-          <div class="stereo-vfd-display" id="stereoVfdDisplay" title="Backlit VFD Quartz Display">
+          <div class="stereo-vfd-display" id="stereoVfdDisplay" title="Backlit VFD Quartz Display with Graphic Equalizer">
             <div class="stereo-badges">
               <span class="vfd-badge-st" id="vfdBadgeSt">ST</span>
               <span class="vfd-badge-live">LIVE</span>
             </div>
-            <div class="stereo-vu-meter music-eq-bars" id="musicEqBars">
+            <div class="stereo-vu-meter music-eq-bars" id="musicEqBars" title="5-Band Graphic Equalizer">
+              <div class="vu-bar"><div class="vu-bar-fill"></div></div>
               <div class="vu-bar"><div class="vu-bar-fill"></div></div>
               <div class="vu-bar"><div class="vu-bar-fill"></div></div>
               <div class="vu-bar"><div class="vu-bar-fill"></div></div>
               <div class="vu-bar"><div class="vu-bar-fill"></div></div>
             </div>
-            <span class="stereo-vfd-text" id="musicStatusLabel">KTSW 89.9 FM</span>
+            <span class="stereo-vfd-text" id="musicStatusLabel">Boot Liquor - SOMA.FM</span>
           </div>
 
           <!-- Station Selection Dropdown (Preset Slot) -->
           <select class="stereo-preset-select music-preset-select" id="musicPresetSelect" onchange="tuneStereoStation(this.value)" aria-label="Select Radio Station">
-            <optgroup label="📻 San Marcos &amp; Central TX Local">
-              <option value="ktsw" selected>&#128251; KTSW 89.9 FM (TX State)</option>
-              <option value="kzsm">&#128251; KZSM 104.1 FM (SM Community)</option>
-              <option value="kutx">&#128251; KUTX 98.9 FM (Austin Radio)</option>
+            <optgroup label="SOMA.FM Commercial-Free Channels">
+              <option value="bootliquor" selected>Boot Liquor - SOMA.FM</option>
+              <option value="reggae">Heavyweight Reggae - SOMA.FM</option>
+              <option value="seventies">Left Coast 70s - SOMA.FM</option>
+              <option value="u80s">Underground 80s - SOMA.FM</option>
+              <option value="7soul">Seven Inch Soul - SOMA.FM</option>
+              <option value="folkfwd">Folk Forward - SOMA.FM</option>
             </optgroup>
-            <optgroup label="🌊 SomaFM Playlists (100% Commercial-Free)">
-              <option value="reggae">&#127796; Heavyweight Reggae (SomaFM)</option>
-              <option value="seventies">&#9728;&#65039; Left Coast 70s (SomaFM)</option>
-              <option value="u80s">&#9889; Underground 80s (SomaFM)</option>
-              <option value="bootliquor">&#129312; Boot Liquor Country (SomaFM)</option>
-              <option value="7soul">&#127927; Seven Inch Soul (SomaFM)</option>
-              <option value="folkfwd">&#129685; Folk Forward (SomaFM)</option>
+            <optgroup label="San Marcos &amp; Central Texas Local">
+              <option value="ktsw">KTSW 89.9 FM - Texas State</option>
+              <option value="kzsm">KZSM 104.1 FM - San Marcos Radio</option>
+              <option value="kutx">KUTX 98.9 FM - UT Austin Radio</option>
             </optgroup>
           </select>
 
@@ -6162,62 +6170,30 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
     // Streaming Live Public & Ad-Free Music + Offline Synth Fallback
     // ==========================================
     const STEREO_STATIONS = [
-      // San Marcos & Central Texas Local Public Radio
+      // Commercial-Free SomaFM Channels
       { 
-        id: 'ktsw', 
-        name: 'KTSW 89.9 FM', 
-        dial: '89.9 FM', 
-        label: 'TX State University', 
-        genre: 'Indie, Alt-Rock, Local News & Sports',
-        origin: 'Texas State University Student Radio',
-        originCity: 'San Marcos, TX',
-        provider: 'Texas State University',
-        siteUrl: 'https://ktsw899.com/',
-        mainSiteUrl: 'https://ktsw899.com/',
-        isSoma: false,
-        logo: '',
-        url: 'https://ktswlive.txstate.edu:8102/listen', 
-        synthPreset: 'breeze' 
-      },
-      { 
-        id: 'kzsm', 
-        name: 'KZSM 104.1 FM', 
-        dial: '104.1 FM', 
-        label: 'SM Community Radio', 
-        genre: 'Downtown San Marcos Community & Local Arts',
-        origin: 'San Marcos Downtown Community Radio (Hopkins St)',
-        originCity: 'San Marcos, TX',
-        provider: 'KZSM.org 501(c)(3)',
-        siteUrl: 'https://kzsm.org/',
-        mainSiteUrl: 'https://kzsm.org/',
-        isSoma: false,
-        logo: '',
-        url: 'https://ice42.securenetsystems.net/KZSM', 
-        synthPreset: 'golden' 
-      },
-      { 
-        id: 'kutx', 
-        name: 'KUTX 98.9 FM', 
-        dial: '98.9 FM', 
-        label: 'Austin Music Exper.', 
-        genre: 'Indie Rock & Austin Music Experience',
-        origin: 'University of Texas at Austin / Austin Public Radio',
-        originCity: 'Austin, TX',
-        provider: 'KUTX / UT Austin',
-        siteUrl: 'https://kutx.org/',
-        mainSiteUrl: 'https://kutx.org/',
-        isSoma: false,
-        logo: '',
-        url: 'https://streams.kut.org/4428_192.mp3', 
+        id: 'bootliquor', 
+        name: 'Boot Liquor', 
+        dial: 'SOMA.FM', 
+        displayName: 'Boot Liquor - SOMA.FM',
+        label: 'Boot Liquor - SOMA.FM', 
+        genre: 'Americana, Roots, Outlaw Country & Cowpunk',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/bootliquor/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/bootliquor120.jpg',
+        url: 'https://ice1.somafm.com/bootliquor-128-mp3', 
         synthPreset: 'sunset' 
       },
-      
-      // 100% Commercial-Free SomaFM Playlists (Specifically Requested)
       { 
         id: 'reggae', 
         name: 'Heavyweight Reggae', 
-        dial: 'SOMA-REG', 
-        label: 'Heavyweight Reggae', 
+        dial: 'SOMA.FM', 
+        displayName: 'Heavyweight Reggae - SOMA.FM',
+        label: 'Heavyweight Reggae - SOMA.FM', 
         genre: 'Reggae, Ska, Dub & Roots',
         origin: 'SomaFM Commercial-Free Listener-Supported Radio',
         originCity: 'San Francisco, CA',
@@ -6232,8 +6208,9 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       { 
         id: 'seventies', 
         name: 'Left Coast 70s', 
-        dial: 'SOMA-70S', 
-        label: 'Left Coast 70s', 
+        dial: 'SOMA.FM', 
+        displayName: 'Left Coast 70s - SOMA.FM',
+        label: 'Left Coast 70s - SOMA.FM', 
         genre: 'Mellow 70s Pop, Rock & Yacht Rock',
         origin: 'SomaFM Commercial-Free Listener-Supported Radio',
         originCity: 'San Francisco, CA',
@@ -6248,8 +6225,9 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       { 
         id: 'u80s', 
         name: 'Underground 80s', 
-        dial: 'SOMA-80S', 
-        label: 'Underground 80s', 
+        dial: 'SOMA.FM', 
+        displayName: 'Underground 80s - SOMA.FM',
+        label: 'Underground 80s - SOMA.FM', 
         genre: 'Early 80s UK Synthpop, New Wave & Post-Punk',
         origin: 'SomaFM Commercial-Free Listener-Supported Radio',
         originCity: 'San Francisco, CA',
@@ -6262,26 +6240,11 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         synthPreset: 'breeze' 
       },
       { 
-        id: 'bootliquor', 
-        name: 'Boot Liquor', 
-        dial: 'SOMA-BOOT', 
-        label: 'Boot Liquor', 
-        genre: 'Americana, Roots, Outlaw Country & Cowpunk',
-        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
-        originCity: 'San Francisco, CA',
-        provider: 'SomaFM',
-        siteUrl: 'https://somafm.com/bootliquor/',
-        mainSiteUrl: 'https://somafm.com/',
-        isSoma: true,
-        logo: 'https://api.somafm.com/logos/120/bootliquor120.jpg',
-        url: 'https://ice1.somafm.com/bootliquor-128-mp3', 
-        synthPreset: 'sunset' 
-      },
-      { 
         id: '7soul', 
         name: 'Seven Inch Soul', 
-        dial: 'SOMA-SOUL', 
-        label: 'Seven Inch Soul', 
+        dial: 'SOMA.FM', 
+        displayName: 'Seven Inch Soul - SOMA.FM',
+        label: 'Seven Inch Soul - SOMA.FM', 
         genre: 'Vintage 45 RPM Soul, Funk & R&B Classics',
         origin: 'SomaFM Commercial-Free Listener-Supported Radio',
         originCity: 'San Francisco, CA',
@@ -6296,8 +6259,9 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       { 
         id: 'folkfwd', 
         name: 'Folk Forward', 
-        dial: 'SOMA-FOLK', 
-        label: 'Folk Forward', 
+        dial: 'SOMA.FM', 
+        displayName: 'Folk Forward - SOMA.FM',
+        label: 'Folk Forward - SOMA.FM', 
         genre: 'Indie Folk, Acoustic Americana & Contemporary Roots',
         origin: 'SomaFM Commercial-Free Listener-Supported Radio',
         originCity: 'San Francisco, CA',
@@ -6307,6 +6271,59 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         isSoma: true,
         logo: 'https://api.somafm.com/logos/120/folkfwd120.jpg',
         url: 'https://ice1.somafm.com/folkfwd-128-mp3', 
+        synthPreset: 'sunset' 
+      },
+
+      // San Marcos & Central Texas Local Stations
+      { 
+        id: 'ktsw', 
+        name: 'KTSW 89.9 FM', 
+        dial: '89.9 FM', 
+        displayName: 'KTSW 89.9 FM - Texas State',
+        label: 'KTSW 89.9 FM - Texas State', 
+        genre: 'Indie & Alternative Rock',
+        origin: 'Texas State University Student Radio',
+        originCity: 'San Marcos, TX',
+        provider: 'Texas State University',
+        siteUrl: 'https://ktsw899.com/',
+        mainSiteUrl: 'https://www.txstate.edu/',
+        isSoma: false,
+        logo: '',
+        url: 'https://ktswlive.txstate.edu:8102/listen', 
+        synthPreset: 'breeze' 
+      },
+      { 
+        id: 'kzsm', 
+        name: 'KZSM 104.1 FM', 
+        dial: '104.1 FM', 
+        displayName: 'KZSM 104.1 FM - San Marcos Radio',
+        label: 'KZSM 104.1 FM - San Marcos Radio', 
+        genre: 'Community Grassroots & Local Talk',
+        origin: 'San Marcos Community Radio (501(c)(3) Non-Profit)',
+        originCity: 'San Marcos, TX (Hopkins St)',
+        provider: 'KZSM Community Radio',
+        siteUrl: 'https://kzsm.org/',
+        mainSiteUrl: 'https://kzsm.org/',
+        isSoma: false,
+        logo: '',
+        url: 'https://ice42.securenetsystems.net/KZSM', 
+        synthPreset: 'golden' 
+      },
+      { 
+        id: 'kutx', 
+        name: 'KUTX 98.9 FM', 
+        dial: '98.9 FM', 
+        displayName: 'KUTX 98.9 FM - UT Austin Radio',
+        label: 'KUTX 98.9 FM - UT Austin Radio', 
+        genre: 'Indie Rock & Austin Music Experience',
+        origin: 'University of Texas at Austin / Austin Public Radio',
+        originCity: 'Austin, TX',
+        provider: 'KUTX / UT Austin',
+        siteUrl: 'https://kutx.org/',
+        mainSiteUrl: 'https://kutx.org/',
+        isSoma: false,
+        logo: '',
+        url: 'https://streams.kut.org/4428_192.mp3', 
         synthPreset: 'sunset' 
       }
     ];
@@ -6357,7 +6374,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         this.isPlaying = true;
         this.isFallback = false;
         const lbl = document.getElementById('musicStatusLabel');
-        if (lbl) lbl.innerText = `TUNING ${this.currentStation.dial}...`;
+        if (lbl) lbl.innerText = `TUNING ${this.currentStation.displayName || this.currentStation.name}...`;
 
         try {
           this.audio.src = this.currentStation.url;
@@ -6457,7 +6474,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         const deckSrcLink = document.getElementById('stereoDeckSrcLink');
         if (deckSrcLink) {
           deckSrcLink.href = this.currentStation.siteUrl;
-          deckSrcLink.title = `Jump to ${this.currentStation.name} official webpage (${this.currentStation.siteUrl})`;
+          deckSrcLink.title = `Jump to ${this.currentStation.displayName || this.currentStation.name} official webpage (${this.currentStation.siteUrl})`;
         }
 
         // Live attribution strip beneath stereo deck
@@ -6466,8 +6483,10 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         const attrSource = document.getElementById('stereoAttrSource');
         const attrBadgeBtn = document.getElementById('stereoAttrBadgeBtn');
 
+        const currentDisplayTitle = this.currentStation.displayName || (this.currentStation.isSoma ? `${this.currentStation.name} - SOMA.FM` : this.currentStation.name);
+
         if (attrLink) attrLink.href = this.currentStation.siteUrl;
-        if (attrName) attrName.innerText = this.currentStation.name;
+        if (attrName) attrName.innerText = currentDisplayTitle;
         if (attrSource) attrSource.innerText = this.currentStation.provider;
         if (attrBadgeBtn) {
           attrBadgeBtn.innerHTML = this.currentStation.isSoma 
@@ -6493,7 +6512,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
               const sName = this.offlineSynth.presets[this.offlineSynth.currentPreset]?.name || 'Offline Synth';
               lbl.innerText = `${sName} (OFFLINE)`;
             } else {
-              lbl.innerText = `${this.currentStation.dial} ${this.currentStation.name}`;
+              lbl.innerText = currentDisplayTitle;
             }
           }
         } else {
@@ -6507,7 +6526,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
           if (stBadge) stBadge.classList.remove('lit');
 
           if (lbl) {
-            lbl.innerText = `${this.currentStation.dial} ${this.currentStation.name}`;
+            lbl.innerText = currentDisplayTitle;
           }
         }
       }
@@ -6515,6 +6534,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
 
     const riverStereo = new RiversoundCarStereoEngine();
     const riverRadio = riverStereo; // for backwards compatibility
+    riverStereo.updateUI();
 
     // Vintage 1990s tactile mechanical button click sound synthesizer
     function playStereoClick(type = 'click') {
