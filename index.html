@@ -1824,6 +1824,30 @@
       cursor: pointer;
     }
 
+    .btn-music-shuffle {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #E2E8F0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .btn-music-shuffle:hover {
+      background: rgba(6, 182, 212, 0.25);
+      border-color: #38BDF8;
+      color: #FFFFFF;
+      transform: rotate(45deg);
+    }
+
     /* DOWNLOAD STANDALONE BUTTON */
     .btn-download-app {
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 182, 212, 0.18));
@@ -1892,9 +1916,9 @@
       </div>
     </div>
     <div class="header-actions">
-      <!-- SUMMER CHILL VIBE MUSIC PLAYER -->
-      <div class="chill-music-player" id="chillMusicPlayer" title="Summer Chill Vibe Music">
-        <button class="btn-music-toggle" id="musicToggleBtn" onclick="toggleSummerMusic()" aria-label="Play Summer Chill Music">&#9654;</button>
+      <!-- SUMMER CHILL VIBE LIVE STREAMING RADIO & MUSIC PLAYER -->
+      <div class="chill-music-player" id="chillMusicPlayer" title="Live River Radio & Chill Vibe Music">
+        <button class="btn-music-toggle" id="musicToggleBtn" onclick="toggleRiverMusic()" aria-label="Play Live River Music">&#9654;</button>
         <div class="music-now-playing">
           <div class="music-eq-bars" id="musicEqBars">
             <span class="eq-bar"></span>
@@ -1902,13 +1926,14 @@
             <span class="eq-bar"></span>
             <span class="eq-bar"></span>
           </div>
-          <span id="musicStatusLabel">Summer Chill</span>
+          <span id="musicStatusLabel">Island Reggae</span>
         </div>
-        <select class="music-preset-select" id="musicPresetSelect" onchange="changeMusicPreset(this.value)" aria-label="Music Mood">
-          <option value="sunset">&#127749; Sunset Float</option>
-          <option value="breeze">&#127754; River Breeze</option>
-          <option value="golden">&#9728;&#65039; Golden Hour</option>
+        <select class="music-preset-select" id="musicPresetSelect" onchange="changeMusicTheme(this.value)" aria-label="Music Stream Theme">
+          <option value="reggae">&#127796; Island Reggae</option>
+          <option value="country">&#129312; Classic Country</option>
+          <option value="pop">&#9728;&#65039; Summer Pop</option>
         </select>
+        <button class="btn-music-shuffle" id="musicShuffleBtn" onclick="shuffleRiverStation()" title="Shuffle to another live station in this theme" aria-label="Shuffle Station">&#127922;</button>
         <input type="range" class="music-vol-slider" id="musicVolumeSlider" min="0" max="1" step="0.05" value="0.45" oninput="changeMusicVolume(this.value)" aria-label="Volume" title="Music Volume" />
       </div>
 
@@ -5031,19 +5056,228 @@
       }
     }
 
-    const summerMusic = new SummerChillMusicEngine();
+    // ==========================================
+    // RIVER VIBE LIVE RADIO & OFFLINE SYNTH ENGINE
+    // Streaming Live Internet Radio with 3 Curated Themes + Offline Fallback
+    // ==========================================
+    const RIVER_RADIO_STATIONS = {
+      reggae: [
+        { name: 'SomaFM Heavyweight Reggae', url: 'https://ice1.somafm.com/reggae-128-mp3' },
+        { name: 'Reggae Chill Cafe', url: 'https://maggie.torontocast.com:2020/stream/reggaechillcafe' },
+        { name: 'SomaFM Heavyweight (Alt)', url: 'https://ice4.somafm.com/reggae-128-mp3' }
+      ],
+      country: [
+        { name: '181.FM Real Country', url: 'https://listen.181fm.com/181-realcountry_128k.mp3' },
+        { name: 'SomaFM Boot Liquor (Outlaw)', url: 'https://ice1.somafm.com/bootliquor-128-mp3' },
+        { name: '181.FM 90s Country', url: 'https://listen.181fm.com/181-90scountry_128k.mp3' },
+        { name: '181.FM Highway 181', url: 'https://listen.181fm.com/181-highway_128k.mp3' }
+      ],
+      pop: [
+        { name: 'SomaFM Left Coast 70s', url: 'https://ice1.somafm.com/seventies-128-mp3' },
+        { name: '181.FM Good Time Oldies', url: 'https://listen.181fm.com/181-goodtime_128k.mp3' },
+        { name: 'SomaFM PopTron (Upbeat Pop)', url: 'https://ice1.somafm.com/poptron-128-mp3' },
+        { name: '181.FM Awesome 80s', url: 'https://listen.181fm.com/181-awesome80s_128k.mp3' }
+      ]
+    };
+
+    class RiverStreamRadioEngine {
+      constructor() {
+        this.audio = new Audio();
+        this.audio.preload = 'none';
+        this.offlineSynth = new SummerChillMusicEngine();
+        this.currentTheme = 'reggae';
+        this.currentStationIndex = 0;
+        this.isPlaying = false;
+        this.isFallback = false;
+        this.volume = 0.45;
+        this.audio.volume = this.volume;
+
+        // Audio stream lifecycle handlers
+        this.audio.addEventListener('playing', () => {
+          this.isFallback = false;
+          this.offlineSynth.stop();
+          this.isPlaying = true;
+          this.updateUI();
+        });
+
+        this.audio.addEventListener('waiting', () => {
+          const lbl = document.getElementById('musicStatusLabel');
+          if (lbl && this.isPlaying && !this.isFallback) lbl.innerText = 'Buffering...';
+        });
+
+        this.audio.addEventListener('error', (e) => {
+          console.warn('Live radio stream interrupted, falling back to offline synth:', e);
+          if (this.isPlaying && !this.isFallback) {
+            this.activateOfflineFallback();
+          }
+        });
+
+        this.audio.addEventListener('ended', () => {
+          if (this.isPlaying && !this.isFallback) {
+            this.shuffleStation();
+          }
+        });
+      }
+
+      getCurrentStation() {
+        const list = RIVER_RADIO_STATIONS[this.currentTheme] || RIVER_RADIO_STATIONS.reggae;
+        return list[this.currentStationIndex % list.length];
+      }
+
+      toggle() {
+        if (this.isPlaying) {
+          this.stop();
+        } else {
+          this.play();
+        }
+      }
+
+      play() {
+        this.isPlaying = true;
+        this.isFallback = false;
+        const station = this.getCurrentStation();
+        const lbl = document.getElementById('musicStatusLabel');
+        if (lbl) lbl.innerText = 'Connecting...';
+        
+        try {
+          this.audio.src = station.url;
+          this.audio.volume = this.volume;
+          const playPromise = this.audio.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((err) => {
+              console.warn('Playback error / autoplay policy:', err);
+              this.activateOfflineFallback();
+            });
+          }
+        } catch (err) {
+          console.warn('Stream setup error:', err);
+          this.activateOfflineFallback();
+        }
+        this.updateUI();
+      }
+
+      stop() {
+        this.isPlaying = false;
+        try {
+          this.audio.pause();
+          this.audio.src = '';
+        } catch (_) {}
+        this.offlineSynth.stop();
+        this.isFallback = false;
+        this.updateUI();
+      }
+
+      activateOfflineFallback() {
+        this.isFallback = true;
+        try {
+          this.audio.pause();
+        } catch (_) {}
+        const synthMap = { reggae: 'golden', country: 'sunset', pop: 'breeze' };
+        this.offlineSynth.setPreset(synthMap[this.currentTheme] || 'sunset');
+        this.offlineSynth.setVolume(this.volume);
+        this.offlineSynth.play();
+        this.updateUI();
+      }
+
+      setTheme(theme) {
+        if (!RIVER_RADIO_STATIONS[theme]) return;
+        this.currentTheme = theme;
+        const list = RIVER_RADIO_STATIONS[theme];
+        this.currentStationIndex = Math.floor(Math.random() * list.length);
+        if (this.isPlaying) {
+          this.play();
+        } else {
+          this.updateUI();
+        }
+      }
+
+      shuffleStation() {
+        const list = RIVER_RADIO_STATIONS[this.currentTheme];
+        if (list.length > 1) {
+          let nextIdx = Math.floor(Math.random() * list.length);
+          if (nextIdx === this.currentStationIndex) {
+            nextIdx = (this.currentStationIndex + 1) % list.length;
+          }
+          this.currentStationIndex = nextIdx;
+        }
+        this.play();
+      }
+
+      setVolume(val) {
+        this.volume = Math.max(0, Math.min(1, parseFloat(val)));
+        this.audio.volume = this.volume;
+        this.offlineSynth.setVolume(this.volume);
+      }
+
+      updateUI() {
+        const btn = document.getElementById('musicToggleBtn');
+        const eq = document.getElementById('musicEqBars');
+        const lbl = document.getElementById('musicStatusLabel');
+        const select = document.getElementById('musicPresetSelect');
+
+        if (select && select.value !== this.currentTheme) {
+          select.value = this.currentTheme;
+        }
+
+        if (this.isPlaying) {
+          if (btn) {
+            btn.innerHTML = '&#10074;&#10074;';
+            btn.classList.add('playing');
+            btn.setAttribute('aria-label', 'Pause Music');
+          }
+          if (eq) eq.classList.add('playing');
+          if (lbl) {
+            if (this.isFallback) {
+              const synthName = this.offlineSynth.presets[this.offlineSynth.currentPreset]?.name || 'Offline Synth';
+              lbl.innerText = `${synthName} (Offline)`;
+            } else {
+              const station = this.getCurrentStation();
+              lbl.innerText = `${station.name} (Live)`;
+            }
+          }
+        } else {
+          if (btn) {
+            btn.innerHTML = '&#9654;';
+            btn.classList.remove('playing');
+            btn.setAttribute('aria-label', 'Play Music');
+          }
+          if (eq) eq.classList.remove('playing');
+          if (lbl) {
+            const themeNames = {
+              reggae: 'Island Reggae',
+              country: 'Classic Country',
+              pop: 'Summer Pop'
+            };
+            lbl.innerText = themeNames[this.currentTheme] || 'Live River Radio';
+          }
+        }
+      }
+    }
+
+    const riverRadio = new RiverStreamRadioEngine();
+
+    function toggleRiverMusic() {
+      riverRadio.toggle();
+    }
 
     function toggleSummerMusic() {
-      summerMusic.toggle();
+      riverRadio.toggle();
     }
 
     function changeMusicVolume(val) {
-      summerMusic.setVolume(val);
+      riverRadio.setVolume(val);
+    }
+
+    function changeMusicTheme(theme) {
+      riverRadio.setTheme(theme);
     }
 
     function changeMusicPreset(preset) {
-      summerMusic.setPreset(preset);
-      summerMusic.updateUI();
+      riverRadio.setTheme(preset);
+    }
+
+    function shuffleRiverStation() {
+      riverRadio.shuffleStation();
     }
 
     // Function to download self-contained standalone HTML app
