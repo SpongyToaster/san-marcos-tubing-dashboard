@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SM River Vibe &mdash; San Marcos River Tubing &amp; 19-Species Eco-Simulator</title>
+  <title>SM River Vibe &mdash; San Marcos River Tubing &amp; 21-Species Eco-Simulator</title>
   <meta name="description" content="Real-time river flow, water quality, weather conditions, vibe score, and eco-impact assessment for tubing the San Marcos River in San Marcos, TX.">
 
   <!-- Google Fonts: Inter -->
@@ -1198,7 +1198,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
 
     .canvas-prompt-badge {
       position: absolute;
-      top: 14px;
+      top: 8px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(15, 23, 42, 0.9);
@@ -1206,9 +1206,9 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(56, 189, 248, 0.5);
       color: #38BDF8;
-      padding: 6px 12px 6px 16px;
+      padding: 4px 10px 4px 14px;
       border-radius: 24px;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 700;
       z-index: 20;
       box-shadow: 0 4px 20px rgba(0,0,0,0.6);
@@ -2368,7 +2368,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
           </div>
         </div>
         <div class="challenge-stats">
-          <div class="challenge-progress-pill">Progress: <span id="challengeProgress">1 / 19</span></div>
+          <div class="challenge-progress-pill">Progress: <span id="challengeProgress">1 / 21</span></div>
           <div class="challenge-score-pill">Correct: <span id="challengeScore">0</span></div>
           <button class="btn-scenario" style="padding: 4px 10px; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #FFF;" onclick="resetChallenge()">🔄 Restart</button>
         </div>
@@ -2395,6 +2395,81 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
             <!-- 2. Environmental Stage Overlays (Turbidity Murk & Drought Tint) -->
             <rect class="scene-turbidity-overlay" width="1000" height="562.5" fill="#78350F" opacity="0" pointer-events="none" />
             <rect class="scene-drought-overlay" width="1000" height="562.5" fill="#D97706" opacity="0" pointer-events="none" />
+
+            <!-- VECTOR ILLUSTRATIONS: RETURNING NATIVE MAMMALS -->
+            <g id="ecoCreaturesVector">
+              <!-- 🦦 North American River Otter (Swimming & Diving in Clear Surface Current) -->
+              <g id="creature-otter" transform="translate(340, 140)" pointer-events="none">
+                <!-- Water wake / concentric ripples -->
+                <ellipse cx="0" cy="8" rx="46" ry="16" fill="none" stroke="#38BDF8" stroke-width="1.8" opacity="0.65" stroke-dasharray="14, 6" />
+                <ellipse cx="0" cy="8" rx="34" ry="11" fill="none" stroke="#7DD3FC" stroke-width="1.2" opacity="0.8" />
+                <!-- Trailing swimming tail -->
+                <path d="M-22,4 Q-38,10 -46,2 C-42,-2 -32,2 -20,-1 Z" fill="#452A18" stroke="#2B1A0F" stroke-width="1" />
+                <path d="M-22,3 Q-36,8 -42,3" stroke="#633C22" stroke-width="1.2" fill="none" />
+                <!-- Torso / Back (streamlined curve) -->
+                <path d="M-24,2 Q-10,-12 12,-6 Q26,-2 28,6 Q20,16 -2,14 Q-18,12 -24,2 Z" fill="#583720" stroke="#382113" stroke-width="1.2" />
+                <!-- Back fur highlight -->
+                <path d="M-14,-3 Q2,-8 16,-3" stroke="#7A4E2F" stroke-width="2" stroke-linecap="round" fill="none" />
+                <!-- Webbed rear & front paws paddling -->
+                <ellipse cx="-12" cy="11" rx="6" ry="3" fill="#3D2516" transform="rotate(-15 -12 11)" />
+                <ellipse cx="14" cy="11" rx="7" ry="3.5" fill="#3D2516" transform="rotate(20 14 11)" />
+                <!-- Pale throat / chest patch -->
+                <path d="M6,6 Q16,8 24,4 Q22,12 14,13 Q6,12 6,6 Z" fill="#E8D5C4" opacity="0.95" />
+                <!-- Cute Otter Head -->
+                <ellipse cx="22" cy="2" rx="10" ry="8" fill="#583720" stroke="#382113" stroke-width="1" />
+                <!-- Pale muzzle / cheeks -->
+                <ellipse cx="26" cy="4" rx="6" ry="4.5" fill="#F0E2D5" />
+                <!-- Nose & whiskers -->
+                <ellipse cx="30" cy="2.5" rx="2" ry="1.4" fill="#1C140E" />
+                <line x1="28" y1="3" x2="35" y2="1" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+                <line x1="28" y1="4" x2="36" y2="4.5" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+                <line x1="28" y1="5" x2="34" y2="7" stroke="#FFFFFF" stroke-width="0.8" opacity="0.85" />
+                <!-- Eyes & ears -->
+                <circle cx="23" cy="-1.5" r="1.6" fill="#18110B" />
+                <circle cx="23.5" cy="-2" r="0.6" fill="#FFFFFF" />
+                <ellipse cx="16" cy="-4" rx="2.5" ry="2" fill="#452A18" />
+                <!-- Water splash droplets -->
+                <circle cx="-28" cy="12" r="1.5" fill="#BAE6FD" opacity="0.8" />
+                <circle cx="32" cy="10" r="1.2" fill="#BAE6FD" opacity="0.8" />
+              </g>
+
+              <!-- 🦫 North American Beaver (Riparian Shoreline Bank Builder) -->
+              <g id="creature-beaver" transform="translate(915, 105)" pointer-events="none">
+                <!-- Riverbank grassy turf patch -->
+                <ellipse cx="-4" cy="18" rx="36" ry="10" fill="#2E4A28" opacity="0.75" />
+                <path d="M-28,16 Q-24,8 -20,16 Q-14,7 -10,17 Q-4,9 0,17 Q6,8 12,18" stroke="#4D7C0F" stroke-width="1.8" fill="none" />
+                <!-- Broad Flat Paddle Tail (Iconic cross-hatch texture) -->
+                <g transform="translate(20, 10) rotate(12)">
+                  <path d="M0,0 C12,-2 26,2 30,8 C32,13 24,18 10,18 C-2,17 -2,6 0,0 Z" fill="#2A2421" stroke="#171311" stroke-width="1.2" />
+                  <!-- Tail cross-hatch lattice -->
+                  <path d="M8,2 L24,15 M14,1 L26,11 M4,6 L18,17 M10,16 L24,3 M16,17 L28,7 M6,12 L18,2" stroke="#423A35" stroke-width="0.7" opacity="0.7" fill="none" />
+                </g>
+                <!-- Stout Beaver Body -->
+                <path d="M-22,12 C-26,-4 -12,-16 6,-14 C22,-12 28,4 24,16 C18,22 -14,22 -22,12 Z" fill="#6A4123" stroke="#3D2311" stroke-width="1.2" />
+                <!-- Fur highlight / depth -->
+                <path d="M-14,-4 Q2,-10 14,-4" stroke="#8A5630" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                <!-- Hind paw -->
+                <ellipse cx="10" cy="17" rx="7" ry="3.5" fill="#3D2311" />
+                <!-- Front Paws holding willow stick -->
+                <ellipse cx="-12" cy="10" rx="4.5" ry="3" fill="#3D2311" transform="rotate(-20 -12 10)" />
+                <ellipse cx="-4" cy="11" rx="4.5" ry="3" fill="#3D2311" transform="rotate(15 -4 11)" />
+                <!-- Peeled green river willow twig -->
+                <line x1="-22" y1="15" x2="2" y2="4" stroke="#A3E635" stroke-width="2.2" stroke-linecap="round" />
+                <circle cx="-18" cy="16" r="2.5" fill="#4ADE80" />
+                <!-- Beaver Head -->
+                <circle cx="-14" cy="-2" r="11" fill="#6A4123" stroke="#3D2311" stroke-width="1" />
+                <!-- Prominent orange incisors -->
+                <rect x="-24" y="2.5" width="3.2" height="4.2" rx="0.6" fill="#F97316" stroke="#9A3412" stroke-width="0.5" />
+                <rect x="-21" y="2.5" width="3.2" height="4.2" rx="0.6" fill="#EA580C" stroke="#9A3412" stroke-width="0.5" />
+                <!-- Snout & dark nose -->
+                <ellipse cx="-20" cy="0" rx="5" ry="4" fill="#422714" />
+                <ellipse cx="-23" cy="-1.5" rx="2" ry="1.4" fill="#17120E" />
+                <!-- Eyes & small rounded ears -->
+                <circle cx="-13" cy="-5" r="1.8" fill="#17120E" />
+                <circle cx="-12.5" cy="-5.5" r="0.6" fill="#FFFFFF" />
+                <ellipse cx="-8" cy="-11" rx="2.8" ry="2.2" fill="#422714" />
+              </g>
+            </g>
 
             <!-- 3. Interactive Highlight Hotspots Anchored to Existing Species in Artwork -->
 
@@ -2682,6 +2757,36 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
               <rect x="440" y="532" width="120" height="24" class="hotspot-badge-bg" />
               <text x="500" y="548" text-anchor="middle" class="hotspot-badge-text">🦞 Native Crayfish</text>
             </g>
+
+            <!-- 🦦 20. North American River Otter (Surface Current & Eddy Swimmer) -->
+            <g class="eco-hotspot" id="hotspot-otter" tabindex="0" role="button" aria-label="Inspect North American River Otter"
+               onclick="handleHotspotClick('otter')"
+               onmouseenter="showHotspotPreview('otter', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('otter', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('otter')">
+              <ellipse cx="340" cy="140" rx="48" ry="26" class="hotspot-ring" />
+              <circle cx="340" cy="115" r="5" class="hotspot-beacon-dot" />
+              <circle cx="340" cy="115" r="5" class="hotspot-beacon-pulse" />
+              <rect x="278" y="82" width="125" height="24" class="hotspot-badge-bg" />
+              <text x="340" y="98" text-anchor="middle" class="hotspot-badge-text">🦦 River Otter</text>
+            </g>
+
+            <!-- 🦫 21. North American Beaver (Upper Riverbank Keystone Engineer) -->
+            <g class="eco-hotspot" id="hotspot-beaver" tabindex="0" role="button" aria-label="Inspect North American Beaver"
+               onclick="handleHotspotClick('beaver')"
+               onmouseenter="showHotspotPreview('beaver', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('beaver', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('beaver')">
+              <ellipse cx="915" cy="105" rx="46" ry="28" class="hotspot-ring" />
+              <circle cx="915" cy="75" r="5" class="hotspot-beacon-dot" />
+              <circle cx="915" cy="75" r="5" class="hotspot-beacon-pulse" />
+              <rect x="858" y="38" width="115" height="24" class="hotspot-badge-bg" />
+              <text x="915" y="54" text-anchor="middle" class="hotspot-badge-text">🦫 Beaver</text>
+            </g>
           </svg>
 
           <!-- Floating Interactive Preview Tooltip Card (Exposed on Mouse-Over & Focus) -->
@@ -2710,6 +2815,8 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
           <span class="hud-tag">🐢 Turtles: <span id="hudTurtles">8 (Snapping/Cooter/Softshell/Musk)</span></span>
           <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
           <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
+          <span class="hud-tag">🦦 Otters: <span id="hudOtters">2 (Returning)</span></span>
+          <span class="hud-tag">🦫 Beavers: <span id="hudBeavers">1 (Bank Den)</span></span>
           <span class="hud-tag" style="border-color: rgba(244,63,94,0.4); color: #FDA4AF;">⚠️ Plecos: <span id="hudPleco">3 (Burrow Risk)</span></span>
         </div>
       </div>
@@ -2878,7 +2985,7 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         
         <div style="background: rgba(15, 23, 42, 0.8); border: 1.5px solid rgba(245, 158, 11, 0.4); border-radius: var(--radius-md); padding: 16px; margin: 16px 0;">
           <div style="font-size: 2.8rem; font-weight: 800; color: #FCD34D;" id="scorecardPercent">100%</div>
-          <div style="font-size: 0.82rem; color: #CBD5E1; margin-top: 4px;" id="scorecardBreakdown">19 of 19 species matched correctly on the first try!</div>
+          <div style="font-size: 0.82rem; color: #CBD5E1; margin-top: 4px;" id="scorecardBreakdown">21 of 21 species matched correctly on the first try!</div>
         </div>
 
         <p id="scorecardEncouragement" style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; margin-bottom: 20px;">
@@ -3392,10 +3499,10 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
 
       // Update HUD Species Counts
       const presetCounts = {
-        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', turtles: '8 (1 Snapping / 3 Cooter / 2 Softshell / 2 Musk)', sunfish: '12', crayfish: '6/m²', plecos: '3 (Low Risk)' },
-        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', turtles: '6 (Submerged Swimmers & Heavy Anchors)', sunfish: '10', crayfish: '5/m²', plecos: '4 (Active Burrowing)' },
-        'severe-flood': { rice: '45 stands', darters: '2.1/m²', turtles: '3 (Eddy & Limestone Ledge Refuge)', sunfish: '4', crayfish: '8/m²', plecos: '2 (Tunnel Hidden)' },
-        'critical-drought': { rice: '30 stands', darters: '1.5/m²', turtles: '10 (Spring Vent Clustered & Mud Estivation)', sunfish: '15', crayfish: '3/m²', plecos: '7 (Air Breather Advantage)' }
+        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', turtles: '8 (1 Snapping / 3 Cooter / 2 Softshell / 2 Musk)', sunfish: '12', crayfish: '6/m²', otters: '2 (Active Hunting)', beavers: '1 (Riparian Bank Lodge)', plecos: '3 (Low Risk)' },
+        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', turtles: '6 (Submerged Swimmers & Heavy Anchors)', sunfish: '10', crayfish: '5/m²', otters: '2 (Eddy Swimmers)', beavers: '1 (Reinforcing Bank Den)', plecos: '4 (Active Burrowing)' },
+        'severe-flood': { rice: '45 stands', darters: '2.1/m²', turtles: '3 (Eddy & Limestone Ledge Refuge)', sunfish: '4', crayfish: '8/m²', otters: '2 (High Bank Den)', beavers: '1 (Deep Burrow Refuge)', plecos: '2 (Tunnel Hidden)' },
+        'critical-drought': { rice: '30 stands', darters: '1.5/m²', turtles: '10 (Spring Vent Clustered & Mud Estivation)', sunfish: '15', crayfish: '3/m²', otters: '2 (Springhead Pool Feasting)', beavers: '1 (Deep Channel Cache)', plecos: '7 (Air Breather Advantage)' }
       };
 
       const sc = presetCounts[stageId] || presetCounts['optimal-baseflow'];
@@ -3404,6 +3511,8 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       if (document.getElementById('hudTurtles')) document.getElementById('hudTurtles').innerText = sc.turtles;
       if (document.getElementById('hudSunfish')) document.getElementById('hudSunfish').innerText = sc.sunfish;
       if (document.getElementById('hudCrayfish')) document.getElementById('hudCrayfish').innerText = sc.crayfish;
+      if (document.getElementById('hudOtters')) document.getElementById('hudOtters').innerText = sc.otters;
+      if (document.getElementById('hudBeavers')) document.getElementById('hudBeavers').innerText = sc.beavers;
       if (document.getElementById('hudPleco')) document.getElementById('hudPleco').innerText = sc.plecos;
 
       // Update Public Educational Explainer Text
@@ -3940,6 +4049,60 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
           body: 'During hot drought spells, huge decomposing mats of hydrilla consume dissolved oxygen at night, creating localized hypoxic dead zones for fish.'
         }
       },
+      'otter': {
+        icon: '🦦',
+        scientific: 'Lontra canadensis (North American River Otter)',
+        status: 'Protected Native Mammal (Recently Returning!)',
+        habitat: 'Clear Spring Channels, Riverbank Cavities & Deep Pools',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🦦 Playful Swimmer Badge',
+          title: 'River Otter — Agile River Champion',
+          body: 'Splish, splash! After decades of absence, North American River Otters have officially returned to the upper San Marcos River! Equipped with dense water-repellent fur, webbed feet, and long sensitive facial whiskers, these intelligent semi-aquatic mammals cruise through 150 CFS spring currents with effortless grace. They feed voraciously on invasive crayfish and armored catfish, acting as natural biological balancers that keep the river healthy and clean.'
+        },
+        'elevated-surge': {
+          badge: '⚡ Current Slicer Badge',
+          title: 'River Otter — High-Flow Agility',
+          body: 'In swift 250 CFS currents, river otters use their muscular, tapered rudder-like tails to slice effortlessly through the water, diving into riverbank eddies and tree root pockets to hunt displaced sunfish.'
+        },
+        'severe-flood': {
+          badge: '🪵 High Bank Den Badge',
+          title: 'River Otter — Cypress Root Sanctuary',
+          body: 'During massive 450+ CFS flood surges, otters retreat high up into excavated bank burrows and hollow baldcypress root balls above the waterline, resting safe and dry until the flood recedes.'
+        },
+        'critical-drought': {
+          badge: '🫧 Spring Vent Hunter Badge',
+          title: 'River Otter — Springhead Pool Feaster',
+          body: 'In low-flow droughts (<60 CFS), otters patrol the deepest perennial springhead pools where fish and crayfish congregate, enjoying abundant foraging in cool 72°F artesian waters.'
+        }
+      },
+      'beaver': {
+        icon: '🦫',
+        scientific: 'Castor canadensis (North American Beaver)',
+        status: 'Native Keystone Riparian Engineer (Recently Returning!)',
+        habitat: 'Riverbank Burrows, Willow Shallows & Cypress Root Complexes',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '🦫 Master Builder Badge',
+          title: 'North American Beaver — Keystone Ecosystem Architect',
+          body: 'Chomp, chomp! The North American Beaver has returned to the San Marcos River! Unlike northern beavers that build massive lake dams, Texas Hill Country beavers excel as bank burrowers—digging underwater bank dens under bald cypress root systems and pruning invasive shoreline brush. Their selective foraging promotes native willow regrowth, stabilizes eroding riverbanks, and creates calm slackwater micro-pools where tiny endangered Fountain Darters find safe nursery shelter!'
+        },
+        'elevated-surge': {
+          badge: '🛡️ Bank Stabilizer Badge',
+          title: 'Beaver — Flood Channel Slower',
+          body: 'As currents rise to 250 CFS, brush caches and bank lodge entrances constructed by beavers act as natural speed bumps, absorbing hydraulic energy and preventing riverbank washouts.'
+        },
+        'severe-flood': {
+          badge: '🌊 Deep Burrow Haven Badge',
+          title: 'Beaver — Dry Chamber Refuge',
+          body: 'During raging 450+ CFS floods, beavers stay inside multi-chambered bank dens with submerged entrances leading up to dry sleeping platforms well above the surging flood crest.'
+        },
+        'critical-drought': {
+          badge: '💧 Pool Preserver Badge',
+          title: 'Beaver — Drought Life Saver',
+          body: 'During severe low-flow droughts (<60 CFS), beaver canal excavations maintain critical deep water pools along the bank margins, providing essential aquatic refuges for native turtles and fish.'
+        }
+      },
       'population-math': {
         icon: '📐',
         scientific: 'USGS Streamgage 08170500 & EAHCP Field Ecology Models',
@@ -4117,6 +4280,20 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         subtitle: 'Hydrilla verticillata (Prohibited Weed)',
         fact: 'Aggressive weed forming dense surface mats that block sunlight and smother wild rice.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'otter': {
+        emoji: '🦦',
+        title: 'North American River Otter',
+        subtitle: 'Lontra canadensis (Apex Semi-Aquatic)',
+        fact: 'Recently returned bio-indicator; playful streamlined swimmer hunting fish and crayfish in clean spring flow.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
+      'beaver': {
+        emoji: '🦫',
+        title: 'American Beaver',
+        subtitle: 'Castor canadensis (Keystone River Engineer)',
+        fact: 'Recently reappeared wetland architect; cuts willow twigs with iron-rich enamel teeth to shape riverbank pools.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       }
     };
 
@@ -4258,6 +4435,20 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
         icon: '⚠️',
         clue: 'Look at the far right edge of the river for dense, tall weed stems reaching toward the surface.',
         praise: 'Spot on! That’s invasive Hydrilla, forming dense mats that choke out native rice!'
+      },
+      {
+        key: 'otter',
+        name: 'North American River Otter',
+        icon: '🦦',
+        clue: 'Look for a sleek, playful swimmer gliding near the surface in the upper-middle river channel.',
+        praise: 'Splendid! You spotted the playful River Otter, a sign of thriving, pristine river water!'
+      },
+      {
+        key: 'beaver',
+        name: 'American Beaver',
+        icon: '🦫',
+        clue: 'Look along the upper-right shoreline bank for a furry builder nibbling a willow twig.',
+        praise: 'Incredible find! You found the industrious Beaver, the river’s master ecosystem engineer!'
       }
     ];
 
@@ -4270,6 +4461,9 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       itemAttempts: {},
       totalItems: challengeItems.length
     };
+
+    window.challengeItems = challengeItems;
+    window.challengeState = challengeState;
 
     let toastTimer = null;
 
@@ -4528,8 +4722,8 @@ window.telemetryPipeline = new TelemetryPipeline(window.telemetryStore);
       document.getElementById('previewFact').innerText = data.fact;
       document.getElementById('previewCta').innerText = data.cta;
 
-      // Smart positioning: If inspecting creatures in the bottom-right quadrant, display card on the left so it never covers the creature
-      if (['eel', 'pleco', 'hydrilla'].includes(key)) {
+      // Smart positioning: If inspecting creatures on the right side (eel, pleco, hydrilla, beaver), display card on the left so it never covers the creature
+      if (['eel', 'pleco', 'hydrilla', 'beaver'].includes(key)) {
         card.style.right = 'auto';
         card.style.left = '16px';
       } else {
