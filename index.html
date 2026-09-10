@@ -1926,9 +1926,10 @@
             <span class="eq-bar"></span>
             <span class="eq-bar"></span>
           </div>
-          <span id="musicStatusLabel">Island Reggae</span>
+          <span id="musicStatusLabel">SM Local Radio</span>
         </div>
         <select class="music-preset-select" id="musicPresetSelect" onchange="changeMusicTheme(this.value)" aria-label="Music Stream Theme">
+          <option value="local">&#128251; SM Local (KTSW &amp; KZSM)</option>
           <option value="reggae">&#127796; Island Reggae</option>
           <option value="country">&#129312; Classic Country</option>
           <option value="pop">&#9728;&#65039; Summer Pop</option>
@@ -5061,6 +5062,11 @@
     // Streaming Live Internet Radio with 3 Curated Themes + Offline Fallback
     // ==========================================
     const RIVER_RADIO_STATIONS = {
+      local: [
+        { name: 'KTSW 89.9 (TX State)', url: 'https://ktswlive.txstate.edu:8102/listen' },
+        { name: 'KZSM 104.1 (SM Community)', url: 'https://ice42.securenetsystems.net/KZSM' },
+        { name: 'KUTX 98.9 (Austin Music Exp)', url: 'https://streams.kut.org/4428_192.mp3' }
+      ],
       reggae: [
         { name: 'SomaFM Heavyweight Reggae', url: 'https://ice1.somafm.com/reggae-128-mp3' },
         { name: 'Reggae Chill Cafe', url: 'https://maggie.torontocast.com:2020/stream/reggaechillcafe' },
@@ -5085,7 +5091,7 @@
         this.audio = new Audio();
         this.audio.preload = 'none';
         this.offlineSynth = new SummerChillMusicEngine();
-        this.currentTheme = 'reggae';
+        this.currentTheme = 'local';
         this.currentStationIndex = 0;
         this.isPlaying = false;
         this.isFallback = false;
@@ -5172,7 +5178,7 @@
         try {
           this.audio.pause();
         } catch (_) {}
-        const synthMap = { reggae: 'golden', country: 'sunset', pop: 'breeze' };
+        const synthMap = { local: 'breeze', reggae: 'golden', country: 'sunset', pop: 'breeze' };
         this.offlineSynth.setPreset(synthMap[this.currentTheme] || 'sunset');
         this.offlineSynth.setVolume(this.volume);
         this.offlineSynth.play();
@@ -5244,6 +5250,7 @@
           if (eq) eq.classList.remove('playing');
           if (lbl) {
             const themeNames = {
+              local: 'SM Local Radio',
               reggae: 'Island Reggae',
               country: 'Classic Country',
               pop: 'Summer Pop'
