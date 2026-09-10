@@ -70,25 +70,38 @@
       z-index: 20;
       background: #0f141c;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 14px 20px;
+      padding: 10px 20px 8px;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .header-branding-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
-    .header-branding {
+    .header-brand-group {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
     .salamander-logo-badge {
-      width: 62px;
-      height: 62px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: linear-gradient(135deg, #0284C7, #06B6D4);
-      padding: 3px;
-      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.45), 0 0 0 2px rgba(56, 189, 248, 0.4);
+      padding: 2.5px;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.45), 0 0 0 2px rgba(56, 189, 248, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -98,8 +111,8 @@
     }
 
     .salamander-logo-badge:hover {
-      transform: scale(1.1) rotate(-4deg);
-      box-shadow: 0 8px 22px rgba(6, 182, 212, 0.7), 0 0 0 3px rgba(56, 189, 248, 0.6);
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.7), 0 0 0 3px rgba(56, 189, 248, 0.6);
     }
 
     .salamander-logo-img {
@@ -138,16 +151,32 @@
       margin: 0;
     }
 
+    .header-titles {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
     .header-titles h1 {
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       font-weight: 700;
       color: var(--text-main);
       letter-spacing: -0.02em;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .header-title-dot {
+      color: var(--text-subtle);
+      font-size: 0.8rem;
     }
 
     .header-titles p {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
+      margin: 0;
+      white-space: nowrap;
     }
 
     .header-actions {
@@ -2180,12 +2209,13 @@
       flex-shrink: 0;
     }
 
-    /* Module Wrapper for Deck & Live Attribution Sub-bar */
+    /* Module Wrapper for Deck positioned under landscape text */
     .car-stereo-module {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 3px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-left: 60px;
+      width: fit-content;
     }
 
     /* Live Attribution Bar */
@@ -2600,36 +2630,32 @@
 
     @media (max-width: 900px) {
       .header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding: 10px 14px;
-      }
-      .salamander-logo-badge {
-        width: 52px;
-        height: 52px;
-      }
-      .header-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 8px;
-        width: 100%;
+        padding: 8px 12px;
       }
       .car-stereo-module {
-        order: 1;
+        margin-left: 0;
         width: 100%;
-        align-items: stretch;
       }
       .car-stereo-deck, .chill-music-player {
         width: 100%;
         justify-content: space-between;
       }
-      .stereo-attribution-strip {
-        justify-content: center;
-      }
       .stereo-vol-slider, .music-vol-slider {
         display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header-titles {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .header-title-dot {
+        display: none;
+      }
+      .header-branding-row {
+        gap: 10px;
       }
     }
 
@@ -2654,18 +2680,35 @@
 </head>
 <body>
 
-  <!-- STICKY GLASSMORPHISM HEADER -->
+  <!-- NON-STICKY STREAMLINED HEADER -->
   <header class="header">
-    <div class="header-branding">
-      <div class="salamander-logo-badge" title="Texas Blind Salamander Mascot">
-        <img id="headerSalamanderLogo" src="assets/salamander-logo.jpg" alt="Texas Blind Salamander with Sunglasses Mascot" class="salamander-logo-img" />
+    <div class="header-container">
+      <div class="header-branding-row">
+        <div class="header-brand-group">
+          <div class="salamander-logo-badge" title="Texas Blind Salamander Mascot">
+            <img id="headerSalamanderLogo" src="assets/salamander-logo.jpg" alt="Texas Blind Salamander with Sunglasses Mascot" class="salamander-logo-img" />
+          </div>
+          <div class="header-titles landscape-titles">
+            <h1>SM River Vibe</h1>
+            <span class="header-title-dot">&bull;</span>
+            <p>Real-Time River &amp; Eco Dashboard &bull; San Marcos, TX</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <!-- DOWNLOAD STANDALONE FILE BUTTON -->
+          <button class="btn-download-app" id="btnDownloadApp" onclick="downloadStandaloneApp()" title="Download single-file HTML app to save or send via email/message">
+            <span>&#128229;</span>
+            <span class="btn-download-text">Save / Email App</span>
+          </button>
+
+          <button class="btn-refresh" id="btnRefresh" onclick="fetchLiveDashboardData()">
+            <span class="spin-icon">&#128259;</span>
+            <span class="btn-text">Refresh</span>
+          </button>
+        </div>
       </div>
-      <div class="header-titles">
-        <h1>SM River Vibe</h1>
-        <p>Real-Time River &amp; Eco Dashboard &bull; San Marcos, TX</p>
-      </div>
-    </div>
-    <div class="header-actions">
+
       <!-- 1990s VINTAGE RIVERSOUND CAR STEREO MODULE -->
       <div class="car-stereo-module">
         <div class="car-stereo-deck chill-music-player" id="chillMusicPlayer" title="Riversound 90s Car Stereo Deck &bull; San Marcos, TX">
@@ -2737,33 +2780,7 @@
           <!-- Volume Slider -->
           <input type="range" class="stereo-vol-slider music-vol-slider" id="musicVolumeSlider" min="0" max="1" step="0.05" value="0.45" oninput="changeMusicVolume(this.value)" aria-label="Stereo Volume" title="Stereo Volume" />
         </div>
-
-        <!-- Contextual Live Origin Attribution Pill -->
-        <div class="stereo-attribution-strip" id="stereoAttributionStrip">
-          <span class="stereo-attr-dot"></span>
-          <span class="stereo-attr-prefix">ORIGIN:</span>
-          <a class="stereo-attr-link" id="stereoAttrLink" href="https://ktsw899.com/" target="_blank" rel="noopener noreferrer" title="Open official station website">
-            <span id="stereoAttrName">KTSW 89.9 FM</span>
-            <span class="stereo-attr-dot-sep">&bull;</span>
-            <span id="stereoAttrSource">Texas State University</span>
-            <span class="stereo-attr-ext">&#8599;</span>
-          </a>
-          <button class="stereo-attr-badge-btn" id="stereoAttrBadgeBtn" onclick="toggleStereoAttributionModal()" title="View full source attribution &amp; SomaFM pre-made branding">
-            Details &amp; SomaFM &blacktriangledown;
-          </button>
-        </div>
       </div>
-
-      <!-- DOWNLOAD STANDALONE FILE BUTTON -->
-      <button class="btn-download-app" id="btnDownloadApp" onclick="downloadStandaloneApp()" title="Download single-file HTML app to save or send via email/message">
-        <span>&#128229;</span>
-        <span class="btn-download-text">Save / Email App</span>
-      </button>
-
-      <button class="btn-refresh" id="btnRefresh" onclick="fetchLiveDashboardData()">
-        <span class="spin-icon">&#128259;</span>
-        <span class="btn-text">Refresh</span>
-      </button>
     </div>
   </header>
 
