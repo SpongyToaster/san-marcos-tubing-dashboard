@@ -781,15 +781,27 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      font-size: 0.81rem;
+      font-size: 0.84rem;
       line-height: 1.45;
       color: #CBD5E1;
     }
 
-    .rule-item-entry .item-bullet {
-      font-size: 1rem;
-      line-height: 1.2;
+    .rules-category-card.prohibited .rule-item-entry::before {
+      content: "•";
+      color: #F87171;
+      font-size: 1.25rem;
+      line-height: 1;
       flex-shrink: 0;
+      margin-top: -1px;
+    }
+
+    .rules-category-card.allowed .rule-item-entry::before {
+      content: "•";
+      color: #4ADE80;
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: -1px;
     }
 
     .rule-item-entry b {
@@ -885,6 +897,49 @@
     .btn-parks-verify:hover {
       background: rgba(255, 255, 255, 0.15);
       color: #FFFFFF;
+    }
+
+    .btn-foundation-donate {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #059669;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+    }
+
+    .btn-foundation-donate:hover {
+      background: #047857;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.5);
+    }
+
+    .btn-foundation-volunteer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(6, 182, 212, 0.12);
+      color: #38BDF8;
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .btn-foundation-volunteer:hover {
+      background: rgba(6, 182, 212, 0.25);
+      color: #FFFFFF;
+      border-color: #38BDF8;
+      transform: translateY(-1px);
     }
 
     /* ==========================================
@@ -2165,7 +2220,7 @@
 
               <!-- North American Beaver (Naturalist Field-Guide on Riverbank Turf) -->
               <g id="creature-beaver">
-                <image id="creature-beaver-img" href="assets/creature-beaver.png" x="872" y="68" width="84" height="67" preserveAspectRatio="xMidYMid meet" />
+                <image id="creature-beaver-img" href="assets/creature-beaver.png" x="844" y="52" width="134" height="106" preserveAspectRatio="xMidYMid meet" />
               </g>
             </g>
 
@@ -2479,11 +2534,11 @@
                onfocus="showHotspotPreview('beaver', event)"
                onblur="hideHotspotPreview()"
                onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('beaver')">
-              <ellipse cx="914" cy="102" rx="44" ry="32" class="hotspot-ring" />
-              <circle cx="914" cy="74" r="5" class="hotspot-beacon-dot" />
-              <circle cx="914" cy="74" r="5" class="hotspot-beacon-pulse" />
-              <rect x="888" y="38" width="52" height="22" class="hotspot-badge-bg" />
-              <text x="914" y="53" text-anchor="middle" class="hotspot-badge-text">Beaver</text>
+              <ellipse cx="912" cy="105" rx="64" ry="48" class="hotspot-ring" />
+              <circle cx="912" cy="58" r="5" class="hotspot-beacon-dot" />
+              <circle cx="912" cy="58" r="5" class="hotspot-beacon-pulse" />
+              <rect x="886" y="24" width="52" height="22" class="hotspot-badge-bg" />
+              <text x="912" y="39" text-anchor="middle" class="hotspot-badge-text">Beaver</text>
             </g>
           </svg>
 
@@ -2516,19 +2571,40 @@
           </div>
         </div>
         <div class="footer-action-links">
+          <a href="https://experience.arcgis.com/experience/b61a559cbb34470eb83e9b2788a48013/page/Page" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-official-verify"
+             aria-label="Open Go/No Zones interactive map">
+            Go/No Zones ↗
+          </a>
           <a href="https://sanmarcostx.gov/4299/Single-Use-Beverage-Container-Ban" 
              target="_blank" 
              rel="noopener noreferrer" 
              class="btn-official-verify"
-             aria-label="Visit official City of San Marcos Single-Use Beverage Container Ban webpage">
-            🌐 San Marcos River Rules &amp; Container Ban ↗
+             aria-label="Visit Single-Use Beverage Container Ban details">
+            What containers are allowed? ↗
           </a>
-          <a href="https://sanmarcostx.gov/parks" 
+          <a href="https://sanmarcostx.gov/163/Rivers-Parks-Cemetery" 
              target="_blank" 
              rel="noopener noreferrer" 
              class="btn-parks-verify"
-             aria-label="Visit official City of San Marcos Parks & Recreation directory">
-            🏞️ City Parks Directory ↗
+             aria-label="Visit Rivers, Parks and Cemetery directory">
+            City Parks Directory ↗
+          </a>
+          <a href="https://www.sanmarcosriver.org/donate" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-foundation-donate"
+             aria-label="Donate to the San Marcos River Foundation to support this app">
+            Support this app ↗
+          </a>
+          <a href="https://www.sanmarcosriver.org/water-quality-monitoring" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-foundation-volunteer"
+             aria-label="Volunteer for water quality monitoring with the San Marcos River Foundation">
+            Volunteer opportunities ↗
           </a>
         </div>
       </div>
@@ -2538,28 +2614,23 @@
         <!-- Card 1: Prohibited Items & Activities -->
         <div class="rules-category-card prohibited">
           <div class="card-category-header prohibited">
-            <span>🚫</span> STRICTLY PROHIBITED ("No Zones")
+            STRICTLY PROHIBITED ("No Zones")
           </div>
           <ul class="rule-items-list">
             <li class="rule-item-entry">
-              <span class="item-bullet">🥫</span>
-              <div><b>No Single-Use Containers:</b> Aluminum beer/soda cans, disposable water bottles, plastic cups, and juice pouches are banned in the river and on riverbanks.</div>
+              <div><b>No Single-Use Containers:</b> Cans, disposable bottles, plastic cups, and juice pouches are banned on the river and riverbanks.</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">🍾</span>
-              <div><b>No Glass Containers:</b> Strictly forbidden by Texas State law and City ordinance throughout all river parks (violations carry fines up to $500).</div>
+              <div><b>No Glass:</b> Forbidden in all river parks (fines up to $500).</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">📦</span>
-              <div><b>No Styrofoam:</b> Styrofoam ice chests, beverage coolers, cups, and plates are strictly prohibited.</div>
+              <div><b>No Styrofoam:</b> Coolers, ice chests, cups, and plates are strictly prohibited.</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">🔊</span>
-              <div><b>No Amplified Sound >50 Feet:</b> Keep music volume respectful to fellow floaters and river wildlife; loud speakers are prohibited.</div>
+              <div><b>No Amplified Sound >50 Feet:</b> Keep music volume within your group; loud speakers are prohibited.</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">🌉</span>
-              <div><b>No Jumping or Diving:</b> Jumping from bridges, dams, or trees is illegal and hazardous due to shallow limestone boulders.</div>
+              <div><b>No Jumping or Diving:</b> Prohibited from bridges, dams, or trees due to shallow riverbed limestone.</div>
             </li>
           </ul>
         </div>
@@ -2567,57 +2638,23 @@
         <!-- Card 2: Permitted Items & Requirements -->
         <div class="rules-category-card allowed">
           <div class="card-category-header allowed">
-            <span>✅</span> PERMITTED &amp; REQUIRED
+            PERMITTED &amp; REQUIRED
           </div>
           <ul class="rule-items-list">
             <li class="rule-item-entry">
-              <span class="item-bullet">🥤</span>
-              <div><b>Reusable Containers Only:</b> Insulated tumblers (Yeti, Hydro Flask), stainless steel bottles, or durable sports bottles (dishwasher-safe rule).</div>
+              <div><b>Reusable Containers Only:</b> Insulated tumblers, stainless steel bottles, and durable sports bottles (dishwasher-safe).</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">🧊</span>
-              <div><b>Coolers ≤ 30 Quarts:</b> Allowed one locking/latching cooler per person. Must remain securely fastened while floating.</div>
+              <div><b>Coolers ≤ 30 Quarts:</b> One locking or latching cooler allowed per person; must stay fastened.</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">🗑️</span>
-              <div><b>Mesh Trash Bag:</b> Keep one mesh trash bag tied securely to each tube stack to catch packaging and keep waters pristine.</div>
+              <div><b>Mesh Trash Bag:</b> Tied securely to your tube stack to pack out all packaging and trash.</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">🦺</span>
-              <div><b>Life Jackets Advised:</b> Free-flowing river currents and Rio Vista chute require swimming confidence; life jackets strongly recommended.</div>
+              <div><b>Life Jackets Advised:</b> Strongly recommended for all swimmers, especially through river chutes.</div>
             </li>
             <li class="rule-item-entry">
-              <span class="item-bullet">👟</span>
-              <div><b>Secured Water Shoes:</b> Wear strap-on sandals or water shoes to prevent foot injuries on slippery limestone and river rock.</div>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Card 3: Ecological Stewardship & Safety -->
-        <div class="rules-category-card stewardship">
-          <div class="card-category-header stewardship">
-            <span>🌿</span> ECO-STEWARDSHIP &amp; PARK NAVIGATION
-          </div>
-          <ul class="rule-items-list">
-            <li class="rule-item-entry">
-              <span class="item-bullet">🌾</span>
-              <div><b>Texas Wild Rice Sanctuary:</b> Endangered plant endemic only to the upper river. Float gently overhead; do not stand on grass beds.</div>
-            </li>
-            <li class="rule-item-entry">
-              <span class="item-bullet">🗺️</span>
-              <div><b>"Go Zones" vs. "No Zones":</b> Disposable containers are permitted only in designated "Go Zones" (park picnic areas away from riverbanks).</div>
-            </li>
-            <li class="rule-item-entry">
-              <span class="item-bullet">🐢</span>
-              <div><b>Respect Native Wildlife:</b> Admire basking turtles, herons, and river fauna from your tube without harassing or feeding.</div>
-            </li>
-            <li class="rule-item-entry">
-              <span class="item-bullet">🏊</span>
-              <div><b>No Lifeguards on Duty:</b> The San Marcos River is a natural spring waterway with submerged roots and sudden drop-offs.</div>
-            </li>
-            <li class="rule-item-entry">
-              <span class="item-bullet">⏰</span>
-              <div><b>Park Hours (6 AM – 11 PM):</b> River access parks close at 11:00 PM unless otherwise posted.</div>
+              <div><b>Secured Footwear:</b> Strap-on sandals or water shoes recommended for slippery limestone and gravel.</div>
             </li>
           </ul>
         </div>
