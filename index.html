@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SM River Vibe &mdash; San Marcos River Tubing &amp; 21-Species Eco-Simulator</title>
+  <title>SM River Vibe &mdash; San Marcos River Tubing &amp; 21-Species Ecosystem</title>
   <meta name="description" content="Real-time river flow, water quality, weather conditions, vibe score, and eco-impact assessment for tubing the San Marcos River in San Marcos, TX.">
 
   <!-- Google Fonts: Inter -->
@@ -2093,15 +2093,15 @@
       </div>
     </section>
 
-    <!-- SIDE-SCROLLING SVG ECOSYSTEM CROSS-SECTION SIMULATOR (MOVED TO BOTTOM) -->
+    <!-- SIDE-SCROLLING SVG ECOSYSTEM CROSS-SECTION (MOVED TO BOTTOM) -->
     <section class="ecosystem-container" id="ecosystemView" data-stage="optimal-baseflow">
       <div class="eco-sim-header">
         <div class="eco-sim-title">
-          <span>🌿</span> San Marcos River Ecosystem Simulator
+          <span>🌿</span> San Marcos River Ecosystem
         </div>
 
         <!-- Mode Toggle: Learning Mode vs Quizzing Mode -->
-        <div class="mode-toggle-group" role="tablist" aria-label="Simulator Experience Modes">
+        <div class="mode-toggle-group" role="tablist" aria-label="Ecosystem Experience Modes">
           <span class="mode-toggle-label">MODE:</span>
           <button class="btn-mode active" id="btnModeExplore" onclick="setAppMode('explore')" aria-pressed="true" title="Learning Mode: View all species and inspect full field guides">
             <span class="mode-tag-pill">LEARNING</span>
@@ -2112,13 +2112,6 @@
             <span>🎯 Test Your Skill!</span>
             <span class="quiz-pulse-beacon" title="Interactive Quiz Available"></span>
           </button>
-        </div>
-
-        <div class="stage-toggle-btns" id="stageButtonsGroup">
-          <button class="btn-stage active" id="btnStage1" onclick="setSimStage('optimal-baseflow')">Stage 1: Optimal</button>
-          <button class="btn-stage" id="btnStage2" onclick="setSimStage('elevated-surge')">Stage 2: Elevated</button>
-          <button class="btn-stage" id="btnStage3" onclick="setSimStage('severe-flood')">Stage 3: Flood</button>
-          <button class="btn-stage" id="btnStage4" onclick="setSimStage('critical-drought')">Stage 4: Drought</button>
         </div>
       </div>
 
@@ -2165,9 +2158,9 @@
             <g id="ecoCreaturesVector" pointer-events="none">
               <!-- North American River Otter (Naturalist Field-Guide Swimmer) -->
               <g id="creature-otter">
-                <ellipse cx="341" cy="148" rx="55" ry="16" fill="none" stroke="#38BDF8" stroke-width="1.6" opacity="0.6" stroke-dasharray="16, 8" />
-                <ellipse cx="341" cy="148" rx="42" ry="11" fill="none" stroke="#7DD3FC" stroke-width="1.1" opacity="0.75" />
-                <image id="creature-otter-img" href="assets/creature-otter.png" x="290" y="118" width="102" height="53" preserveAspectRatio="xMidYMid meet" />
+                <ellipse cx="341" cy="176" rx="55" ry="12" fill="none" stroke="#38BDF8" stroke-width="1.6" opacity="0.6" stroke-dasharray="16, 8" />
+                <ellipse cx="341" cy="176" rx="40" ry="8" fill="none" stroke="#7DD3FC" stroke-width="1.1" opacity="0.75" />
+                <image id="creature-otter-img" href="assets/creature-otter.png" x="290" y="133" width="102" height="53" preserveAspectRatio="xMidYMid meet" />
               </g>
 
               <!-- North American Beaver (Naturalist Field-Guide on Riverbank Turf) -->
@@ -2471,11 +2464,11 @@
                onfocus="showHotspotPreview('otter', event)"
                onblur="hideHotspotPreview()"
                onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('otter')">
-              <ellipse cx="341" cy="144" rx="52" ry="26" class="hotspot-ring" />
-              <circle cx="341" cy="115" r="5" class="hotspot-beacon-dot" />
-              <circle cx="341" cy="115" r="5" class="hotspot-beacon-pulse" />
-              <rect x="305" y="80" width="72" height="22" class="hotspot-badge-bg" />
-              <text x="341" y="95" text-anchor="middle" class="hotspot-badge-text">River Otter</text>
+              <ellipse cx="341" cy="158" rx="52" ry="26" class="hotspot-ring" />
+              <circle cx="341" cy="128" r="5" class="hotspot-beacon-dot" />
+              <circle cx="341" cy="128" r="5" class="hotspot-beacon-pulse" />
+              <rect x="305" y="96" width="72" height="22" class="hotspot-badge-bg" />
+              <text x="341" y="111" text-anchor="middle" class="hotspot-badge-text">River Otter</text>
             </g>
 
             <!-- 21. North American Beaver (Upper Riverbank Keystone Engineer) -->
@@ -2509,33 +2502,6 @@
         </div>
       </div>
 
-      <!-- Telemetry HUD Bar underneath Canvas -->
-      <div class="sim-hud-bar">
-        <button class="btn-scenario" style="padding: 4px 10px; background: rgba(56,189,248,0.15); border-color: #06B6D4; color: #38BDF8; font-weight: 700; cursor: pointer;" onclick="openInfoCard('population-math')">
-          📊 How Population Counts Are Derived (USGS Math)
-        </button>
-        <div class="hud-species-counts" id="hudCounts">
-          <span class="hud-tag">🌾 Rice: <span id="hudRice">55 stands</span></span>
-          <span class="hud-tag">🐟 Darters: <span id="hudDarters">5.5/m²</span></span>
-          <span class="hud-tag">🐢 Turtles: <span id="hudTurtles">8 (Snapping/Cooter/Softshell/Musk)</span></span>
-          <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
-          <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
-          <span class="hud-tag">🦦 Otters: <span id="hudOtters">2 (Returning)</span></span>
-          <span class="hud-tag">🦫 Beavers: <span id="hudBeavers">1 (Bank Den)</span></span>
-          <span class="hud-tag" style="border-color: rgba(244,63,94,0.4); color: #FDA4AF;">⚠️ Plecos: <span id="hudPleco">3 (Burrow Risk)</span></span>
-        </div>
-      </div>
-
-      <!-- Public Educational Explainer Box -->
-      <div class="hud-explainer-box">
-        <div class="explainer-header">
-          <span>💡 Why Ecosystem Numbers Change With Live River Stats</span>
-          <span style="font-size: 0.72rem; color: #94A3B8; font-weight: 500;">Live Impact Analysis</span>
-        </div>
-        <p id="explainerText" style="font-size: 0.82rem; color: #CBD5E1; line-height: 1.5; margin-top: 6px;">
-          In <strong>Stage 1 (Optimal Flow: 150 CFS, &lt;2 NTU)</strong>, crystal-clear spring water lets sunlight feed Texas Wild Rice, while calm current lets Fountain Darters and Sunfish swim freely across moss beds!
-        </p>
-      </div>
     </section>
 
     <!-- SAN MARCOS RIVER CITY RULES & GUIDELINES -->
