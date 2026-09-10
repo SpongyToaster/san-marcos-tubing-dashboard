@@ -1724,128 +1724,473 @@
       .data-card { padding: 12px; }
     }
       /* ==========================================
-       SUMMER CHILL VIBE MUSIC & APP DOWNLOAD CONTROLS
+       1990s VINTAGE CAR STEREO DECK (ALPINE/PIONEER THEME)
        ========================================== */
-    .chill-music-player {
+    .car-stereo-deck, .chill-music-player {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.82);
-      border: 1.5px solid rgba(6, 182, 212, 0.4);
-      border-radius: 24px;
-      padding: 4px 10px;
-      transition: all 0.25s ease;
+      gap: 7px;
+      background: linear-gradient(180deg, #242935 0%, #171b24 45%, #0f1218 100%);
+      border: 2px solid #3b4455;
+      border-top-color: #556075;
+      border-bottom-color: #141720;
+      border-radius: 8px;
+      padding: 4px 9px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.8),
+        0 4px 14px rgba(0, 0, 0, 0.65);
       position: relative;
+      user-select: none;
+      transition: all 0.25s ease;
     }
 
-    .chill-music-player:hover {
-      border-color: rgba(6, 182, 212, 0.8);
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+    .car-stereo-deck:hover, .chill-music-player:hover {
+      border-color: #4f5b72;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.75);
     }
 
-    .btn-music-toggle {
-      background: linear-gradient(135deg, #0284C7, #06B6D4);
-      border: none;
-      color: #FFFFFF;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
+    /* Micro brand & spec decal */
+    .stereo-brand-badge {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 12px;
-      transition: transform 0.2s ease, filter 0.2s ease;
-      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.1;
+      padding: 0 4px 0 2px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
       flex-shrink: 0;
     }
 
-    .btn-music-toggle:hover {
-      transform: scale(1.08);
-      filter: brightness(1.15);
+    .stereo-brand-txt {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: #94A3B8;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.8);
     }
 
-    .btn-music-toggle.playing {
-      background: linear-gradient(135deg, #10B981, #06B6D4);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
-    }
-
-    .music-now-playing {
-      font-size: 0.75rem;
+    .stereo-brand-sub {
+      font-size: 7px;
       font-weight: 700;
-      color: #F8FAFC;
+      color: #06B6D4;
+      letter-spacing: 0.08em;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Transport buttons cluster: PLAY & PAUSE */
+    .stereo-transport-cluster {
       display: flex;
       align-items: center;
-      gap: 6px;
-      white-space: nowrap;
+      gap: 3px;
+      background: #090c10;
+      padding: 2px;
+      border-radius: 5px;
+      border: 1px solid #282f3c;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.85);
+      flex-shrink: 0;
     }
 
-    .music-eq-bars {
+    .stereo-btn {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #374151 0%, #1f2937 100%);
+      border: 1px solid #4b5563;
+      border-top-color: #6b7280;
+      border-bottom-color: #111827;
+      color: #e5e7eb;
+      padding: 2px 7px;
+      height: 28px;
+      min-width: 44px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transition: all 0.15s ease;
+      font-size: 11px;
+    }
+
+    .stereo-btn:hover {
+      background: linear-gradient(180deg, #4b5563 0%, #374151 100%);
+      color: #ffffff;
+    }
+
+    .stereo-btn:active {
+      transform: translateY(1px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+      border-color: #1f2937;
+    }
+
+    .stereo-led {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #232832;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+      margin-bottom: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .stereo-btn.active-play .stereo-led {
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981, 0 0 3px #34D399;
+    }
+
+    .stereo-btn.active-pause .stereo-led {
+      background: #F59E0B;
+      box-shadow: 0 0 8px #F59E0B, 0 0 3px #FBBF24;
+    }
+
+    .stereo-btn-label {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      line-height: 1;
+    }
+
+    /* Recessed VFD / LCD Display Screen */
+    .stereo-vfd-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #021417;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.035) 50%, rgba(0, 0, 0, 0.3) 50%),
+        radial-gradient(ellipse at center, rgba(4, 40, 46, 0.92) 0%, #021214 100%);
+      background-size: 100% 2px, 100% 100%;
+      border: 1.5px solid #142e34;
+      border-top-color: #0b1d20;
+      border-bottom-color: #244b54;
+      border-radius: 4px;
+      padding: 3px 8px;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.1);
+      min-width: 175px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .stereo-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: 'Courier New', Consolas, monospace;
+      font-size: 7.5px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .vfd-badge-st {
+      color: #374151;
+      transition: all 0.2s ease;
+    }
+
+    .vfd-badge-st.lit {
+      color: #EF4444;
+      text-shadow: 0 0 6px rgba(239, 68, 68, 0.9);
+    }
+
+    .vfd-badge-live {
+      color: #06B6D4;
+      text-shadow: 0 0 5px rgba(6, 182, 212, 0.7);
+    }
+
+    .stereo-vfd-text {
+      font-family: 'Courier New', 'Lucida Console', Monaco, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #00F0FF;
+      text-shadow: 0 0 7px rgba(0, 240, 255, 0.8), 0 0 14px rgba(0, 240, 255, 0.4);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 135px;
+    }
+
+    /* Multi-segment Spectrum Analyzer / VU Meter */
+    .stereo-vu-meter {
       display: flex;
       align-items: flex-end;
       gap: 2px;
       height: 14px;
-      width: 14px;
+      padding: 1px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 2px;
+      flex-shrink: 0;
     }
 
-    .eq-bar {
-      width: 2px;
-      background: #38BDF8;
+    .vu-bar {
+      width: 3px;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      background: rgba(255, 255, 255, 0.06);
       border-radius: 1px;
-      height: 3px;
-      transition: height 0.15s ease;
+      overflow: hidden;
     }
 
-    .music-eq-bars.playing .eq-bar:nth-child(1) { animation: eqBounce 0.65s infinite ease-in-out; }
-    .music-eq-bars.playing .eq-bar:nth-child(2) { animation: eqBounce 0.45s infinite ease-in-out 0.15s; }
-    .music-eq-bars.playing .eq-bar:nth-child(3) { animation: eqBounce 0.85s infinite ease-in-out 0.3s; }
-    .music-eq-bars.playing .eq-bar:nth-child(4) { animation: eqBounce 0.55s infinite ease-in-out 0.08s; }
-
-    @keyframes eqBounce {
-      0%, 100% { height: 3px; }
-      50% { height: 14px; }
+    .vu-bar-fill {
+      width: 100%;
+      height: 25%;
+      background: linear-gradient(to top, #10B981 0%, #10B981 60%, #FACC15 60%, #FACC15 85%, #EF4444 85%, #EF4444 100%);
+      border-radius: 1px;
+      transition: height 0.1s ease;
     }
 
-    .music-preset-select {
-      background: rgba(30, 41, 59, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #E2E8F0;
-      font-size: 0.7rem;
-      border-radius: 12px;
-      padding: 3px 6px;
+    .stereo-vu-meter.playing .vu-bar:nth-child(1) .vu-bar-fill {
+      animation: vuBounce1 0.45s infinite ease-in-out alternate;
+    }
+    .stereo-vu-meter.playing .vu-bar:nth-child(2) .vu-bar-fill {
+      animation: vuBounce2 0.35s infinite ease-in-out alternate 0.1s;
+    }
+    .stereo-vu-meter.playing .vu-bar:nth-child(3) .vu-bar-fill {
+      animation: vuBounce3 0.55s infinite ease-in-out alternate 0.05s;
+    }
+    .stereo-vu-meter.playing .vu-bar:nth-child(4) .vu-bar-fill {
+      animation: vuBounce4 0.4s infinite ease-in-out alternate 0.15s;
+    }
+
+    @keyframes vuBounce1 { 0% { height: 20%; } 100% { height: 95%; } }
+    @keyframes vuBounce2 { 0% { height: 35%; } 100% { height: 100%; } }
+    @keyframes vuBounce3 { 0% { height: 15%; } 100% { height: 85%; } }
+    @keyframes vuBounce4 { 0% { height: 30%; } 100% { height: 90%; } }
+
+    /* Preset Selector styled like 90s CD/Cassette Slot */
+    .stereo-preset-select, .music-preset-select {
+      background: linear-gradient(180deg, #1f2633 0%, #11151f 100%);
+      border: 1px solid #475369;
+      border-top-color: #5c6b84;
+      border-bottom-color: #11151f;
+      border-radius: 4px;
+      color: #F1F5F9;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 7px;
       cursor: pointer;
       outline: none;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.1);
+      max-width: 185px;
     }
 
-    .music-vol-slider {
-      width: 50px;
-      height: 4px;
-      accent-color: #06B6D4;
-      cursor: pointer;
+    .stereo-preset-select optgroup {
+      background: #0f141c;
+      color: #38BDF8;
+      font-weight: 700;
     }
 
-    .btn-music-shuffle {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .stereo-preset-select option {
+      background: #1e2430;
+      color: #F1F5F9;
+    }
+
+    /* Seek / Shuffle Button */
+    .stereo-btn-seek, .btn-music-shuffle {
+      background: linear-gradient(180deg, #374151 0%, #1f2937 100%);
+      border: 1px solid #4b5563;
+      border-top-color: #6b7280;
+      border-bottom-color: #111827;
+      border-radius: 4px;
       color: #E2E8F0;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
+      padding: 3px 8px;
+      height: 28px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .stereo-btn-seek:hover, .btn-music-shuffle:hover {
+      background: linear-gradient(180deg, #4b5563 0%, #374151 100%);
+      color: #38BDF8;
+      transform: translateY(-1px);
+    }
+
+    .stereo-btn-seek:active, .btn-music-shuffle:active {
+      transform: translateY(1px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Direct Source Jump Link & Info Buttons */
+    .stereo-btn-src {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 3px;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #38bdf8;
+      border-top-color: #7dd3fc;
+      border-bottom-color: #0369a1;
+      color: #38bdf8;
+      text-decoration: none;
+      font-family: 'Courier New', monospace;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 2px 6px;
+      height: 28px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      transition: all 0.15s ease;
       cursor: pointer;
-      font-size: 12px;
-      transition: all 0.2s ease;
+      white-space: nowrap;
       flex-shrink: 0;
-      padding: 0;
     }
 
-    .btn-music-shuffle:hover {
-      background: rgba(6, 182, 212, 0.25);
-      border-color: #38BDF8;
-      color: #FFFFFF;
-      transform: rotate(45deg);
+    .stereo-btn-src:hover {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .stereo-btn-info {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      border: 1px solid #64748b;
+      border-top-color: #94a3b8;
+      border-bottom-color: #0f172a;
+      color: #f1f5f9;
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      height: 28px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .stereo-btn-info:hover {
+      background: #475569;
+      color: #38bdf8;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+
+    /* Volume Slider */
+    .stereo-vol-slider, .music-vol-slider {
+      width: 50px;
+      height: 4px;
+      accent-color: #00F0FF;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Module Wrapper for Deck & Live Attribution Sub-bar */
+    .car-stereo-module {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    /* Live Attribution Bar */
+    .stereo-attribution-strip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 9px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      font-size: 10px;
+      line-height: 1.2;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+      transition: all 0.2s ease;
+    }
+
+    .stereo-attr-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 6px #38bdf8;
+      flex-shrink: 0;
+    }
+
+    .stereo-attr-prefix {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      font-family: 'Courier New', monospace;
+    }
+
+    .stereo-attr-link {
+      color: #93c5fd;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: color 0.15s ease;
+    }
+
+    .stereo-attr-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .stereo-attr-dot-sep {
+      color: #475569;
+      font-size: 9px;
+    }
+
+    .stereo-attr-ext {
+      font-size: 9.5px;
+      opacity: 0.85;
+    }
+
+    .stereo-attr-badge-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      padding: 1px 7px;
+      border-radius: 8px;
+      font-size: 8.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+    }
+
+    .stereo-attr-badge-btn:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: #38bdf8;
+      color: #ffffff;
+    }
+
+    .soma-badge-pill {
+      background: #dc2626;
+      color: #ffffff;
+      padding: 0 3px;
+      border-radius: 3px;
+      font-weight: 900;
+      font-size: 7.5px;
+      margin-right: 2px;
     }
 
     /* DOWNLOAD STANDALONE BUTTON */
@@ -1873,6 +2218,302 @@
       transform: translateY(-1px);
     }
 
+    /* STEREO ATTRIBUTION MODAL */
+    .stereo-attr-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .stereo-attr-modal-backdrop.active {
+      display: flex;
+    }
+
+    .stereo-attr-modal-dialog {
+      background: #111827;
+      border: 2px solid #374151;
+      border-radius: 14px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95), 0 0 30px rgba(56, 189, 248, 0.2);
+      max-width: 680px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      color: #e5e7eb;
+      padding: 22px;
+      position: relative;
+    }
+
+    .stereo-modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #1f2937;
+      border: 1px solid #4b5563;
+      color: #9ca3af;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      transition: all 0.15s ease;
+    }
+
+    .stereo-modal-close-btn:hover {
+      background: #dc2626;
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    .stereo-modal-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stereo-modal-subtitle {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .stereo-modal-spotlight {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border: 1.5px solid #38bdf8;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-spot-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    .modal-spot-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .modal-spot-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .modal-spot-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+
+    .modal-spot-dial {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      background: #0284c7;
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .modal-spot-genre {
+      font-size: 12px;
+      color: #38bdf8;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .modal-spot-origin {
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .modal-spot-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .modal-btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #0284c7;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      transition: background 0.15s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-btn-link:hover {
+      background: #0369a1;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .modal-btn-subtle {
+      background: #334155;
+      color: #cbd5e1;
+    }
+
+    .modal-btn-subtle:hover {
+      background: #475569;
+      color: #ffffff;
+    }
+
+    .modal-btn-donate {
+      background: #b91c1c;
+      color: #ffffff;
+    }
+
+    .modal-btn-donate:hover {
+      background: #991b1b;
+      color: #ffffff;
+    }
+
+    .somafm-brand-card {
+      background: #0b111e;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .somafm-brand-banner-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .somafm-brand-img {
+      height: 44px;
+      border-radius: 4px;
+      border: 1px solid #334155;
+      background: #000;
+    }
+
+    .somafm-brand-desc {
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    .somafm-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .somafm-station-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #151f32;
+      border: 1px solid #273752;
+      border-radius: 6px;
+      padding: 6px 9px;
+      text-decoration: none;
+      color: #e2e8f0;
+      font-size: 11px;
+      transition: all 0.15s ease;
+    }
+
+    .somafm-station-chip:hover {
+      background: #1e293b;
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    .somafm-chip-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #000;
+    }
+
+    .local-stations-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .local-stations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .local-station-chip {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      background: #172236;
+      border: 1px solid #2d3e5c;
+      border-radius: 6px;
+      padding: 8px 10px;
+      text-decoration: none;
+      color: #e2e8f0;
+      transition: all 0.15s ease;
+    }
+
+    .local-station-chip:hover {
+      background: #1e293b;
+      border-color: #10b981;
+      color: #a7f3d0;
+    }
+
+    .local-chip-title {
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .local-chip-sub {
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
     @media (max-width: 900px) {
       .header {
         flex-direction: column;
@@ -1891,12 +2532,37 @@
         gap: 8px;
         width: 100%;
       }
-      .chill-music-player {
+      .car-stereo-module {
         order: 1;
-        flex: 1;
+        width: 100%;
+        align-items: stretch;
+      }
+      .car-stereo-deck, .chill-music-player {
+        width: 100%;
         justify-content: space-between;
       }
-      .music-vol-slider {
+      .stereo-attribution-strip {
+        justify-content: center;
+      }
+      .stereo-vol-slider, .music-vol-slider {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stereo-brand-badge {
+        display: none;
+      }
+      .stereo-vfd-display {
+        min-width: 130px;
+      }
+      .stereo-vfd-text {
+        max-width: 95px;
+      }
+      .stereo-preset-select {
+        max-width: 120px;
+      }
+      .stereo-btn-info {
         display: none;
       }
     }
@@ -1916,26 +2582,95 @@
       </div>
     </div>
     <div class="header-actions">
-      <!-- SUMMER CHILL VIBE LIVE STREAMING RADIO & MUSIC PLAYER -->
-      <div class="chill-music-player" id="chillMusicPlayer" title="Live River Radio & Chill Vibe Music">
-        <button class="btn-music-toggle" id="musicToggleBtn" onclick="toggleRiverMusic()" aria-label="Play Live River Music">&#9654;</button>
-        <div class="music-now-playing">
-          <div class="music-eq-bars" id="musicEqBars">
-            <span class="eq-bar"></span>
-            <span class="eq-bar"></span>
-            <span class="eq-bar"></span>
-            <span class="eq-bar"></span>
+      <!-- 1990s VINTAGE RIVERSOUND CAR STEREO MODULE -->
+      <div class="car-stereo-module">
+        <div class="car-stereo-deck chill-music-player" id="chillMusicPlayer" title="Riversound 90s Car Stereo Deck &bull; San Marcos, TX">
+          <!-- Brand / Spec Decal -->
+          <div class="stereo-brand-badge" title="Quartz Lock Synthesizer 45W x 4 High Power">
+            <span class="stereo-brand-txt">RIVERSOUND</span>
+            <span class="stereo-brand-sub">45W&times;4</span>
           </div>
-          <span id="musicStatusLabel">SM Local Radio</span>
+
+          <!-- Dedicated PLAY and PAUSE cluster with active LED indicators -->
+          <div class="stereo-transport-cluster">
+            <button class="stereo-btn" id="btnStereoPlay" onclick="stereoPlay()" title="Play Live Music" aria-label="Play Live Radio">
+              <span class="stereo-led" id="ledStereoPlay"></span>
+              <span class="stereo-btn-label">&#9654; PLAY</span>
+            </button>
+            <button class="stereo-btn active-pause" id="btnStereoPause" onclick="stereoPause()" title="Pause Live Music" aria-label="Pause Live Radio">
+              <span class="stereo-led" id="ledStereoPause"></span>
+              <span class="stereo-btn-label">&#10074;&#10074; PAUSE</span>
+            </button>
+          </div>
+
+          <!-- Recessed VFD / LCD Dot-Matrix Display Screen -->
+          <div class="stereo-vfd-display" id="stereoVfdDisplay" title="Backlit VFD Quartz Display">
+            <div class="stereo-badges">
+              <span class="vfd-badge-st" id="vfdBadgeSt">ST</span>
+              <span class="vfd-badge-live">LIVE</span>
+            </div>
+            <div class="stereo-vu-meter music-eq-bars" id="musicEqBars">
+              <div class="vu-bar"><div class="vu-bar-fill"></div></div>
+              <div class="vu-bar"><div class="vu-bar-fill"></div></div>
+              <div class="vu-bar"><div class="vu-bar-fill"></div></div>
+              <div class="vu-bar"><div class="vu-bar-fill"></div></div>
+            </div>
+            <span class="stereo-vfd-text" id="musicStatusLabel">KTSW 89.9 FM</span>
+          </div>
+
+          <!-- Station Selection Dropdown (Preset Slot) -->
+          <select class="stereo-preset-select music-preset-select" id="musicPresetSelect" onchange="tuneStereoStation(this.value)" aria-label="Select Radio Station">
+            <optgroup label="📻 San Marcos &amp; Central TX Local">
+              <option value="ktsw" selected>&#128251; KTSW 89.9 FM (TX State)</option>
+              <option value="kzsm">&#128251; KZSM 104.1 FM (SM Community)</option>
+              <option value="kutx">&#128251; KUTX 98.9 FM (Austin Radio)</option>
+            </optgroup>
+            <optgroup label="🌊 SomaFM Playlists (100% Commercial-Free)">
+              <option value="reggae">&#127796; Heavyweight Reggae (SomaFM)</option>
+              <option value="seventies">&#9728;&#65039; Left Coast 70s (SomaFM)</option>
+              <option value="u80s">&#9889; Underground 80s (SomaFM)</option>
+              <option value="bootliquor">&#129312; Boot Liquor Country (SomaFM)</option>
+              <option value="7soul">&#127927; Seven Inch Soul (SomaFM)</option>
+              <option value="folkfwd">&#129685; Folk Forward (SomaFM)</option>
+            </optgroup>
+          </select>
+
+          <!-- Seek / Shuffle Button -->
+          <button class="stereo-btn-seek btn-music-shuffle" id="musicShuffleBtn" onclick="seekNextStation()" title="Seek next live station (non-repeating)" aria-label="Seek Station">
+            <span>&#127922;</span>
+            <span>SEEK</span>
+          </button>
+
+          <!-- Direct Origin Source Link Button -->
+          <a class="stereo-btn-src" id="stereoDeckSrcLink" href="https://ktsw899.com/" target="_blank" rel="noopener noreferrer" title="Jump directly to official station website" aria-label="Station Website">
+            <span>&#127760;</span>
+            <span>SRC &#8599;</span>
+          </a>
+
+          <!-- Attribution & Branding Info Button -->
+          <button class="stereo-btn-info" id="stereoDeckInfoBtn" onclick="toggleStereoAttributionModal()" title="View Station Details &amp; SomaFM Attribution" aria-label="Station Attribution">
+            <span>&#8505;&#65039;</span>
+            <span>INFO</span>
+          </button>
+
+          <!-- Volume Slider -->
+          <input type="range" class="stereo-vol-slider music-vol-slider" id="musicVolumeSlider" min="0" max="1" step="0.05" value="0.45" oninput="changeMusicVolume(this.value)" aria-label="Stereo Volume" title="Stereo Volume" />
         </div>
-        <select class="music-preset-select" id="musicPresetSelect" onchange="changeMusicTheme(this.value)" aria-label="Music Stream Theme">
-          <option value="local">&#128251; SM Local (KTSW &amp; KZSM)</option>
-          <option value="reggae">&#127796; Island Reggae</option>
-          <option value="country">&#129312; Classic Country</option>
-          <option value="pop">&#9728;&#65039; Summer Pop</option>
-        </select>
-        <button class="btn-music-shuffle" id="musicShuffleBtn" onclick="shuffleRiverStation()" title="Shuffle to another live station in this theme" aria-label="Shuffle Station">&#127922;</button>
-        <input type="range" class="music-vol-slider" id="musicVolumeSlider" min="0" max="1" step="0.05" value="0.45" oninput="changeMusicVolume(this.value)" aria-label="Volume" title="Music Volume" />
+
+        <!-- Contextual Live Origin Attribution Pill -->
+        <div class="stereo-attribution-strip" id="stereoAttributionStrip">
+          <span class="stereo-attr-dot"></span>
+          <span class="stereo-attr-prefix">ORIGIN:</span>
+          <a class="stereo-attr-link" id="stereoAttrLink" href="https://ktsw899.com/" target="_blank" rel="noopener noreferrer" title="Open official station website">
+            <span id="stereoAttrName">KTSW 89.9 FM</span>
+            <span class="stereo-attr-dot-sep">&bull;</span>
+            <span id="stereoAttrSource">Texas State University</span>
+            <span class="stereo-attr-ext">&#8599;</span>
+          </a>
+          <button class="stereo-attr-badge-btn" id="stereoAttrBadgeBtn" onclick="toggleStereoAttributionModal()" title="View full source attribution &amp; SomaFM pre-made branding">
+            Details &amp; SomaFM &blacktriangledown;
+          </button>
+        </div>
       </div>
 
       <!-- DOWNLOAD STANDALONE FILE BUTTON -->
@@ -2733,6 +3468,121 @@
           <button class="btn-refresh" style="padding: 8px 18px; background: linear-gradient(135deg, #F59E0B, #EA580C); font-weight: 700;" onclick="resetChallenge(); closeScorecard();">
             🎯 Play Again
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEREO AUDIO SOURCE ATTRIBUTION & SOMAFM BRANDING MODAL -->
+    <div class="stereo-attr-modal-backdrop" id="stereoAttributionModal" role="dialog" aria-modal="true" aria-labelledby="stereoModalHeading" onclick="closeStereoAttributionModal(event)">
+      <div class="stereo-attr-modal-dialog" onclick="event.stopPropagation()">
+        <button class="stereo-modal-close-btn" onclick="closeStereoAttributionModal()" title="Close dialog" aria-label="Close dialog">&times;</button>
+        
+        <div class="stereo-modal-title" id="stereoModalHeading">
+          <span>📻</span>
+          <span>Audio Source Attribution &amp; Direct Origin Links</span>
+        </div>
+        <p class="stereo-modal-subtitle">
+          SM River Vibe streams live, non-commercial public radio and 100% commercial-free independent internet broadcasts. Click any link below to visit station homepages, view live playlist tracks, or support the origin broadcasters.
+        </p>
+
+        <!-- CURRENTLY ACTIVE STATION SPOTLIGHT -->
+        <div class="stereo-modal-spotlight" id="stereoModalSpotlight">
+          <img class="modal-spot-logo" id="modalSpotLogo" src="https://api.somafm.com/logos/120/reggae120.png" alt="Station Logo" />
+          <div class="modal-spot-info">
+            <div class="modal-spot-header">
+              <span class="modal-spot-name" id="modalSpotName">Heavyweight Reggae</span>
+              <span class="modal-spot-dial" id="modalSpotDial">SOMA-REG</span>
+            </div>
+            <div class="modal-spot-genre" id="modalSpotGenre">Reggae, Ska, Dub &amp; Roots</div>
+            <div class="modal-spot-origin" id="modalSpotOrigin">SomaFM Commercial-Free Listener-Supported Radio &bull; San Francisco, CA</div>
+            <div class="modal-spot-actions">
+              <a class="modal-btn-link" id="modalSpotStationBtn" href="https://somafm.com/reggae/" target="_blank" rel="noopener noreferrer">
+                <span>📻 Visit Station Webpage &#8599;</span>
+              </a>
+              <a class="modal-btn-link modal-btn-subtle" id="modalSpotMainBtn" href="https://somafm.com/" target="_blank" rel="noopener noreferrer">
+                <span>🌐 SomaFM.com Main Website &#8599;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- OFFICIAL SOMAFM PRE-MADE BRANDING & PLAYLISTS -->
+        <div class="somafm-brand-card">
+          <div class="somafm-brand-banner-wrap">
+            <a href="https://somafm.com/" target="_blank" rel="noopener noreferrer" title="Visit SomaFM.com Commercial-Free Internet Radio">
+              <img class="somafm-brand-img" src="https://somafm.com/linktous/150x50sfm1_1.gif" alt="SomaFM commercial free internet radio" />
+            </a>
+            <div style="display: flex; gap: 6px;">
+              <a class="modal-btn-link modal-btn-subtle" href="https://somafm.com/" target="_blank" rel="noopener noreferrer">
+                <span>🌐 SomaFM.com &#8599;</span>
+              </a>
+              <a class="modal-btn-link modal-btn-donate" href="https://somafm.com/support/" target="_blank" rel="noopener noreferrer" title="Support listener-funded commercial-free radio">
+                <span>💖 Support SomaFM &#8599;</span>
+              </a>
+            </div>
+          </div>
+          <p class="somafm-brand-desc">
+            <strong>SomaFM</strong> is an independent, listener-supported internet radio network based in San Francisco broadcasting over 30 distinct commercial-free channels with no ads, sponsorships, or paywalls. Below are the 6 official SomaFM channels featured on the Riversound stereo deck:
+          </p>
+          <div class="somafm-links-grid">
+            <a class="somafm-station-chip" href="https://somafm.com/reggae/" target="_blank" rel="noopener noreferrer" title="Visit Heavyweight Reggae on SomaFM">
+              <img class="somafm-chip-thumb" src="https://api.somafm.com/logos/120/reggae120.png" alt="Reggae" />
+              <div><strong>Heavyweight Reggae</strong><br/><span style="color:#94a3b8;font-size:9.5px;">Dub, Ska &amp; Roots</span></div>
+            </a>
+            <a class="somafm-station-chip" href="https://somafm.com/seventies/" target="_blank" rel="noopener noreferrer" title="Visit Left Coast 70s on SomaFM">
+              <img class="somafm-chip-thumb" src="https://api.somafm.com/logos/120/seventies120.jpg" alt="70s" />
+              <div><strong>Left Coast 70s</strong><br/><span style="color:#94a3b8;font-size:9.5px;">Mellow Yacht Rock</span></div>
+            </a>
+            <a class="somafm-station-chip" href="https://somafm.com/u80s/" target="_blank" rel="noopener noreferrer" title="Visit Underground 80s on SomaFM">
+              <img class="somafm-chip-thumb" src="https://api.somafm.com/logos/120/u80s120.png" alt="80s" />
+              <div><strong>Underground 80s</strong><br/><span style="color:#94a3b8;font-size:9.5px;">UK Synth &amp; New Wave</span></div>
+            </a>
+            <a class="somafm-station-chip" href="https://somafm.com/bootliquor/" target="_blank" rel="noopener noreferrer" title="Visit Boot Liquor on SomaFM">
+              <img class="somafm-chip-thumb" src="https://api.somafm.com/logos/120/bootliquor120.jpg" alt="Boot Liquor" />
+              <div><strong>Boot Liquor</strong><br/><span style="color:#94a3b8;font-size:9.5px;">Americana &amp; Outlaw</span></div>
+            </a>
+            <a class="somafm-station-chip" href="https://somafm.com/7soul/" target="_blank" rel="noopener noreferrer" title="Visit Seven Inch Soul on SomaFM">
+              <img class="somafm-chip-thumb" src="https://api.somafm.com/logos/120/7soul120.png" alt="7 Inch Soul" />
+              <div><strong>Seven Inch Soul</strong><br/><span style="color:#94a3b8;font-size:9.5px;">Vintage 45s &amp; Funk</span></div>
+            </a>
+            <a class="somafm-station-chip" href="https://somafm.com/folkfwd/" target="_blank" rel="noopener noreferrer" title="Visit Folk Forward on SomaFM">
+              <img class="somafm-chip-thumb" src="https://api.somafm.com/logos/120/folkfwd120.jpg" alt="Folk Forward" />
+              <div><strong>Folk Forward</strong><br/><span style="color:#94a3b8;font-size:9.5px;">Indie Folk &amp; Roots</span></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- SAN MARCOS & CENTRAL TEXAS LOCAL STATIONS -->
+        <div class="local-stations-card" style="margin-top: 16px;">
+          <div style="font-size: 13px; font-weight: 800; color: #f8fafc; margin-bottom: 4px;">
+            📻 San Marcos &amp; Central Texas Local Broadcasts
+          </div>
+          <p style="font-size: 11px; color: #94a3b8; line-height: 1.4; margin-bottom: 10px;">
+            Local non-commercial educational and community radio stations broadcasting right here in the Texas Hill Country corridor:
+          </p>
+          <div class="local-stations-grid">
+            <a class="local-station-chip" href="https://ktsw899.com/" target="_blank" rel="noopener noreferrer" title="Visit KTSW 89.9 FM Official Website">
+              <div class="local-chip-title">
+                <span>KTSW 89.9 FM</span>
+                <span style="color:#38bdf8;font-size:9.5px;">TX State &#8599;</span>
+              </div>
+              <div class="local-chip-sub">Texas State University Student Radio &bull; San Marcos, TX</div>
+            </a>
+            <a class="local-station-chip" href="https://kzsm.org/" target="_blank" rel="noopener noreferrer" title="Visit KZSM 104.1 FM Official Website">
+              <div class="local-chip-title">
+                <span>KZSM 104.1 FM</span>
+                <span style="color:#10b981;font-size:9.5px;">Voice of SM &#8599;</span>
+              </div>
+              <div class="local-chip-sub">Downtown San Marcos Community Radio &bull; Hopkins St</div>
+            </a>
+            <a class="local-station-chip" href="https://kutx.org/" target="_blank" rel="noopener noreferrer" title="Visit KUTX 98.9 FM Official Website">
+              <div class="local-chip-title">
+                <span>KUTX 98.9 FM</span>
+                <span style="color:#fbbf24;font-size:9.5px;">Austin Public &#8599;</span>
+              </div>
+              <div class="local-chip-sub">The Austin Music Experience &bull; UT Austin</div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -5058,47 +5908,173 @@
     }
 
     // ==========================================
-    // RIVER VIBE LIVE RADIO & OFFLINE SYNTH ENGINE
-    // Streaming Live Internet Radio with 3 Curated Themes + Offline Fallback
+    // 1990s RIVERSOUND VINTAGE CAR STEREO RADIO ENGINE
+    // Streaming Live Public & Ad-Free Music + Offline Synth Fallback
     // ==========================================
-    const RIVER_RADIO_STATIONS = {
-      local: [
-        { name: 'KTSW 89.9 (TX State)', url: 'https://ktswlive.txstate.edu:8102/listen' },
-        { name: 'KZSM 104.1 (SM Community)', url: 'https://ice42.securenetsystems.net/KZSM' },
-        { name: 'KUTX 98.9 (Austin Music Exp)', url: 'https://streams.kut.org/4428_192.mp3' }
-      ],
-      reggae: [
-        { name: 'SomaFM Heavyweight Reggae', url: 'https://ice1.somafm.com/reggae-128-mp3' },
-        { name: 'Reggae Chill Cafe', url: 'https://maggie.torontocast.com:2020/stream/reggaechillcafe' },
-        { name: 'SomaFM Heavyweight (Alt)', url: 'https://ice4.somafm.com/reggae-128-mp3' }
-      ],
-      country: [
-        { name: '181.FM Real Country', url: 'https://listen.181fm.com/181-realcountry_128k.mp3' },
-        { name: 'SomaFM Boot Liquor (Outlaw)', url: 'https://ice1.somafm.com/bootliquor-128-mp3' },
-        { name: '181.FM 90s Country', url: 'https://listen.181fm.com/181-90scountry_128k.mp3' },
-        { name: '181.FM Highway 181', url: 'https://listen.181fm.com/181-highway_128k.mp3' }
-      ],
-      pop: [
-        { name: 'SomaFM Left Coast 70s', url: 'https://ice1.somafm.com/seventies-128-mp3' },
-        { name: '181.FM Good Time Oldies', url: 'https://listen.181fm.com/181-goodtime_128k.mp3' },
-        { name: 'SomaFM PopTron (Upbeat Pop)', url: 'https://ice1.somafm.com/poptron-128-mp3' },
-        { name: '181.FM Awesome 80s', url: 'https://listen.181fm.com/181-awesome80s_128k.mp3' }
-      ]
-    };
+    const STEREO_STATIONS = [
+      // San Marcos & Central Texas Local Stations
+      { 
+        id: 'ktsw', 
+        name: 'KTSW 89.9 FM', 
+        dial: '89.9 FM', 
+        label: 'TX State University', 
+        genre: 'Indie & Alternative Rock',
+        origin: 'Texas State University Student Radio',
+        originCity: 'San Marcos, TX',
+        provider: 'Texas State University',
+        siteUrl: 'https://ktsw899.com/',
+        mainSiteUrl: 'https://www.txstate.edu/',
+        isSoma: false,
+        logo: '',
+        url: 'https://ktswlive.txstate.edu:8102/listen', 
+        synthPreset: 'breeze' 
+      },
+      { 
+        id: 'kzsm', 
+        name: 'KZSM 104.1 FM', 
+        dial: '104.1 FM', 
+        label: 'SM Community Radio', 
+        genre: 'Community Grassroots & Local Talk',
+        origin: 'San Marcos Community Radio (501(c)(3) Non-Profit)',
+        originCity: 'San Marcos, TX (Hopkins St)',
+        provider: 'KZSM Community Radio',
+        siteUrl: 'https://kzsm.org/',
+        mainSiteUrl: 'https://kzsm.org/',
+        isSoma: false,
+        logo: '',
+        url: 'https://ice42.securenetsystems.net/KZSM', 
+        synthPreset: 'golden' 
+      },
+      { 
+        id: 'kutx', 
+        name: 'KUTX 98.9 FM', 
+        dial: '98.9 FM', 
+        label: 'Austin Music Exper.', 
+        genre: 'Indie Rock & Austin Music Experience',
+        origin: 'University of Texas at Austin / Austin Public Radio',
+        originCity: 'Austin, TX',
+        provider: 'KUTX / UT Austin',
+        siteUrl: 'https://kutx.org/',
+        mainSiteUrl: 'https://kutx.org/',
+        isSoma: false,
+        logo: '',
+        url: 'https://streams.kut.org/4428_192.mp3', 
+        synthPreset: 'sunset' 
+      },
+      
+      // 100% Commercial-Free SomaFM Playlists (Specifically Requested)
+      { 
+        id: 'reggae', 
+        name: 'Heavyweight Reggae', 
+        dial: 'SOMA-REG', 
+        label: 'Heavyweight Reggae', 
+        genre: 'Reggae, Ska, Dub & Roots',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/reggae/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/reggae120.png',
+        url: 'https://ice1.somafm.com/reggae-128-mp3', 
+        synthPreset: 'golden' 
+      },
+      { 
+        id: 'seventies', 
+        name: 'Left Coast 70s', 
+        dial: 'SOMA-70S', 
+        label: 'Left Coast 70s', 
+        genre: 'Mellow 70s Pop, Rock & Yacht Rock',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/seventies/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/seventies120.jpg',
+        url: 'https://ice1.somafm.com/seventies-128-mp3', 
+        synthPreset: 'breeze' 
+      },
+      { 
+        id: 'u80s', 
+        name: 'Underground 80s', 
+        dial: 'SOMA-80S', 
+        label: 'Underground 80s', 
+        genre: 'Early 80s UK Synthpop, New Wave & Post-Punk',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/u80s/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/u80s120.png',
+        url: 'https://ice1.somafm.com/u80s-128-mp3', 
+        synthPreset: 'breeze' 
+      },
+      { 
+        id: 'bootliquor', 
+        name: 'Boot Liquor', 
+        dial: 'SOMA-BOOT', 
+        label: 'Boot Liquor', 
+        genre: 'Americana, Roots, Outlaw Country & Cowpunk',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/bootliquor/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/bootliquor120.jpg',
+        url: 'https://ice1.somafm.com/bootliquor-128-mp3', 
+        synthPreset: 'sunset' 
+      },
+      { 
+        id: '7soul', 
+        name: 'Seven Inch Soul', 
+        dial: 'SOMA-SOUL', 
+        label: 'Seven Inch Soul', 
+        genre: 'Vintage 45 RPM Soul, Funk & R&B Classics',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/7soul/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/7soul120.png',
+        url: 'https://ice1.somafm.com/7soul-128-mp3', 
+        synthPreset: 'golden' 
+      },
+      { 
+        id: 'folkfwd', 
+        name: 'Folk Forward', 
+        dial: 'SOMA-FOLK', 
+        label: 'Folk Forward', 
+        genre: 'Indie Folk, Acoustic Americana & Contemporary Roots',
+        origin: 'SomaFM Commercial-Free Listener-Supported Radio',
+        originCity: 'San Francisco, CA',
+        provider: 'SomaFM',
+        siteUrl: 'https://somafm.com/folkfwd/',
+        mainSiteUrl: 'https://somafm.com/',
+        isSoma: true,
+        logo: 'https://api.somafm.com/logos/120/folkfwd120.jpg',
+        url: 'https://ice1.somafm.com/folkfwd-128-mp3', 
+        synthPreset: 'sunset' 
+      }
+    ];
 
-    class RiverStreamRadioEngine {
+    class RiversoundCarStereoEngine {
       constructor() {
         this.audio = new Audio();
         this.audio.preload = 'none';
         this.offlineSynth = new SummerChillMusicEngine();
-        this.currentTheme = 'local';
-        this.currentStationIndex = 0;
+        this.stations = STEREO_STATIONS;
+        this.currentStation = this.stations[0]; // KTSW 89.9 FM
         this.isPlaying = false;
         this.isFallback = false;
         this.volume = 0.45;
         this.audio.volume = this.volume;
+        this.recentHistory = [this.currentStation.id];
 
-        // Audio stream lifecycle handlers
+        // Stream event listeners
         this.audio.addEventListener('playing', () => {
           this.isFallback = false;
           this.offlineSynth.stop();
@@ -5108,11 +6084,13 @@
 
         this.audio.addEventListener('waiting', () => {
           const lbl = document.getElementById('musicStatusLabel');
-          if (lbl && this.isPlaying && !this.isFallback) lbl.innerText = 'Buffering...';
+          if (lbl && this.isPlaying && !this.isFallback) {
+            lbl.innerText = 'BUFFERING...';
+          }
         });
 
         this.audio.addEventListener('error', (e) => {
-          console.warn('Live radio stream interrupted, falling back to offline synth:', e);
+          console.warn('Live radio stream interrupted, activating offline synth fallback:', e);
           if (this.isPlaying && !this.isFallback) {
             this.activateOfflineFallback();
           }
@@ -5120,49 +6098,35 @@
 
         this.audio.addEventListener('ended', () => {
           if (this.isPlaying && !this.isFallback) {
-            this.shuffleStation();
+            this.seekNext();
           }
         });
-      }
-
-      getCurrentStation() {
-        const list = RIVER_RADIO_STATIONS[this.currentTheme] || RIVER_RADIO_STATIONS.reggae;
-        return list[this.currentStationIndex % list.length];
-      }
-
-      toggle() {
-        if (this.isPlaying) {
-          this.stop();
-        } else {
-          this.play();
-        }
       }
 
       play() {
         this.isPlaying = true;
         this.isFallback = false;
-        const station = this.getCurrentStation();
         const lbl = document.getElementById('musicStatusLabel');
-        if (lbl) lbl.innerText = 'Connecting...';
-        
+        if (lbl) lbl.innerText = `TUNING ${this.currentStation.dial}...`;
+
         try {
-          this.audio.src = station.url;
+          this.audio.src = this.currentStation.url;
           this.audio.volume = this.volume;
           const playPromise = this.audio.play();
           if (playPromise !== undefined) {
             playPromise.catch((err) => {
-              console.warn('Playback error / autoplay policy:', err);
+              console.warn('Playback error / autoplay constraint:', err);
               this.activateOfflineFallback();
             });
           }
         } catch (err) {
-          console.warn('Stream setup error:', err);
+          console.warn('Audio source error:', err);
           this.activateOfflineFallback();
         }
         this.updateUI();
       }
 
-      stop() {
+      pause() {
         this.isPlaying = false;
         try {
           this.audio.pause();
@@ -5173,40 +6137,51 @@
         this.updateUI();
       }
 
+      toggle() {
+        if (this.isPlaying) {
+          this.pause();
+        } else {
+          this.play();
+        }
+      }
+
+      setStation(stationId) {
+        const found = this.stations.find(s => s.id === stationId);
+        if (found) {
+          this.currentStation = found;
+          if (!this.recentHistory.includes(found.id)) {
+            this.recentHistory.push(found.id);
+          }
+          this.updateUI();
+        }
+      }
+
+      // Non-repeating seek/shuffle: never repeats current station, cycles through all stations before repeating
+      seekNext() {
+        const currId = this.currentStation.id;
+        let candidates = this.stations.filter(s => s.id !== currId && !this.recentHistory.includes(s.id));
+
+        // If all stations have been played, reset history keeping only current
+        if (candidates.length === 0) {
+          this.recentHistory = [currId];
+          candidates = this.stations.filter(s => s.id !== currId);
+        }
+
+        const next = candidates[Math.floor(Math.random() * candidates.length)];
+        this.recentHistory.push(next.id);
+        this.currentStation = next;
+        this.play();
+      }
+
       activateOfflineFallback() {
         this.isFallback = true;
         try {
           this.audio.pause();
         } catch (_) {}
-        const synthMap = { local: 'breeze', reggae: 'golden', country: 'sunset', pop: 'breeze' };
-        this.offlineSynth.setPreset(synthMap[this.currentTheme] || 'sunset');
+        this.offlineSynth.setPreset(this.currentStation.synthPreset || 'sunset');
         this.offlineSynth.setVolume(this.volume);
         this.offlineSynth.play();
         this.updateUI();
-      }
-
-      setTheme(theme) {
-        if (!RIVER_RADIO_STATIONS[theme]) return;
-        this.currentTheme = theme;
-        const list = RIVER_RADIO_STATIONS[theme];
-        this.currentStationIndex = Math.floor(Math.random() * list.length);
-        if (this.isPlaying) {
-          this.play();
-        } else {
-          this.updateUI();
-        }
-      }
-
-      shuffleStation() {
-        const list = RIVER_RADIO_STATIONS[this.currentTheme];
-        if (list.length > 1) {
-          let nextIdx = Math.floor(Math.random() * list.length);
-          if (nextIdx === this.currentStationIndex) {
-            nextIdx = (this.currentStationIndex + 1) % list.length;
-          }
-          this.currentStationIndex = nextIdx;
-        }
-        this.play();
       }
 
       setVolume(val) {
@@ -5216,75 +6191,230 @@
       }
 
       updateUI() {
-        const btn = document.getElementById('musicToggleBtn');
+        const playBtn = document.getElementById('btnStereoPlay');
+        const pauseBtn = document.getElementById('btnStereoPause');
+        const legacyBtn = document.getElementById('musicToggleBtn');
         const eq = document.getElementById('musicEqBars');
+        const stBadge = document.getElementById('vfdBadgeSt');
         const lbl = document.getElementById('musicStatusLabel');
         const select = document.getElementById('musicPresetSelect');
 
-        if (select && select.value !== this.currentTheme) {
-          select.value = this.currentTheme;
+        if (select && select.value !== this.currentStation.id) {
+          select.value = this.currentStation.id;
         }
 
+        // Direct origin link on stereo deck
+        const deckSrcLink = document.getElementById('stereoDeckSrcLink');
+        if (deckSrcLink) {
+          deckSrcLink.href = this.currentStation.siteUrl;
+          deckSrcLink.title = `Jump to ${this.currentStation.name} official webpage (${this.currentStation.siteUrl})`;
+        }
+
+        // Live attribution strip beneath stereo deck
+        const attrLink = document.getElementById('stereoAttrLink');
+        const attrName = document.getElementById('stereoAttrName');
+        const attrSource = document.getElementById('stereoAttrSource');
+        const attrBadgeBtn = document.getElementById('stereoAttrBadgeBtn');
+
+        if (attrLink) attrLink.href = this.currentStation.siteUrl;
+        if (attrName) attrName.innerText = this.currentStation.name;
+        if (attrSource) attrSource.innerText = this.currentStation.provider;
+        if (attrBadgeBtn) {
+          attrBadgeBtn.innerHTML = this.currentStation.isSoma 
+            ? '<span class="soma-badge-pill">SomaFM</span> Details &blacktriangledown;' 
+            : 'Details &amp; Links &blacktriangledown;';
+        }
+
+        // Update Spotlight card in Attribution Modal
+        updateStereoModalSpotlight(this.currentStation);
+
         if (this.isPlaying) {
-          if (btn) {
-            btn.innerHTML = '&#10074;&#10074;';
-            btn.classList.add('playing');
-            btn.setAttribute('aria-label', 'Pause Music');
+          if (playBtn) playBtn.classList.add('active-play');
+          if (pauseBtn) pauseBtn.classList.remove('active-pause');
+          if (legacyBtn) {
+            legacyBtn.innerHTML = '&#10074;&#10074;';
+            legacyBtn.classList.add('playing');
           }
           if (eq) eq.classList.add('playing');
+          if (stBadge) stBadge.classList.add('lit');
+
           if (lbl) {
             if (this.isFallback) {
-              const synthName = this.offlineSynth.presets[this.offlineSynth.currentPreset]?.name || 'Offline Synth';
-              lbl.innerText = `${synthName} (Offline)`;
+              const sName = this.offlineSynth.presets[this.offlineSynth.currentPreset]?.name || 'Offline Synth';
+              lbl.innerText = `${sName} (OFFLINE)`;
             } else {
-              const station = this.getCurrentStation();
-              lbl.innerText = `${station.name} (Live)`;
+              lbl.innerText = `${this.currentStation.dial} ${this.currentStation.name}`;
             }
           }
         } else {
-          if (btn) {
-            btn.innerHTML = '&#9654;';
-            btn.classList.remove('playing');
-            btn.setAttribute('aria-label', 'Play Music');
+          if (playBtn) playBtn.classList.remove('active-play');
+          if (pauseBtn) pauseBtn.classList.add('active-pause');
+          if (legacyBtn) {
+            legacyBtn.innerHTML = '&#9654;';
+            legacyBtn.classList.remove('playing');
           }
           if (eq) eq.classList.remove('playing');
+          if (stBadge) stBadge.classList.remove('lit');
+
           if (lbl) {
-            const themeNames = {
-              local: 'SM Local Radio',
-              reggae: 'Island Reggae',
-              country: 'Classic Country',
-              pop: 'Summer Pop'
-            };
-            lbl.innerText = themeNames[this.currentTheme] || 'Live River Radio';
+            lbl.innerText = `${this.currentStation.dial} ${this.currentStation.name}`;
           }
         }
       }
     }
 
-    const riverRadio = new RiverStreamRadioEngine();
+    const riverStereo = new RiversoundCarStereoEngine();
+    const riverRadio = riverStereo; // for backwards compatibility
+
+    // Vintage 1990s tactile mechanical button click sound synthesizer
+    function playStereoClick(type = 'click') {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = riverStereo.offlineSynth?.ctx || new AudioContext();
+        if (ctx.state === 'suspended') ctx.resume();
+        const now = ctx.currentTime;
+        
+        // Mechanical transient click
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        if (type === 'play') {
+          // Solid mechanical latch push
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(160, now);
+          osc.frequency.exponentialRampToValueAtTime(40, now + 0.045);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+        } else if (type === 'pause') {
+          // Release latch clack
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(120, now);
+          osc.frequency.exponentialRampToValueAtTime(50, now + 0.035);
+          gain.gain.setValueAtTime(0.20, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+        } else {
+          // Seek / preset button quick tactile tap
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(820, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.025);
+          gain.gain.setValueAtTime(0.10, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+        }
+        osc.start(now);
+        osc.stop(now + 0.05);
+      } catch (_) {}
+    }
+
+    function stereoPlay() {
+      playStereoClick('play');
+      riverStereo.play();
+    }
+
+    function stereoPause() {
+      playStereoClick('pause');
+      riverStereo.pause();
+    }
+
+    function stereoToggle() {
+      if (riverStereo.isPlaying) {
+        stereoPause();
+      } else {
+        stereoPlay();
+      }
+    }
 
     function toggleRiverMusic() {
-      riverRadio.toggle();
+      stereoToggle();
     }
 
     function toggleSummerMusic() {
-      riverRadio.toggle();
+      stereoToggle();
     }
 
-    function changeMusicVolume(val) {
-      riverRadio.setVolume(val);
+    function tuneStereoStation(id) {
+      playStereoClick('seek');
+      riverStereo.setStation(id);
+      riverStereo.play();
     }
 
-    function changeMusicTheme(theme) {
-      riverRadio.setTheme(theme);
-    }
-
-    function changeMusicPreset(preset) {
-      riverRadio.setTheme(preset);
+    function seekNextStation() {
+      playStereoClick('seek');
+      riverStereo.seekNext();
     }
 
     function shuffleRiverStation() {
-      riverRadio.shuffleStation();
+      seekNextStation();
+    }
+
+    function changeMusicTheme(theme) {
+      tuneStereoStation(theme);
+    }
+
+    function changeMusicPreset(preset) {
+      tuneStereoStation(preset);
+    }
+
+    function changeMusicVolume(val) {
+      riverStereo.setVolume(val);
+    }
+
+    // Modal Controller for Source Attribution & SomaFM Branding
+    function toggleStereoAttributionModal(show) {
+      const modal = document.getElementById('stereoAttributionModal');
+      if (!modal) return;
+      playStereoClick('seek');
+      const isVisible = modal.classList.contains('active');
+      const targetState = show !== undefined ? show : !isVisible;
+      modal.classList.toggle('active', targetState);
+      if (targetState) {
+        updateStereoModalSpotlight(riverStereo.currentStation);
+      }
+    }
+
+    function closeStereoAttributionModal(event) {
+      if (event && event.target && event.target.id !== 'stereoAttributionModal' && !event.target.classList.contains('stereo-modal-close-btn')) {
+        return;
+      }
+      const modal = document.getElementById('stereoAttributionModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function updateStereoModalSpotlight(station) {
+      if (!station) return;
+      const spotLogo = document.getElementById('modalSpotLogo');
+      const spotName = document.getElementById('modalSpotName');
+      const spotDial = document.getElementById('modalSpotDial');
+      const spotGenre = document.getElementById('modalSpotGenre');
+      const spotOrigin = document.getElementById('modalSpotOrigin');
+      const spotStationBtn = document.getElementById('modalSpotStationBtn');
+      const spotMainBtn = document.getElementById('modalSpotMainBtn');
+
+      if (spotLogo) {
+        if (station.logo) {
+          spotLogo.src = station.logo;
+          spotLogo.alt = station.name;
+          spotLogo.style.display = 'block';
+        } else {
+          spotLogo.style.display = 'none';
+        }
+      }
+      if (spotName) spotName.innerText = station.name;
+      if (spotDial) spotDial.innerText = station.dial;
+      if (spotGenre) spotGenre.innerText = station.genre || station.label;
+      if (spotOrigin) spotOrigin.innerText = `${station.origin} • ${station.originCity}`;
+      if (spotStationBtn) {
+        spotStationBtn.href = station.siteUrl;
+        spotStationBtn.innerHTML = `<span>📻 Visit ${station.name} Webpage &#8599;</span>`;
+      }
+      if (spotMainBtn) {
+        spotMainBtn.href = station.mainSiteUrl;
+        spotMainBtn.innerHTML = station.isSoma 
+          ? `<span>🌐 SomaFM.com Main Website &#8599;</span>` 
+          : `<span>🎓 ${station.provider} &#8599;</span>`;
+      }
     }
 
     // Function to download self-contained standalone HTML app
@@ -5304,6 +6434,7 @@
       if (e.key === 'Escape') {
         closeInfoCard();
         closeScorecard();
+        closeStereoAttributionModal();
       }
     });
 
