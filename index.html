@@ -407,51 +407,30 @@
 
     .vibe-main-content {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+      gap: 24px;
     }
 
-    .vibe-grade-box {
+    .vibe-text-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .vibe-status-meta-row {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 8px;
+      margin-bottom: 2px;
     }
 
-    .vibe-grade-badge {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #121212;
-      flex-shrink: 0;
-    }
-
-    .vibe-grade-badge.grade-A {
-      background: linear-gradient(135deg, #4ADE80, #22C55E);
-      box-shadow: 0 6px 16px rgba(74, 222, 128, 0.4);
-    }
-
-    .vibe-grade-badge.grade-B {
-      background: linear-gradient(135deg, #60A5FA, #3B82F6);
-      box-shadow: 0 6px 16px rgba(96, 165, 250, 0.4);
-      color: #FFFFFF;
-    }
-
-    .vibe-grade-badge.grade-C {
-      background: linear-gradient(135deg, #FACC15, #EAB308);
-      box-shadow: 0 6px 16px rgba(250, 204, 21, 0.4);
-    }
-
-    .vibe-grade-badge.grade-F {
-      background: linear-gradient(135deg, #EF4444, #DC2626);
-      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-      color: #FFFFFF;
+    .vibe-updated-time {
+      font-size: 0.76rem;
+      color: var(--text-subtle);
+      font-weight: 500;
     }
 
     .condition-state-pill {
@@ -466,62 +445,44 @@
       padding: 2px 8px;
     }
 
-    .vibe-condition-kicker {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #38BDF8;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 2px;
+    .vibe-text-group h2,
+    .vibe-condition-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
     }
 
-    .vibe-condition-kicker .pulse-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #06B6D4;
-      display: inline-block;
-      box-shadow: 0 0 8px #06B6D4;
-      animation: pulseGlow 1.8s infinite ease-in-out;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
-
-    .vibe-text-group h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .vibe-text-group p {
-      font-size: 0.9rem;
+    .vibe-text-group p,
+    .vibe-condition-desc {
+      font-size: 0.95rem;
       color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+      max-width: 680px;
     }
 
     .vibe-illustration-box {
       flex-shrink: 0;
-      width: 120px;
-      height: 120px;
-      border-radius: var(--radius-md);
+      width: 190px;
+      height: 190px;
+      border-radius: 16px;
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
       background: #0F172A;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.25s ease, border-color 0.25s ease;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .vibe-illustration-box:hover {
-      transform: scale(1.05) rotate(1deg);
-      border-color: rgba(56, 189, 248, 0.5);
+      transform: scale(1.03) rotate(1deg);
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 14px 30px rgba(6, 182, 212, 0.25);
     }
 
     .vibe-illustration-box img {
@@ -532,11 +493,22 @@
       transition: opacity 0.3s ease;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 680px) {
+      .vibe-main-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
       .vibe-illustration-box {
         width: 100%;
-        height: 160px;
-        order: -1;
+        max-width: 240px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        margin: 4px auto 0;
+      }
+      .vibe-text-group h2,
+      .vibe-condition-title {
+        font-size: 1.35rem;
       }
     }
 
@@ -2822,30 +2794,22 @@
 
       <!-- CARD 1: RIVER FLOAT CONDITION & VIBE STATE -->
       <article class="card" id="vibeCard">
-        <div class="card-header-row">
-          <span class="card-title">
-            <span>🌊</span> River Float Condition &amp; Tubing Vibe
-          </span>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="condition-state-pill">Real-Time State</span>
-            <span id="vibeLastUpdated" style="font-size: 0.72rem; color: var(--text-subtle);">Updating...</span>
-          </div>
-        </div>
-
         <div class="vibe-main-content">
-          <div class="vibe-grade-box">
-            <div class="vibe-grade-badge" id="vibeBadge">--</div>
-            <div class="vibe-text-group">
-              <div class="vibe-condition-kicker">
-                <span class="pulse-dot"></span> Current River Condition &bull; Flow State
-              </div>
-              <h2 id="vibeTitle">Evaluating Conditions...</h2>
-              <p id="vibeDescription">Fetching streamflow and weather data to calculate river floating conditions.</p>
+          <!-- LEFT COLUMN: REAL-TIME STATE BADGE & CONDITION DETAILS -->
+          <div class="vibe-text-group">
+            <div class="vibe-status-meta-row">
+              <span class="condition-state-pill">Real-Time State</span>
+              <span id="vibeLastUpdated" class="vibe-updated-time">Updating...</span>
             </div>
+            <h2 id="vibeTitle" class="vibe-condition-title">Evaluating Conditions...</h2>
+            <p id="vibeDescription" class="vibe-condition-desc">Fetching streamflow and weather data to calculate river floating conditions.</p>
           </div>
+
+          <!-- RIGHT COLUMN: SCALED-UP CARTOON ILLUSTRATION -->
           <div class="vibe-illustration-box" id="vibeIllustrationBox" title="Current Tubing Condition Illustration">
             <img id="vibeIllustrationImg" src="assets/vibes/chill-float.jpg" alt="San Marcos River Tubing Condition Illustration" />
           </div>
+          <div id="vibeBadge" style="display: none;"></div>
         </div>
 
         <div class="vibe-reasons-list" id="vibeTags">
@@ -3730,7 +3694,7 @@
       ecoli: Math.floor(Math.random() * (200 - 50 + 1)) + 50,
       weatherDesc: 'Sunny & Warm',
       monthIndex: nowInit.getMonth() + 1, // 1-12
-      lastUpdatedText: nowInit.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      lastUpdatedText: `${nowInit.toLocaleDateString([], { month: 'short', day: 'numeric' })}, ${nowInit.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
       fullTimestampText: `${nowInit.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${nowInit.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true })}`
     };
 
@@ -3823,7 +3787,7 @@
 
       // Timestamp
       const now = new Date();
-      state.lastUpdatedText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      state.lastUpdatedText = `${now.toLocaleDateString([], { month: 'short', day: 'numeric' })}, ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
       const displayDate = state.usgsObservationDate || now;
       state.fullTimestampText = `${displayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${displayDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true })}`;
 
@@ -3957,7 +3921,7 @@
       // Check conditions in specified hierarchy
       if (state.ecoli > 399 || state.cfs > 500) {
         vibeGrade = 'F';
-        vibeTitle = 'Condition: "Biohazard / Washout"';
+        vibeTitle = '"Biohazard / Washout"';
         vibeDesc = state.cfs > 500 
           ? "Dangerous flood flow condition (>500 CFS). Extreme current velocity — river suspended for tubing!" 
           : "Safety alert condition: High bacterial count (>399 cfu). Water contact unsafe!";
@@ -3972,7 +3936,7 @@
         ];
       } else if (state.turbidity > 50) {
         vibeGrade = 'C';
-        vibeTitle = 'Condition: "Chocolate Milk" (Murky Flow)';
+        vibeTitle = '"Chocolate Milk" (Murky Flow)';
         vibeDesc = "Murky water condition (>50 NTU) following upstream rain runoff. River is cloudy brown with low underwater visibility.";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-C';
@@ -3981,7 +3945,7 @@
         tags = ['🍫 Murky Flow (>50 NTU)', '⚠️ Low Visibility', '🌊 Moderate Drift'];
       } else if (state.cfs < 100) {
         vibeGrade = 'B';
-        vibeTitle = 'Condition: "Booty Bumper" (Shallow Flow)';
+        vibeTitle = '"Booty Bumper" (Shallow Flow)';
         vibeDesc = "Shallow water flow condition (<100 CFS). Low river levels expose riverbed rocks — expect your tube to bump rocks in shallow rapids!";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-B';
@@ -3990,7 +3954,7 @@
         tags = ['📊 Low Flow (<100 CFS)', '🪨 Shallow Rapids', '🐢 Slow Drift'];
       } else if (state.cfs >= 150 && state.cfs <= 250 && state.turbidity < 10 && state.airTemp > 80) {
         vibeGrade = 'A+';
-        vibeTitle = 'Condition: "Chill & Float" (Optimal Flow)';
+        vibeTitle = '"Chill & Float" (Optimal Flow)';
         vibeDesc = "Prime San Marcos tubing condition! Crisp 72°F spring water, crystal clarity, and warm sunshine.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
@@ -4000,7 +3964,7 @@
       } else {
         // Moderate / Good default condition
         vibeGrade = 'A';
-        vibeTitle = 'Condition: "Great Floating" (Standard Flow)';
+        vibeTitle = '"Great Floating" (Standard Flow)';
         vibeDesc = "Solid river flow conditions for an enjoyable float down the San Marcos.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
@@ -4014,8 +3978,10 @@
       vibeCard.className = `card ${vibeBorderClass}`;
       
       const vibeBadge = document.getElementById('vibeBadge');
-      vibeBadge.className = `vibe-grade-badge ${vibeBadgeClass}`;
-      vibeBadge.innerText = vibeGrade;
+      if (vibeBadge) {
+        vibeBadge.className = `vibe-grade-badge ${vibeBadgeClass}`;
+        vibeBadge.innerText = vibeGrade;
+      }
 
       document.getElementById('vibeTitle').innerText = vibeTitle;
       document.getElementById('vibeDescription').innerText = vibeDesc;
