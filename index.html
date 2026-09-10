@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>San Marcos River Tubing & Environmental Dashboard</title>
+  <title>SM River Vibe &mdash; San Marcos River Tubing &amp; 19-Species Eco-Simulator</title>
   <meta name="description" content="Real-time river flow, water quality, weather conditions, vibe score, and eco-impact assessment for tubing the San Marcos River in San Marcos, TX.">
 
   <!-- Google Fonts: Inter -->
@@ -85,16 +85,60 @@
       gap: 12px;
     }
 
-    .river-badge-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+    .salamander-logo-badge {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
       background: linear-gradient(135deg, #0284C7, #06B6D4);
+      padding: 3px;
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.45), 0 0 0 2px rgba(56, 189, 248, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+      flex-shrink: 0;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .salamander-logo-badge:hover {
+      transform: scale(1.1) rotate(-4deg);
+      box-shadow: 0 8px 22px rgba(6, 182, 212, 0.7), 0 0 0 3px rgba(56, 189, 248, 0.6);
+    }
+
+    .salamander-logo-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* FOOTER STYLES */
+    .app-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 18, 26, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 28px 20px 36px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-copyright {
+      font-size: 0.92rem;
+      color: #94A3B8;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      margin: 0;
     }
 
     .header-titles h1 {
@@ -626,41 +670,182 @@
     }
 
     /* ==========================================
-       SAFETY RULES & INFO ACCORDION
+       SAN MARCOS RIVER CITY RULES & GUIDELINES
        ========================================== */
-    .info-section {
-      margin-top: 24px;
-      background: var(--card-bg);
+    .river-rules-section {
+      margin-top: 32px;
+      margin-bottom: 24px;
+      background: #181E24;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    /* 3-Column Categorized Grid */
+    .rules-category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .rules-category-card {
+      background: rgba(30, 41, 59, 0.4);
       border-radius: var(--radius-md);
       padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
     }
 
-    .info-section h3 {
+    .rules-category-card.prohibited {
+      border-top: 3px solid #EF4444;
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.06) 0%, rgba(30, 41, 59, 0.3) 100%);
+    }
+
+    .rules-category-card.allowed {
+      border-top: 3px solid #22C55E;
+      background: linear-gradient(180deg, rgba(34, 197, 94, 0.06) 0%, rgba(30, 41, 59, 0.3) 100%);
+    }
+
+    .rules-category-card.stewardship {
+      border-top: 3px solid #06B6D4;
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.06) 0%, rgba(30, 41, 59, 0.3) 100%);
+    }
+
+    .card-category-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .rules-list {
+    .card-category-header.prohibited { color: #FCA5A5; }
+    .card-category-header.allowed { color: #86EFAC; }
+    .card-category-header.stewardship { color: #67E8F9; }
+
+    .rule-items-list {
       list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 8px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
     }
 
-    .rules-list li {
+    .rule-item-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.81rem;
+      line-height: 1.45;
+      color: #CBD5E1;
+    }
+
+    .rule-item-entry .item-bullet {
+      font-size: 1rem;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    .rule-item-entry b {
+      color: #F8FAFC;
+    }
+
+    /* Verification & Official Link Municipal Header */
+    .rules-official-header {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(6, 182, 212, 0.35);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 8px 10px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .footer-seal-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 620px;
+    }
+
+    .footer-seal-icon {
+      font-size: 2rem;
+      background: rgba(6, 182, 212, 0.15);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      flex-shrink: 0;
+    }
+
+    .footer-seal-text h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+
+    .footer-seal-text p {
+      font-size: 0.77rem;
+      color: #94A3B8;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .footer-action-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-official-verify {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #0284C7;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+    }
+
+    .btn-official-verify:hover {
+      background: #0369A1;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.5);
+    }
+
+    .btn-parks-verify {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #E2E8F0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .btn-parks-verify:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
     }
 
     /* ==========================================
@@ -739,26 +924,70 @@
 
     .canvas-prompt-badge {
       position: absolute;
-      top: 12px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(56, 189, 248, 0.5);
       color: #38BDF8;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.74rem;
+      padding: 6px 12px 6px 16px;
+      border-radius: 24px;
+      font-size: 0.76rem;
       font-weight: 700;
-      pointer-events: none;
-      z-index: 8;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      animation: pulse-prompt 2.5s infinite;
+      z-index: 20;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      animation: pulse-prompt 2.5s infinite ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s;
+      pointer-events: auto;
+    }
+
+    /* Auto-disappear as soon as mouse enters the river canvas so it never covers items */
+    .view-scroll-wrapper:hover .canvas-prompt-badge,
+    .eco-cross-section:hover .canvas-prompt-badge {
+      opacity: 0 !important;
+      transform: translateX(-50%) translateY(-10px) !important;
+      pointer-events: none !important;
+    }
+
+    .canvas-prompt-badge.dismissed {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateX(-50%) translateY(-15px) !important;
+      visibility: hidden !important;
+      display: none !important;
+    }
+
+    .btn-dismiss-prompt {
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      color: #94A3B8;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .btn-dismiss-prompt:hover {
+      background: rgba(239, 68, 68, 0.7);
+      color: #FFFFFF;
+      transform: scale(1.1);
     }
 
     @keyframes pulse-prompt {
-      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.9; }
-      50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.95; }
+      50% { transform: translateX(-50%) scale(1.04); opacity: 1; }
     }
 
     .hud-explainer-box {
@@ -830,7 +1059,8 @@
       stroke: rgba(56, 189, 248, 0.5);
       stroke-width: 1.2;
       rx: 6px;
-      pointer-events: none;
+      pointer-events: auto;
+      cursor: pointer;
       transition: fill 0.25s ease, stroke 0.25s ease;
     }
 
@@ -838,7 +1068,8 @@
       font-size: 11px;
       font-weight: 700;
       fill: #FFFFFF;
-      pointer-events: none;
+      pointer-events: auto;
+      cursor: pointer;
       letter-spacing: 0.02em;
     }
 
@@ -899,6 +1130,300 @@
       100% { r: 20; opacity: 0; }
     }
 
+    /* ==========================================
+       "TEST YOUR SKILL" CHALLENGE & MODE TOGGLE STYLES
+       ========================================== */
+    .mode-toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1.5px solid rgba(56, 189, 248, 0.3);
+      border-radius: 30px;
+      padding: 4px 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .mode-toggle-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #94A3B8;
+      padding: 0 4px 0 8px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .btn-mode {
+      background: transparent;
+      border: 1.5px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 22px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .mode-tag-pill {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+    }
+
+    /* Active Learning Mode (Cyan/Blue) */
+    .btn-mode.active {
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      color: #FFFFFF;
+      box-shadow: 0 2px 14px rgba(6, 182, 212, 0.45);
+      border-color: rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-mode.active .mode-tag-pill {
+      background: rgba(15, 23, 42, 0.45);
+      color: #E0F2FE;
+    }
+
+    /* Highlighted & Pulsing Quizzing Mode Button when in Learning Mode */
+    .btn-mode.challenge-mode-btn:not(.active) {
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.26), rgba(245, 158, 11, 0.2));
+      border: 1.5px solid #F59E0B;
+      color: #FEF08A;
+      font-weight: 700;
+      animation: quizPulseGlow 2.2s infinite ease-in-out;
+    }
+
+    .btn-mode.challenge-mode-btn:not(.active) .mode-tag-pill.quiz-pill {
+      background: rgba(245, 158, 11, 0.45);
+      color: #FFFFFF;
+      border: 1px solid rgba(254, 240, 138, 0.6);
+    }
+
+    @keyframes quizPulseGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.75), 0 0 12px rgba(245, 158, 11, 0.45);
+        border-color: #F59E0B;
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(245, 158, 11, 0), 0 0 20px rgba(245, 158, 11, 0.8);
+        border-color: #FCD34D;
+        transform: scale(1.04);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0), 0 0 12px rgba(245, 158, 11, 0.45);
+        border-color: #F59E0B;
+        transform: scale(1);
+      }
+    }
+
+    .quiz-pulse-beacon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #F59E0B;
+      box-shadow: 0 0 8px #F59E0B;
+      display: inline-block;
+      animation: quizBeaconBlink 1.4s infinite alternate ease-in-out;
+      margin-left: 2px;
+    }
+
+    @keyframes quizBeaconBlink {
+      0% { opacity: 0.4; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 6px #FCD34D); }
+    }
+
+    /* Active Quizzing Mode */
+    .btn-mode.challenge-mode-btn.active {
+      background: linear-gradient(135deg, #F59E0B, #EA580C);
+      color: #FFFFFF;
+      box-shadow: 0 2px 16px rgba(234, 88, 12, 0.65);
+      border-color: #FCD34D;
+      animation: none;
+    }
+
+    .btn-mode.challenge-mode-btn.active .mode-tag-pill.quiz-pill {
+      background: rgba(15, 23, 42, 0.45);
+      color: #FEF3C7;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-mode.challenge-mode-btn.active .quiz-pulse-beacon {
+      background: #FFFFFF;
+      box-shadow: 0 0 8px #FFFFFF;
+      animation: none;
+    }
+
+    /* Challenge Header Banner */
+    .challenge-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 16px;
+      background: linear-gradient(90deg, rgba(234, 88, 12, 0.2), rgba(245, 158, 11, 0.15));
+      border-bottom: 1.5px solid rgba(245, 158, 11, 0.5);
+      animation: fadeInDown 0.3s ease;
+    }
+
+    .challenge-bar.active {
+      display: flex;
+    }
+
+    .challenge-prompt-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .challenge-badge-icon {
+      font-size: 1.5rem;
+      animation: bounce 1.2s infinite alternate;
+    }
+
+    .challenge-target-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .challenge-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #FCD34D;
+      font-weight: 700;
+    }
+
+    .challenge-target-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .challenge-clue {
+      font-size: 0.74rem;
+      color: #FED7AA;
+      font-style: italic;
+    }
+
+    .challenge-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .challenge-progress-pill {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 4px 12px;
+      border-radius: 16px;
+      color: #FDE68A;
+    }
+
+    .challenge-score-pill {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(74, 222, 128, 0.4);
+      padding: 4px 12px;
+      border-radius: 16px;
+      color: #86EFAC;
+    }
+
+    /* Challenge Mode Hotspot Behavior */
+    body.in-challenge-mode .hotspot-badge-text,
+    body.in-challenge-mode .hotspot-badge-bg {
+      display: none !important;
+    }
+
+    body.in-challenge-mode .eco-hotspot.matched .hotspot-ring {
+      stroke: #4ADE80 !important;
+      fill: rgba(74, 222, 128, 0.25) !important;
+      stroke-dasharray: none !important;
+      stroke-width: 3.5 !important;
+      filter: drop-shadow(0 0 10px #4ADE80) !important;
+    }
+
+    body.in-challenge-mode .eco-hotspot.matched .hotspot-beacon-dot {
+      fill: #4ADE80 !important;
+    }
+
+    body.in-challenge-mode .eco-hotspot.matched .hotspot-beacon-pulse {
+      stroke: #4ADE80 !important;
+      animation: none !important;
+      display: none !important;
+    }
+
+    body.in-challenge-mode .eco-hotspot.matched .hotspot-badge-text,
+    body.in-challenge-mode .eco-hotspot.matched .hotspot-badge-bg {
+      display: block !important;
+    }
+
+    body.in-challenge-mode .eco-hotspot.matched .hotspot-badge-bg {
+      fill: #166534 !important;
+      stroke: #4ADE80 !important;
+    }
+
+    /* In-Canvas Feedback Toast */
+    .challenge-feedback-toast {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      padding: 10px 22px;
+      border-radius: 28px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      z-index: 40;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .challenge-feedback-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .challenge-feedback-toast.correct {
+      background: linear-gradient(135deg, #15803D, #22C55E);
+      color: #FFFFFF;
+      border: 2px solid #86EFAC;
+    }
+
+    .challenge-feedback-toast.incorrect {
+      background: linear-gradient(135deg, #B91C1C, #EF4444);
+      color: #FFFFFF;
+      border: 2px solid #FCA5A5;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-4px); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Floating Interactive Preview Tooltip Card (Mouse-Over & Focus) */
     .hotspot-preview-card {
       position: absolute;
@@ -920,7 +1445,7 @@
 
     .hotspot-preview-card.active {
       opacity: 1;
-      pointer-events: auto;
+      pointer-events: none !important;
       transform: translateY(0);
     }
 
@@ -1104,6 +1629,159 @@
       .data-grid { gap: 10px; }
       .data-card { padding: 12px; }
     }
+      /* ==========================================
+       SUMMER CHILL VIBE MUSIC & APP DOWNLOAD CONTROLS
+       ========================================== */
+    .chill-music-player {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.82);
+      border: 1.5px solid rgba(6, 182, 212, 0.4);
+      border-radius: 24px;
+      padding: 4px 10px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .chill-music-player:hover {
+      border-color: rgba(6, 182, 212, 0.8);
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+    }
+
+    .btn-music-toggle {
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      border: none;
+      color: #FFFFFF;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      flex-shrink: 0;
+    }
+
+    .btn-music-toggle:hover {
+      transform: scale(1.08);
+      filter: brightness(1.15);
+    }
+
+    .btn-music-toggle.playing {
+      background: linear-gradient(135deg, #10B981, #06B6D4);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    .music-now-playing {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #F8FAFC;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .music-eq-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 14px;
+      width: 14px;
+    }
+
+    .eq-bar {
+      width: 2px;
+      background: #38BDF8;
+      border-radius: 1px;
+      height: 3px;
+      transition: height 0.15s ease;
+    }
+
+    .music-eq-bars.playing .eq-bar:nth-child(1) { animation: eqBounce 0.65s infinite ease-in-out; }
+    .music-eq-bars.playing .eq-bar:nth-child(2) { animation: eqBounce 0.45s infinite ease-in-out 0.15s; }
+    .music-eq-bars.playing .eq-bar:nth-child(3) { animation: eqBounce 0.85s infinite ease-in-out 0.3s; }
+    .music-eq-bars.playing .eq-bar:nth-child(4) { animation: eqBounce 0.55s infinite ease-in-out 0.08s; }
+
+    @keyframes eqBounce {
+      0%, 100% { height: 3px; }
+      50% { height: 14px; }
+    }
+
+    .music-preset-select {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #E2E8F0;
+      font-size: 0.7rem;
+      border-radius: 12px;
+      padding: 3px 6px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .music-vol-slider {
+      width: 50px;
+      height: 4px;
+      accent-color: #06B6D4;
+      cursor: pointer;
+    }
+
+    /* DOWNLOAD STANDALONE BUTTON */
+    .btn-download-app {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 182, 212, 0.18));
+      border: 1.5px solid rgba(16, 185, 129, 0.5);
+      color: #A7F3D0;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .btn-download-app:hover {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(6, 182, 212, 0.35));
+      border-color: #34D399;
+      color: #FFFFFF;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 14px;
+      }
+      .salamander-logo-badge {
+        width: 52px;
+        height: 52px;
+      }
+      .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+      }
+      .chill-music-player {
+        order: 1;
+        flex: 1;
+        justify-content: space-between;
+      }
+      .music-vol-slider {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1111,15 +1789,43 @@
   <!-- STICKY GLASSMORPHISM HEADER -->
   <header class="header">
     <div class="header-branding">
-      <div class="river-badge-icon">🌊</div>
+      <div class="salamander-logo-badge" title="Texas Blind Salamander Mascot">
+        <img id="headerSalamanderLogo" src="assets/salamander-logo.jpg" alt="Texas Blind Salamander with Sunglasses Mascot" class="salamander-logo-img" />
+      </div>
       <div class="header-titles">
-        <h1>San Marcos River Tubing</h1>
-        <p>Real-Time River & Eco Dashboard • San Marcos, TX</p>
+        <h1>SM River Vibe</h1>
+        <p>Real-Time River &amp; Eco Dashboard &bull; San Marcos, TX</p>
       </div>
     </div>
     <div class="header-actions">
+      <!-- SUMMER CHILL VIBE MUSIC PLAYER -->
+      <div class="chill-music-player" id="chillMusicPlayer" title="Summer Chill Vibe Music">
+        <button class="btn-music-toggle" id="musicToggleBtn" onclick="toggleSummerMusic()" aria-label="Play Summer Chill Music">&#9654;</button>
+        <div class="music-now-playing">
+          <div class="music-eq-bars" id="musicEqBars">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </div>
+          <span id="musicStatusLabel">Summer Chill</span>
+        </div>
+        <select class="music-preset-select" id="musicPresetSelect" onchange="changeMusicPreset(this.value)" aria-label="Music Mood">
+          <option value="sunset">&#127749; Sunset Float</option>
+          <option value="breeze">&#127754; River Breeze</option>
+          <option value="golden">&#9728;&#65039; Golden Hour</option>
+        </select>
+        <input type="range" class="music-vol-slider" id="musicVolumeSlider" min="0" max="1" step="0.05" value="0.45" oninput="changeMusicVolume(this.value)" aria-label="Volume" title="Music Volume" />
+      </div>
+
+      <!-- DOWNLOAD STANDALONE FILE BUTTON -->
+      <button class="btn-download-app" id="btnDownloadApp" onclick="downloadStandaloneApp()" title="Download single-file HTML app to save or send via email/message">
+        <span>&#128229;</span>
+        <span class="btn-download-text">Save / Email App</span>
+      </button>
+
       <button class="btn-refresh" id="btnRefresh" onclick="fetchLiveDashboardData()">
-        <span class="spin-icon">🔄</span>
+        <span class="spin-icon">&#128259;</span>
         <span class="btn-text">Refresh</span>
       </button>
     </div>
@@ -1348,7 +2054,22 @@
         <div class="eco-sim-title">
           <span>🌿</span> San Marcos River Ecosystem Simulator
         </div>
-        <div class="stage-toggle-btns">
+
+        <!-- Mode Toggle: Learning Mode vs Quizzing Mode -->
+        <div class="mode-toggle-group" role="tablist" aria-label="Simulator Experience Modes">
+          <span class="mode-toggle-label">MODE:</span>
+          <button class="btn-mode active" id="btnModeExplore" onclick="setAppMode('explore')" aria-pressed="true" title="Learning Mode: View all species and inspect full field guides">
+            <span class="mode-tag-pill">LEARNING</span>
+            <span>👁️ View Everything</span>
+          </button>
+          <button class="btn-mode challenge-mode-btn" id="btnModeChallenge" onclick="setAppMode('challenge')" aria-pressed="false" title="Quizzing Mode: Match species names to their visual locations on the river artwork!">
+            <span class="mode-tag-pill quiz-pill">QUIZZING</span>
+            <span>🎯 Test Your Skill!</span>
+            <span class="quiz-pulse-beacon" title="Interactive Quiz Available"></span>
+          </button>
+        </div>
+
+        <div class="stage-toggle-btns" id="stageButtonsGroup">
           <button class="btn-stage active" id="btnStage1" onclick="setSimStage('optimal-baseflow')">Stage 1: Optimal</button>
           <button class="btn-stage" id="btnStage2" onclick="setSimStage('elevated-surge')">Stage 2: Elevated</button>
           <button class="btn-stage" id="btnStage3" onclick="setSimStage('severe-flood')">Stage 3: Flood</button>
@@ -1356,8 +2077,35 @@
         </div>
       </div>
 
+      <!-- Challenge / Test Your Skill Mode Interactive Banner -->
+      <div class="challenge-bar" id="challengeBar">
+        <div class="challenge-prompt-group">
+          <span class="challenge-badge-icon" id="challengeIcon">🎯</span>
+          <div class="challenge-target-box">
+            <span class="challenge-label">Find &amp; Click On The Artwork:</span>
+            <span class="challenge-target-name" id="challengeTargetName">Texas Wild Rice</span>
+            <span class="challenge-clue" id="challengeClue">Clue: Look for long emerald ribbon leaves streaming in the water current.</span>
+          </div>
+        </div>
+        <div class="challenge-stats">
+          <div class="challenge-progress-pill">Progress: <span id="challengeProgress">1 / 19</span></div>
+          <div class="challenge-score-pill">Correct: <span id="challengeScore">0</span></div>
+          <button class="btn-scenario" style="padding: 4px 10px; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #FFF;" onclick="resetChallenge()">🔄 Restart</button>
+        </div>
+      </div>
+
       <div class="view-scroll-wrapper">
-        <div class="canvas-prompt-badge">🔍 Hover over or tap any highlighted animal or plant to inspect its live field guide!</div>
+        <div class="canvas-prompt-badge" id="canvasPromptBadge">
+          <span>🔍 Hover over or tap any highlighted animal or plant to inspect its live field guide!</span>
+          <button class="btn-dismiss-prompt" onclick="dismissCanvasPrompt(event)" aria-label="Dismiss guide prompt">✕</button>
+        </div>
+
+        <!-- In-Canvas Dynamic Feedback Toast -->
+        <div class="challenge-feedback-toast" id="challengeToast">
+          <span id="toastIcon">🎉</span>
+          <span id="toastMessage">Correct! That is the Texas Wild Rice!</span>
+        </div>
+
         <div class="eco-cross-section" id="crossSectionCanvas">
           <!-- Inline Interactive SVG Scene using San Marcos Rich Ecosystem Scene as Primary Background -->
           <svg width="100%" height="100%" viewBox="0 0 1000 562.5" preserveAspectRatio="xMidYMid slice" id="ecoSceneSvg">
@@ -1370,274 +2118,289 @@
 
             <!-- 3. Interactive Highlight Hotspots Anchored to Existing Species in Artwork -->
 
-            <!-- 🪶 1. Yellow-crowned Night Heron (Top Left Branch) -->
+            <!-- 🪶 1. Yellow-crowned Night Heron (Top Left Branch - Leaves & Sky Offset) -->
             <g class="eco-hotspot" id="hotspot-heron" tabindex="0" role="button" aria-label="Inspect Yellow-crowned Night Heron"
-               onclick="openInfoCard('heron')"
+               onclick="handleHotspotClick('heron')"
                onmouseenter="showHotspotPreview('heron', event)"
                onmouseleave="hideHotspotPreview()"
                onfocus="showHotspotPreview('heron', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('heron')">
-              <ellipse cx="178" cy="165" rx="55" ry="85" class="hotspot-ring" />
-              <circle cx="195" cy="72" r="5" class="hotspot-beacon-dot" />
-              <circle cx="195" cy="72" r="5" class="hotspot-beacon-pulse" />
-              <rect x="108" y="42" width="176" height="24" class="hotspot-badge-bg" />
-              <text x="196" y="58" text-anchor="middle" class="hotspot-badge-text">🪶 Yellow-crowned Heron</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('heron')">
+              <ellipse cx="165" cy="155" rx="65" ry="95" class="hotspot-ring" />
+              <circle cx="115" cy="85" r="5" class="hotspot-beacon-dot" />
+              <circle cx="115" cy="85" r="5" class="hotspot-beacon-pulse" />
+              <rect x="15" y="40" width="168" height="24" class="hotspot-badge-bg" />
+              <text x="99" y="56" text-anchor="middle" class="hotspot-badge-text">🪶 Yellow-crowned Heron</text>
             </g>
 
             <!-- 🌿 2. Elephant Ears (Riverbank Canopy) -->
             <g class="eco-hotspot plant" id="hotspot-elephant-ears" tabindex="0" role="button" aria-label="Inspect Elephant Ears"
-               onclick="openInfoCard('elephant-ears')"
+               onclick="handleHotspotClick('elephant-ears')"
                onmouseenter="showHotspotPreview('elephant-ears', event)"
                onmouseleave="hideHotspotPreview()"
                onfocus="showHotspotPreview('elephant-ears', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('elephant-ears')">
-              <ellipse cx="560" cy="155" rx="90" ry="55" class="hotspot-ring" />
-              <circle cx="560" cy="95" r="5" class="hotspot-beacon-dot" />
-              <circle cx="560" cy="95" r="5" class="hotspot-beacon-pulse" />
-              <rect x="502" y="66" width="116" height="24" class="hotspot-badge-bg" />
-              <text x="560" y="82" text-anchor="middle" class="hotspot-badge-text">🌿 Elephant Ears</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('elephant-ears')">
+              <ellipse cx="520" cy="140" rx="80" ry="50" class="hotspot-ring" />
+              <circle cx="490" cy="80" r="5" class="hotspot-beacon-dot" />
+              <circle cx="490" cy="80" r="5" class="hotspot-beacon-pulse" />
+              <rect x="430" y="52" width="116" height="24" class="hotspot-badge-bg" />
+              <text x="488" y="68" text-anchor="middle" class="hotspot-badge-text">🌿 Elephant Ears</text>
             </g>
 
-            <!-- 🐸 3. Native Leopard Frog (Riverbank Shoreline) -->
-            <g class="eco-hotspot" id="hotspot-frog" tabindex="0" role="button" aria-label="Inspect Native Leopard Frog"
-               onclick="openInfoCard('frog')"
-               onmouseenter="showHotspotPreview('frog', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('frog', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('frog')">
-              <ellipse cx="798" cy="168" rx="38" ry="24" class="hotspot-ring" />
-              <circle cx="798" cy="138" r="5" class="hotspot-beacon-dot" />
-              <circle cx="798" cy="138" r="5" class="hotspot-beacon-pulse" />
-              <rect x="740" y="108" width="116" height="24" class="hotspot-badge-bg" />
-              <text x="798" y="124" text-anchor="middle" class="hotspot-badge-text">🐸 Leopard Frog</text>
-            </g>
-
-            <!-- 🐍 4. Diamondback Water Snake (Waterline Swimmer) -->
-            <g class="eco-hotspot" id="hotspot-snake" tabindex="0" role="button" aria-label="Inspect Diamondback Water Snake"
-               onclick="openInfoCard('snake')"
-               onmouseenter="showHotspotPreview('snake', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('snake', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('snake')">
-              <ellipse cx="770" cy="202" rx="155" ry="22" class="hotspot-ring" />
-              <circle cx="635" cy="198" r="5" class="hotspot-beacon-dot" />
-              <circle cx="635" cy="198" r="5" class="hotspot-beacon-pulse" />
-              <rect x="580" y="168" width="110" height="24" class="hotspot-badge-bg" />
-              <text x="635" y="184" text-anchor="middle" class="hotspot-badge-text">🐍 Water Snake</text>
-            </g>
-
-            <!-- 🌾 5. Texas Wild Rice (Left Riverbed Canopy) -->
-            <g class="eco-hotspot plant" id="hotspot-wild-rice" tabindex="0" role="button" aria-label="Inspect Texas Wild Rice"
-               onclick="openInfoCard('wild-rice')"
-               onmouseenter="showHotspotPreview('wild-rice', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('wild-rice', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('wild-rice')">
-              <ellipse cx="230" cy="245" rx="140" ry="42" class="hotspot-ring" />
-              <circle cx="310" cy="245" r="5" class="hotspot-beacon-dot" />
-              <circle cx="310" cy="245" r="5" class="hotspot-beacon-pulse" />
-              <rect x="235" y="215" width="150" height="24" class="hotspot-badge-bg" />
-              <text x="310" y="231" text-anchor="middle" class="hotspot-badge-text">🌾 Texas Wild Rice</text>
-            </g>
-
-            <!-- 🐌 6. Invasive Ramshorn Snail (Lower Left Broad Leaf) -->
-            <g class="eco-hotspot invasive" id="hotspot-snail" tabindex="0" role="button" aria-label="Inspect Invasive Ramshorn Snail"
-               onclick="openInfoCard('snail')"
-               onmouseenter="showHotspotPreview('snail', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('snail', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('snail')">
-              <ellipse cx="72" cy="370" rx="38" ry="48" class="hotspot-ring" />
-              <circle cx="72" cy="315" r="5" class="hotspot-beacon-dot" />
-              <circle cx="72" cy="315" r="5" class="hotspot-beacon-pulse" />
-              <rect x="16" y="285" width="112" height="24" class="hotspot-badge-bg" />
-              <text x="72" y="301" text-anchor="middle" class="hotspot-badge-text">🐌 Ramshorn Snail</text>
-            </g>
-
-            <!-- 🐢 7. Eastern Musk Turtle / Stinkpot (Bottom Left Riverbed) -->
-            <g class="eco-hotspot" id="hotspot-musk-turtle" tabindex="0" role="button" aria-label="Inspect Musk Turtle"
-               onclick="openInfoCard('musk-turtle')"
-               onmouseenter="showHotspotPreview('musk-turtle', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('musk-turtle', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('musk-turtle')">
-              <ellipse cx="125" cy="485" rx="42" ry="30" class="hotspot-ring" />
-              <circle cx="125" cy="445" r="5" class="hotspot-beacon-dot" />
-              <circle cx="125" cy="445" r="5" class="hotspot-beacon-pulse" />
-              <rect x="75" y="415" width="100" height="24" class="hotspot-badge-bg" />
-              <text x="125" y="431" text-anchor="middle" class="hotspot-badge-text">🐢 Musk Turtle</text>
-            </g>
-
-            <!-- 🐢 8. Spiny Softshell Turtle (Bottom Sandy Substrate) -->
-            <g class="eco-hotspot" id="hotspot-softshell" tabindex="0" role="button" aria-label="Inspect Spiny Softshell Turtle"
-               onclick="openInfoCard('softshell')"
-               onmouseenter="showHotspotPreview('softshell', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('softshell', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('softshell')">
-              <ellipse cx="285" cy="460" rx="115" ry="55" class="hotspot-ring" />
-              <circle cx="365" cy="455" r="5" class="hotspot-beacon-dot" />
-              <circle cx="365" cy="455" r="5" class="hotspot-beacon-pulse" />
-              <rect x="300" y="425" width="130" height="24" class="hotspot-badge-bg" />
-              <text x="365" y="441" text-anchor="middle" class="hotspot-badge-text">🐢 Softshell Turtle</text>
-            </g>
-
-            <!-- 🦞 9. Native River Crayfish (Bottom Center-Left Pebbles) -->
-            <g class="eco-hotspot" id="hotspot-crayfish" tabindex="0" role="button" aria-label="Inspect Native River Crayfish"
-               onclick="openInfoCard('crayfish')"
-               onmouseenter="showHotspotPreview('crayfish', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('crayfish', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('crayfish')">
-              <ellipse cx="535" cy="485" rx="55" ry="28" class="hotspot-ring" />
-              <circle cx="535" cy="450" r="5" class="hotspot-beacon-dot" />
-              <circle cx="535" cy="450" r="5" class="hotspot-beacon-pulse" />
-              <rect x="475" y="420" width="120" height="24" class="hotspot-badge-bg" />
-              <text x="535" y="436" text-anchor="middle" class="hotspot-badge-text">🦞 Native Crayfish</text>
-            </g>
-
-            <!-- 🐟 10. Armored Catfish / Plecostomus (Bottom Center-Right Stone) -->
-            <g class="eco-hotspot invasive" id="hotspot-pleco" tabindex="0" role="button" aria-label="Inspect Invasive Armored Catfish"
-               onclick="openInfoCard('pleco')"
-               onmouseenter="showHotspotPreview('pleco', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('pleco', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('pleco')">
-              <ellipse cx="670" cy="460" rx="92" ry="52" class="hotspot-ring" />
-              <circle cx="670" cy="400" r="5" class="hotspot-beacon-dot" />
-              <circle cx="670" cy="400" r="5" class="hotspot-beacon-pulse" />
-              <rect x="585" y="370" width="170" height="24" class="hotspot-badge-bg" />
-              <text x="670" y="386" text-anchor="middle" class="hotspot-badge-text">⚠️ Armored Catfish (Pleco)</text>
-            </g>
-
-            <!-- 🐠 11. Longear Sunfish & River Perch (Mid-Water School Left) -->
-            <g class="eco-hotspot" id="hotspot-sunfish" tabindex="0" role="button" aria-label="Inspect Longear Sunfish and Perch"
-               onclick="openInfoCard('sunfish')"
-               onmouseenter="showHotspotPreview('sunfish', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('sunfish', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('sunfish')">
-              <ellipse cx="250" cy="335" rx="85" ry="45" class="hotspot-ring" />
-              <circle cx="280" cy="285" r="5" class="hotspot-beacon-dot" />
-              <circle cx="280" cy="285" r="5" class="hotspot-beacon-pulse" />
-              <rect x="205" y="255" width="150" height="24" class="hotspot-badge-bg" />
-              <text x="280" y="271" text-anchor="middle" class="hotspot-badge-text">🐠 Sunfish &amp; Perch</text>
-            </g>
-
-            <!-- 🌿 12. Cabomba / Fanwort (Mid-Bottom Fronds) -->
-            <g class="eco-hotspot plant" id="hotspot-cabomba" tabindex="0" role="button" aria-label="Inspect Cabomba Fanwort"
-               onclick="openInfoCard('cabomba')"
-               onmouseenter="showHotspotPreview('cabomba', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('cabomba', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('cabomba')">
-              <ellipse cx="380" cy="375" rx="42" ry="55" class="hotspot-ring" />
-              <circle cx="380" cy="315" r="5" class="hotspot-beacon-dot" />
-              <circle cx="380" cy="315" r="5" class="hotspot-beacon-pulse" />
-              <rect x="318" y="285" width="124" height="24" class="hotspot-badge-bg" />
-              <text x="380" y="301" text-anchor="middle" class="hotspot-badge-text">🌿 Cabomba (Fanwort)</text>
-            </g>
-
-            <!-- 🌿 13. Parrot Feather (Mid-Bottom Stems) -->
-            <g class="eco-hotspot plant" id="hotspot-parrot-feather" tabindex="0" role="button" aria-label="Inspect Parrot Feather"
-               onclick="openInfoCard('parrot-feather')"
-               onmouseenter="showHotspotPreview('parrot-feather', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('parrot-feather', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('parrot-feather')">
-              <ellipse cx="445" cy="370" rx="35" ry="60" class="hotspot-ring" />
-              <circle cx="445" cy="305" r="5" class="hotspot-beacon-dot" />
-              <circle cx="445" cy="305" r="5" class="hotspot-beacon-pulse" />
-              <rect x="385" y="275" width="120" height="24" class="hotspot-badge-bg" />
-              <text x="445" y="291" text-anchor="middle" class="hotspot-badge-text">🌿 Parrot Feather</text>
-            </g>
-
-            <!-- 🐟 14. Largemouth Bass (Center Mid-Water Predator) -->
-            <g class="eco-hotspot" id="hotspot-bass" tabindex="0" role="button" aria-label="Inspect Largemouth Bass"
-               onclick="openInfoCard('bass')"
-               onmouseenter="showHotspotPreview('bass', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('bass', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('bass')">
-              <ellipse cx="660" cy="325" rx="95" ry="40" class="hotspot-ring" />
-              <circle cx="660" cy="275" r="5" class="hotspot-beacon-dot" />
-              <circle cx="660" cy="275" r="5" class="hotspot-beacon-pulse" />
-              <rect x="585" y="245" width="150" height="24" class="hotspot-badge-bg" />
-              <text x="660" y="261" text-anchor="middle" class="hotspot-badge-text">🐟 Largemouth Bass</text>
-            </g>
-
-            <!-- 🐟 15. Fountain Darter (Small Mid-Gravel Fish) -->
-            <g class="eco-hotspot" id="hotspot-darter" tabindex="0" role="button" aria-label="Inspect Endangered Fountain Darter"
-               onclick="openInfoCard('darter')"
-               onmouseenter="showHotspotPreview('darter', event)"
-               onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('darter', event)"
-               onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('darter')">
-              <ellipse cx="575" cy="405" rx="42" ry="20" class="hotspot-ring" />
-              <circle cx="575" cy="378" r="5" class="hotspot-beacon-dot" />
-              <circle cx="575" cy="378" r="5" class="hotspot-beacon-pulse" />
-              <rect x="500" y="348" width="150" height="24" class="hotspot-badge-bg" />
-              <text x="575" y="364" text-anchor="middle" class="hotspot-badge-text">🐟 Fountain Darter</text>
-            </g>
-
-            <!-- 🐢 16. Texas River Cooter (Basking on Right Boulder) -->
+            <!-- 🐢 3. Texas River Cooter (Basking on Sunny Boulder on Bank) -->
             <g class="eco-hotspot" id="hotspot-cooter" tabindex="0" role="button" aria-label="Inspect Texas River Cooter"
-               onclick="openInfoCard('cooter')"
+               onclick="handleHotspotClick('cooter')"
                onmouseenter="showHotspotPreview('cooter', event)"
                onmouseleave="hideHotspotPreview()"
                onfocus="showHotspotPreview('cooter', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('cooter')">
-              <ellipse cx="830" cy="300" rx="65" ry="38" class="hotspot-ring" />
-              <circle cx="830" cy="255" r="5" class="hotspot-beacon-dot" />
-              <circle cx="830" cy="255" r="5" class="hotspot-beacon-pulse" />
-              <rect x="755" y="225" width="150" height="24" class="hotspot-badge-bg" />
-              <text x="830" y="241" text-anchor="middle" class="hotspot-badge-text">🐢 Texas River Cooter</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('cooter')">
+              <ellipse cx="635" cy="135" rx="65" ry="35" class="hotspot-ring" />
+              <circle cx="635" cy="98" r="5" class="hotspot-beacon-dot" />
+              <circle cx="635" cy="98" r="5" class="hotspot-beacon-pulse" />
+              <rect x="565" y="70" width="145" height="24" class="hotspot-badge-bg" />
+              <text x="637" y="86" text-anchor="middle" class="hotspot-badge-text">🐢 Texas River Cooter</text>
             </g>
 
-            <!-- 🐍 17. American Freshwater Eel (Right Rock Crevice) -->
-            <g class="eco-hotspot" id="hotspot-eel" tabindex="0" role="button" aria-label="Inspect American Freshwater Eel"
-               onclick="openInfoCard('eel')"
-               onmouseenter="showHotspotPreview('eel', event)"
+            <!-- 🐸 4. Native Leopard Frog (Shoreline Bank Pebbles) -->
+            <g class="eco-hotspot" id="hotspot-frog" tabindex="0" role="button" aria-label="Inspect Native Leopard Frog"
+               onclick="handleHotspotClick('frog')"
+               onmouseenter="showHotspotPreview('frog', event)"
                onmouseleave="hideHotspotPreview()"
-               onfocus="showHotspotPreview('eel', event)"
+               onfocus="showHotspotPreview('frog', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('eel')">
-              <ellipse cx="850" cy="405" rx="75" ry="38" class="hotspot-ring" />
-              <circle cx="850" cy="360" r="5" class="hotspot-beacon-dot" />
-              <circle cx="850" cy="360" r="5" class="hotspot-beacon-pulse" />
-              <rect x="780" y="330" width="140" height="24" class="hotspot-badge-bg" />
-              <text x="850" y="346" text-anchor="middle" class="hotspot-badge-text">🐍 Freshwater Eel</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('frog')">
+              <ellipse cx="795" cy="145" rx="40" ry="25" class="hotspot-ring" />
+              <circle cx="795" cy="118" r="5" class="hotspot-beacon-dot" />
+              <circle cx="795" cy="118" r="5" class="hotspot-beacon-pulse" />
+              <rect x="735" y="88" width="116" height="24" class="hotspot-badge-bg" />
+              <text x="793" y="104" text-anchor="middle" class="hotspot-badge-text">🐸 Leopard Frog</text>
             </g>
 
-            <!-- 🌿 18. Invasive Hydrilla (Far Right Ribbon Canopy) -->
+            <!-- 🌾 5. Texas Wild Rice (Left Riverbed Canopy) -->
+            <g class="eco-hotspot plant" id="hotspot-wild-rice" tabindex="0" role="button" aria-label="Inspect Texas Wild Rice"
+               onclick="handleHotspotClick('wild-rice')"
+               onmouseenter="showHotspotPreview('wild-rice', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('wild-rice', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('wild-rice')">
+              <ellipse cx="220" cy="245" rx="120" ry="40" class="hotspot-ring" />
+              <circle cx="215" cy="245" r="5" class="hotspot-beacon-dot" />
+              <circle cx="215" cy="245" r="5" class="hotspot-beacon-pulse" />
+              <rect x="155" y="210" width="140" height="24" class="hotspot-badge-bg" />
+              <text x="225" y="226" text-anchor="middle" class="hotspot-badge-text">🌾 Texas Wild Rice</text>
+            </g>
+
+            <!-- 🐍 6. Diamondback Water Snake (Surface Waterline Swimmer) -->
+            <g class="eco-hotspot" id="hotspot-snake" tabindex="0" role="button" aria-label="Inspect Diamondback Water Snake"
+               onclick="handleHotspotClick('snake')"
+               onmouseenter="showHotspotPreview('snake', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('snake', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('snake')">
+              <ellipse cx="700" cy="195" rx="160" ry="18" class="hotspot-ring" />
+              <circle cx="630" cy="195" r="5" class="hotspot-beacon-dot" />
+              <circle cx="630" cy="195" r="5" class="hotspot-beacon-pulse" />
+              <rect x="500" y="165" width="120" height="24" class="hotspot-badge-bg" />
+              <text x="560" y="181" text-anchor="middle" class="hotspot-badge-text">🐍 Water Snake</text>
+            </g>
+
+            <!-- 🌿 7. Invasive Hydrilla (Far Right Surface & Ribbon Canopy) -->
             <g class="eco-hotspot invasive" id="hotspot-hydrilla" tabindex="0" role="button" aria-label="Inspect Invasive Hydrilla"
-               onclick="openInfoCard('hydrilla')"
+               onclick="handleHotspotClick('hydrilla')"
                onmouseenter="showHotspotPreview('hydrilla', event)"
                onmouseleave="hideHotspotPreview()"
                onfocus="showHotspotPreview('hydrilla', event)"
                onblur="hideHotspotPreview()"
-               onkeydown="if(event.key==='Enter'||event.key===' ')openInfoCard('hydrilla')">
-              <ellipse cx="945" cy="340" rx="45" ry="85" class="hotspot-ring" />
-              <circle cx="930" cy="245" r="5" class="hotspot-beacon-dot" />
-              <circle cx="930" cy="245" r="5" class="hotspot-beacon-pulse" />
-              <rect x="855" y="215" width="150" height="24" class="hotspot-badge-bg" />
-              <text x="930" y="231" text-anchor="middle" class="hotspot-badge-text">⚠️ Invasive Hydrilla</text>
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('hydrilla')">
+              <ellipse cx="940" cy="330" rx="50" ry="90" class="hotspot-ring" />
+              <circle cx="935" cy="215" r="5" class="hotspot-beacon-dot" />
+              <circle cx="935" cy="215" r="5" class="hotspot-beacon-pulse" />
+              <rect x="875" y="185" width="120" height="24" class="hotspot-badge-bg" />
+              <text x="935" y="201" text-anchor="middle" class="hotspot-badge-text">⚠️ Invasive Hydrilla</text>
+            </g>
+
+            <!-- 🌿 8. Parrot Feather (Mid-Water Whorled Stems) -->
+            <g class="eco-hotspot plant" id="hotspot-parrot-feather" tabindex="0" role="button" aria-label="Inspect Parrot Feather"
+               onclick="handleHotspotClick('parrot-feather')"
+               onmouseenter="showHotspotPreview('parrot-feather', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('parrot-feather', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('parrot-feather')">
+              <ellipse cx="490" cy="320" rx="30" ry="50" class="hotspot-ring" />
+              <circle cx="535" cy="265" r="5" class="hotspot-beacon-dot" />
+              <circle cx="535" cy="265" r="5" class="hotspot-beacon-pulse" />
+              <rect x="475" y="288" width="115" height="24" class="hotspot-badge-bg" />
+              <text x="532" y="304" text-anchor="middle" class="hotspot-badge-text">🌿 Parrot Feather</text>
+            </g>
+
+            <!-- 🐟 9. Largemouth Bass (Center Mid-Water Predator) -->
+            <g class="eco-hotspot" id="hotspot-bass" tabindex="0" role="button" aria-label="Inspect Largemouth Bass"
+               onclick="handleHotspotClick('bass')"
+               onmouseenter="showHotspotPreview('bass', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('bass', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('bass')">
+              <ellipse cx="650" cy="305" rx="90" ry="38" class="hotspot-ring" />
+              <circle cx="665" cy="270" r="5" class="hotspot-beacon-dot" />
+              <circle cx="665" cy="270" r="5" class="hotspot-beacon-pulse" />
+              <rect x="595" y="240" width="145" height="24" class="hotspot-badge-bg" />
+              <text x="667" y="256" text-anchor="middle" class="hotspot-badge-text">🐟 Largemouth Bass</text>
+            </g>
+
+            <!-- 🌿 10. Cabomba / Fanwort (Mid-Bottom Fronds) -->
+            <g class="eco-hotspot plant" id="hotspot-cabomba" tabindex="0" role="button" aria-label="Inspect Cabomba Fanwort"
+               onclick="handleHotspotClick('cabomba')"
+               onmouseenter="showHotspotPreview('cabomba', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('cabomba', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('cabomba')">
+              <ellipse cx="435" cy="320" rx="35" ry="45" class="hotspot-ring" />
+              <circle cx="430" cy="282" r="5" class="hotspot-beacon-dot" />
+              <circle cx="430" cy="282" r="5" class="hotspot-beacon-pulse" />
+              <rect x="365" y="255" width="125" height="24" class="hotspot-badge-bg" />
+              <text x="427" y="271" text-anchor="middle" class="hotspot-badge-text">🌿 Cabomba (Fanwort)</text>
+            </g>
+
+            <!-- 🐠 11. Longear Sunfish & River Perch (Mid-Water School Left) -->
+            <g class="eco-hotspot" id="hotspot-sunfish" tabindex="0" role="button" aria-label="Inspect Longear Sunfish and Perch"
+               onclick="handleHotspotClick('sunfish')"
+               onmouseenter="showHotspotPreview('sunfish', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('sunfish', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('sunfish')">
+              <ellipse cx="220" cy="335" rx="75" ry="40" class="hotspot-ring" />
+              <circle cx="220" cy="285" r="5" class="hotspot-beacon-dot" />
+              <circle cx="220" cy="285" r="5" class="hotspot-beacon-pulse" />
+              <rect x="150" y="255" width="140" height="24" class="hotspot-badge-bg" />
+              <text x="220" y="271" text-anchor="middle" class="hotspot-badge-text">🐠 Sunfish &amp; Perch</text>
+            </g>
+
+            <!-- 🐌 12. Invasive Ramshorn Snail (Lower Left Broad Leaf) -->
+            <g class="eco-hotspot invasive" id="hotspot-snail" tabindex="0" role="button" aria-label="Inspect Invasive Ramshorn Snail"
+               onclick="handleHotspotClick('snail')"
+               onmouseenter="showHotspotPreview('snail', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('snail', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('snail')">
+              <ellipse cx="58" cy="355" rx="35" ry="45" class="hotspot-ring" />
+              <circle cx="58" cy="300" r="5" class="hotspot-beacon-dot" />
+              <circle cx="58" cy="300" r="5" class="hotspot-beacon-pulse" />
+              <rect x="10" y="270" width="115" height="24" class="hotspot-badge-bg" />
+              <text x="67" y="286" text-anchor="middle" class="hotspot-badge-text">🐌 Ramshorn Snail</text>
+            </g>
+
+            <!-- 🐟 13. Fountain Darter (Small Pebble Resting Fish) -->
+            <g class="eco-hotspot" id="hotspot-darter" tabindex="0" role="button" aria-label="Inspect Endangered Fountain Darter"
+               onclick="handleHotspotClick('darter')"
+               onmouseenter="showHotspotPreview('darter', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('darter', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('darter')">
+              <ellipse cx="575" cy="395" rx="45" ry="24" class="hotspot-ring" />
+              <circle cx="575" cy="390" r="5" class="hotspot-beacon-dot" />
+              <circle cx="575" cy="390" r="5" class="hotspot-beacon-pulse" />
+              <rect x="515" y="422" width="125" height="24" class="hotspot-badge-bg" />
+              <text x="577" y="438" text-anchor="middle" class="hotspot-badge-text">🐟 Fountain Darter</text>
+            </g>
+
+            <!-- 🐢 14. Spiny Softshell Turtle (Sand Substrate Glider) -->
+            <g class="eco-hotspot" id="hotspot-softshell" tabindex="0" role="button" aria-label="Inspect Spiny Softshell Turtle"
+               onclick="handleHotspotClick('softshell')"
+               onmouseenter="showHotspotPreview('softshell', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('softshell', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('softshell')">
+              <ellipse cx="425" cy="405" rx="55" ry="30" class="hotspot-ring" />
+              <circle cx="430" cy="405" r="5" class="hotspot-beacon-dot" />
+              <circle cx="430" cy="405" r="5" class="hotspot-beacon-pulse" />
+              <rect x="365" y="435" width="135" height="24" class="hotspot-badge-bg" />
+              <text x="432" y="451" text-anchor="middle" class="hotspot-badge-text">🐢 Softshell Turtle</text>
+            </g>
+
+            <!-- 🐢 15. Common Snapping Turtle (Bottom Silt & Gravel Titan) -->
+            <g class="eco-hotspot" id="hotspot-snapping-turtle" tabindex="0" role="button" aria-label="Inspect Common Snapping Turtle"
+               onclick="handleHotspotClick('snapping-turtle')"
+               onmouseenter="showHotspotPreview('snapping-turtle', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('snapping-turtle', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('snapping-turtle')">
+              <ellipse cx="285" cy="445" rx="95" ry="52" class="hotspot-ring" />
+              <circle cx="270" cy="398" r="5" class="hotspot-beacon-dot" />
+              <circle cx="270" cy="398" r="5" class="hotspot-beacon-pulse" />
+              <rect x="180" y="370" width="175" height="24" class="hotspot-badge-bg" />
+              <text x="267" y="386" text-anchor="middle" class="hotspot-badge-text">🐢 Snapping Turtle</text>
+            </g>
+
+            <!-- 🐟 16. Armored Catfish / Plecostomus (Bottom Right Stone) -->
+            <g class="eco-hotspot invasive" id="hotspot-pleco" tabindex="0" role="button" aria-label="Inspect Invasive Armored Catfish"
+               onclick="handleHotspotClick('pleco')"
+               onmouseenter="showHotspotPreview('pleco', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('pleco', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('pleco')">
+              <ellipse cx="680" cy="445" rx="105" ry="58" class="hotspot-ring" />
+              <circle cx="670" cy="435" r="5" class="hotspot-beacon-dot" />
+              <circle cx="670" cy="435" r="5" class="hotspot-beacon-pulse" />
+              <rect x="605" y="520" width="165" height="24" class="hotspot-badge-bg" />
+              <text x="687" y="536" text-anchor="middle" class="hotspot-badge-text">⚠️ Armored Catfish (Pleco)</text>
+            </g>
+
+            <!-- 🐍 17. American Freshwater Eel (Right Rock Crevice) -->
+            <g class="eco-hotspot" id="hotspot-eel" tabindex="0" role="button" aria-label="Inspect American Freshwater Eel"
+               onclick="handleHotspotClick('eel')"
+               onmouseenter="showHotspotPreview('eel', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('eel', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('eel')">
+              <ellipse cx="825" cy="425" rx="90" ry="55" class="hotspot-ring" />
+              <circle cx="800" cy="415" r="5" class="hotspot-beacon-dot" />
+              <circle cx="800" cy="415" r="5" class="hotspot-beacon-pulse" />
+              <rect x="795" y="515" width="135" height="24" class="hotspot-badge-bg" />
+              <text x="862" y="531" text-anchor="middle" class="hotspot-badge-text">🐍 Freshwater Eel</text>
+            </g>
+
+            <!-- 🐢 18. Eastern Musk Turtle / Stinkpot (Bottom Left Riverbed) -->
+            <g class="eco-hotspot" id="hotspot-musk-turtle" tabindex="0" role="button" aria-label="Inspect Musk Turtle"
+               onclick="handleHotspotClick('musk-turtle')"
+               onmouseenter="showHotspotPreview('musk-turtle', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('musk-turtle', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('musk-turtle')">
+              <ellipse cx="125" cy="485" rx="40" ry="28" class="hotspot-ring" />
+              <circle cx="125" cy="485" r="5" class="hotspot-beacon-dot" />
+              <circle cx="125" cy="485" r="5" class="hotspot-beacon-pulse" />
+              <rect x="75" y="515" width="100" height="24" class="hotspot-badge-bg" />
+              <text x="125" y="531" text-anchor="middle" class="hotspot-badge-text">🐢 Musk Turtle</text>
+            </g>
+
+            <!-- 🦞 19. Native River Crayfish (Bottom Center Pebbles) -->
+            <g class="eco-hotspot" id="hotspot-crayfish" tabindex="0" role="button" aria-label="Inspect Native River Crayfish"
+               onclick="handleHotspotClick('crayfish')"
+               onmouseenter="showHotspotPreview('crayfish', event)"
+               onmouseleave="hideHotspotPreview()"
+               onfocus="showHotspotPreview('crayfish', event)"
+               onblur="hideHotspotPreview()"
+               onkeydown="if(event.key==='Enter'||event.key===' ')handleHotspotClick('crayfish')">
+              <ellipse cx="530" cy="480" rx="45" ry="25" class="hotspot-ring" />
+              <circle cx="530" cy="495" r="5" class="hotspot-beacon-dot" />
+              <circle cx="530" cy="495" r="5" class="hotspot-beacon-pulse" />
+              <rect x="440" y="532" width="120" height="24" class="hotspot-badge-bg" />
+              <text x="500" y="548" text-anchor="middle" class="hotspot-badge-text">🦞 Native Crayfish</text>
             </g>
           </svg>
 
@@ -1664,7 +2427,7 @@
         <div class="hud-species-counts" id="hudCounts">
           <span class="hud-tag">🌾 Rice: <span id="hudRice">55 stands</span></span>
           <span class="hud-tag">🐟 Darters: <span id="hudDarters">5.5/m²</span></span>
-          <span class="hud-tag">🐢 Turtles: <span id="hudTurtles">7 (Cooter/Softshell/Musk)</span></span>
+          <span class="hud-tag">🐢 Turtles: <span id="hudTurtles">8 (Snapping/Cooter/Softshell/Musk)</span></span>
           <span class="hud-tag">🐠 Sunfish: <span id="hudSunfish">12</span></span>
           <span class="hud-tag">🦞 Crayfish: <span id="hudCrayfish">6/m²</span></span>
           <span class="hud-tag" style="border-color: rgba(244,63,94,0.4); color: #FDA4AF;">⚠️ Plecos: <span id="hudPleco">3 (Burrow Risk)</span></span>
@@ -1683,17 +2446,124 @@
       </div>
     </section>
 
-    <!-- RIVER RULES & TUBING CHECKLIST -->
-    <section class="info-section">
-      <h3><span>🛶</span> San Marcos River City Rules & Guidelines</h3>
-      <ul class="rules-list">
-        <li>🚫 <b>Can Ban:</b> No disposable containers allowed on river.</li>
-        <li>🥤 <b>Reusables:</b> Non-disposable insulated cups/bottles only.</li>
-        <li>🗑️ <b>Mesh Bags:</b> 1 mesh trash bag required per tube stack.</li>
-        <li>🍷 <b>No Glass/Styrofoam:</b> Strictly prohibited by city ordinance.</li>
-        <li>🌿 <b>Protect Texas Wild Rice:</b> Do not walk on underwater grass patches.</li>
-        <li>🔊 <b>Music Limit:</b> Keep music volume respectful to river wildlife.</li>
-      </ul>
+    <!-- SAN MARCOS RIVER CITY RULES & GUIDELINES -->
+    <section class="river-rules-section" id="riverRulesSection" aria-label="City of San Marcos River Rules and Municipal Guidelines">
+      <!-- Verified City of San Marcos Municipal Header -->
+      <div class="rules-official-header">
+        <div class="footer-seal-group">
+          <div class="footer-seal-icon">🏛️</div>
+          <div class="footer-seal-text">
+            <h4>Verified Municipal Source: City of San Marcos, Texas</h4>
+            <p>Ordinances are enforced by San Marcos Park Rangers and San Marcos Police Department. Access official municipal codes, interactive Go Zone maps, and park regulations below.</p>
+          </div>
+        </div>
+        <div class="footer-action-links">
+          <a href="https://sanmarcostx.gov/4299/Single-Use-Beverage-Container-Ban" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-official-verify"
+             aria-label="Visit official City of San Marcos Single-Use Beverage Container Ban webpage">
+            🌐 San Marcos River Rules &amp; Container Ban ↗
+          </a>
+          <a href="https://sanmarcostx.gov/parks" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-parks-verify"
+             aria-label="Visit official City of San Marcos Parks & Recreation directory">
+            🏞️ City Parks Directory ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- Categorized Guidelines Grid for High Comprehension -->
+      <div class="rules-category-grid">
+        <!-- Card 1: Prohibited Items & Activities -->
+        <div class="rules-category-card prohibited">
+          <div class="card-category-header prohibited">
+            <span>🚫</span> STRICTLY PROHIBITED ("No Zones")
+          </div>
+          <ul class="rule-items-list">
+            <li class="rule-item-entry">
+              <span class="item-bullet">🥫</span>
+              <div><b>No Single-Use Containers:</b> Aluminum beer/soda cans, disposable water bottles, plastic cups, and juice pouches are banned in the river and on riverbanks.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🍾</span>
+              <div><b>No Glass Containers:</b> Strictly forbidden by Texas State law and City ordinance throughout all river parks (violations carry fines up to $500).</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">📦</span>
+              <div><b>No Styrofoam:</b> Styrofoam ice chests, beverage coolers, cups, and plates are strictly prohibited.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🔊</span>
+              <div><b>No Amplified Sound >50 Feet:</b> Keep music volume respectful to fellow floaters and river wildlife; loud speakers are prohibited.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🌉</span>
+              <div><b>No Jumping or Diving:</b> Jumping from bridges, dams, or trees is illegal and hazardous due to shallow limestone boulders.</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Permitted Items & Requirements -->
+        <div class="rules-category-card allowed">
+          <div class="card-category-header allowed">
+            <span>✅</span> PERMITTED &amp; REQUIRED
+          </div>
+          <ul class="rule-items-list">
+            <li class="rule-item-entry">
+              <span class="item-bullet">🥤</span>
+              <div><b>Reusable Containers Only:</b> Insulated tumblers (Yeti, Hydro Flask), stainless steel bottles, or durable sports bottles (dishwasher-safe rule).</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🧊</span>
+              <div><b>Coolers ≤ 30 Quarts:</b> Allowed one locking/latching cooler per person. Must remain securely fastened while floating.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🗑️</span>
+              <div><b>Mesh Trash Bag:</b> Keep one mesh trash bag tied securely to each tube stack to catch packaging and keep waters pristine.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🦺</span>
+              <div><b>Life Jackets Advised:</b> Free-flowing river currents and Rio Vista chute require swimming confidence; life jackets strongly recommended.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">👟</span>
+              <div><b>Secured Water Shoes:</b> Wear strap-on sandals or water shoes to prevent foot injuries on slippery limestone and river rock.</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Ecological Stewardship & Safety -->
+        <div class="rules-category-card stewardship">
+          <div class="card-category-header stewardship">
+            <span>🌿</span> ECO-STEWARDSHIP &amp; PARK NAVIGATION
+          </div>
+          <ul class="rule-items-list">
+            <li class="rule-item-entry">
+              <span class="item-bullet">🌾</span>
+              <div><b>Texas Wild Rice Sanctuary:</b> Endangered plant endemic only to the upper river. Float gently overhead; do not stand on grass beds.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🗺️</span>
+              <div><b>"Go Zones" vs. "No Zones":</b> Disposable containers are permitted only in designated "Go Zones" (park picnic areas away from riverbanks).</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🐢</span>
+              <div><b>Respect Native Wildlife:</b> Admire basking turtles, herons, and river fauna from your tube without harassing or feeding.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">🏊</span>
+              <div><b>No Lifeguards on Duty:</b> The San Marcos River is a natural spring waterway with submerged roots and sudden drop-offs.</div>
+            </li>
+            <li class="rule-item-entry">
+              <span class="item-bullet">⏰</span>
+              <div><b>Park Hours (6 AM – 11 PM):</b> River access parks close at 11:00 PM unless otherwise posted.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <!-- K-12 INTERACTIVE FIELD INFO-CARD MODAL -->
@@ -1719,7 +2589,41 @@
       </div>
     </div>
 
+    <!-- CHALLENGE COMPLETION SCORECARD MODAL -->
+    <div class="info-modal-backdrop" id="challengeScorecardModal" role="dialog" aria-modal="true" aria-labelledby="scorecardTitle" onclick="closeScorecard(event)">
+      <div class="info-modal-card" onclick="event.stopPropagation()" style="text-align: center; border-color: #F59E0B;">
+        <div class="modal-badge" style="background: linear-gradient(135deg, #F59E0B, #EA580C);">🏆 Skill Challenge Complete!</div>
+        <div style="font-size: 3.5rem; margin: 8px 0;" id="scorecardEmoji">🎓</div>
+        <h2 id="scorecardTitle" style="font-size: 1.45rem; color: #F8FAFC; margin-bottom: 6px;">River Master Naturalist!</h2>
+        
+        <div style="background: rgba(15, 23, 42, 0.8); border: 1.5px solid rgba(245, 158, 11, 0.4); border-radius: var(--radius-md); padding: 16px; margin: 16px 0;">
+          <div style="font-size: 2.8rem; font-weight: 800; color: #FCD34D;" id="scorecardPercent">100%</div>
+          <div style="font-size: 0.82rem; color: #CBD5E1; margin-top: 4px;" id="scorecardBreakdown">19 of 19 species matched correctly on the first try!</div>
+        </div>
+
+        <p id="scorecardEncouragement" style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; margin-bottom: 20px;">
+          Outstanding work! You have mastered the aquatic flora and fauna of the San Marcos River. Keeping these species protected keeps the river pristine for everyone!
+        </p>
+
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button class="btn-scenario" style="padding: 8px 16px; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #FFF; font-weight: 700;" onclick="setAppMode('explore'); closeScorecard();">
+            👁️ Explore in Free View
+          </button>
+          <button class="btn-refresh" style="padding: 8px 18px; background: linear-gradient(135deg, #F59E0B, #EA580C); font-weight: 700;" onclick="resetChallenge(); closeScorecard();">
+            🎯 Play Again
+          </button>
+        </div>
+      </div>
+    </div>
+
   </main>
+
+  <!-- APPLICATION FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p class="footer-copyright">All rights reserved - Sal A. Mander 2026</p>
+    </div>
+  </footer>
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
@@ -2194,10 +3098,10 @@
 
       // Update HUD Species Counts
       const presetCounts = {
-        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', turtles: '7 (3 Cooter / 2 Softshell / 2 Musk)', sunfish: '12', crayfish: '6/m²', plecos: '3 (Low Risk)' },
-        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', turtles: '5 (Submerged Swimmers)', sunfish: '10', crayfish: '5/m²', plecos: '4 (Active Burrowing)' },
-        'severe-flood': { rice: '45 stands', darters: '2.1/m²', turtles: '2 (Eddy Refuge)', sunfish: '4', crayfish: '8/m²', plecos: '2 (Tunnel Hidden)' },
-        'critical-drought': { rice: '30 stands', darters: '1.5/m²', turtles: '9 (Spring Vent Clustered)', sunfish: '15', crayfish: '3/m²', plecos: '7 (Air Breather Advantage)' }
+        'optimal-baseflow': { rice: '55 stands', darters: '5.5/m²', turtles: '8 (1 Snapping / 3 Cooter / 2 Softshell / 2 Musk)', sunfish: '12', crayfish: '6/m²', plecos: '3 (Low Risk)' },
+        'elevated-surge': { rice: '50 stands', darters: '4.8/m²', turtles: '6 (Submerged Swimmers & Heavy Anchors)', sunfish: '10', crayfish: '5/m²', plecos: '4 (Active Burrowing)' },
+        'severe-flood': { rice: '45 stands', darters: '2.1/m²', turtles: '3 (Eddy & Limestone Ledge Refuge)', sunfish: '4', crayfish: '8/m²', plecos: '2 (Tunnel Hidden)' },
+        'critical-drought': { rice: '30 stands', darters: '1.5/m²', turtles: '10 (Spring Vent Clustered & Mud Estivation)', sunfish: '15', crayfish: '3/m²', plecos: '7 (Air Breather Advantage)' }
       };
 
       const sc = presetCounts[stageId] || presetCounts['optimal-baseflow'];
@@ -2443,6 +3347,33 @@
           badge: '☀️ Sandbar Basking Badge',
           title: 'Spiny Softshell — Sunbather Supreme',
           body: 'In low summer flows, exposed sandbars become prime basking sites where softshells soak up UV light while remaining poised to dive into water at the first sign of danger.'
+        }
+      },
+      'snapping-turtle': {
+        icon: '🐢',
+        scientific: 'Chelydra serpentina (Common Snapping Turtle)',
+        status: 'Native Keystone Scavenger / Apex Reptile',
+        habitat: 'Deep River Pools, Muddy Silt Beds & Submerged Logs',
+        badgeClass: '',
+        'optimal-baseflow': {
+          badge: '👑 Ancient Titan Badge',
+          title: 'Common Snapping Turtle — Keystone Riverbed Monarch',
+          body: 'Reaching 16–18 inches and weighing up to 35 pounds or more, the Common Snapping Turtle is the heavy titan of the San Marcos Riverbed! With a prehistoric, heavily ridged carapace, a long serrated tail, and formidable hooked jaws, this ancient native reptile rests camouflaged in river silt and gravel. As an apex bottom scavenger and ambush predator, it feeds on decaying matter, invasive crayfish, and ailing fish—keeping the spring waters exceptionally healthy and clean.'
+        },
+        'elevated-surge': {
+          badge: '⚓ Heavyweight Anchor Badge',
+          title: 'Common Snapping Turtle — High-Flow Ballast',
+          body: 'Weighing over 25–35 lbs with muscular clawed limbs, the snapping turtle hugs the gravel riverbed substrate, anchoring itself effortlessly against 250 CFS currents while smaller creatures seek shelter.'
+        },
+        'severe-flood': {
+          badge: '🛡️ Limestone Ledge Refuge Badge',
+          title: 'Common Snapping Turtle — Deep Benthic Haven',
+          body: 'During massive 450+ CFS flood surges, snapping turtles retreat under submerged limestone ledges and fallen cypress root balls where hydraulic friction keeps water calm.'
+        },
+        'critical-drought': {
+          badge: '🫧 Mud Estivation Badge',
+          title: 'Common Snapping Turtle — Drought Survivor',
+          body: 'When summer discharge drops below 60 CFS, snapping turtles bury into deep cool mud pools, slowing their metabolic rate and absorbing dissolved oxygen through pharyngeal lining until strong spring flow returns.'
         }
       },
       'crayfish': {
@@ -2816,6 +3747,13 @@
         fact: 'Leathery flat carapace and snorkel snout; buries in sand to ambush prey.',
         cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
       },
+      'snapping-turtle': {
+        emoji: '🐢',
+        title: 'Common Snapping Turtle',
+        subtitle: 'Chelydra serpentina (Native Keystone)',
+        fact: '18-inch prehistoric river titan resting in silt bed; vital apex scavenger keeping the river clean.',
+        cta: '👆 Click / Tap for K-12 Field Guide & Survival Lore'
+      },
       'crayfish': {
         emoji: '🦞',
         title: 'Native River Crayfish',
@@ -2888,7 +3826,404 @@
       }
     };
 
+    // ==========================================
+    // "TEST YOUR SKILL" CHALLENGE MATCHING ENGINE
+    // ==========================================
+    let currentAppMode = 'explore'; // 'explore' | 'challenge'
+
+    const challengeItems = [
+      {
+        key: 'heron',
+        name: 'Yellow-crowned Night Heron',
+        icon: '🪶',
+        clue: 'Look high up along the riverbank on the tree branch above the water.',
+        praise: 'Fantastic! You spotted the sharp-eyed Night Heron watching for crayfish!'
+      },
+      {
+        key: 'elephant-ears',
+        name: 'Elephant Ears',
+        icon: '🌿',
+        clue: 'Look for colossal, broad heart-shaped leaves growing along the riverbank edge.',
+        praise: 'Spot on! That’s the invasive Elephant Ears plant spreading across the banks.'
+      },
+      {
+        key: 'frog',
+        name: 'Native Leopard Frog',
+        icon: '🐸',
+        clue: 'Search the sunny shoreline bank pebbles on the upper right.',
+        praise: 'Ribbit! You found the agile Leopard Frog sunning on the shore pebbles!'
+      },
+      {
+        key: 'snake',
+        name: 'Diamondback Water Snake',
+        icon: '🐍',
+        clue: 'Look right at the waterline surface on the upper right where a snake is swimming.',
+        praise: 'Great eye! That’s the non-venomous Diamondback Water Snake cruising the surface!'
+      },
+      {
+        key: 'wild-rice',
+        name: 'Texas Wild Rice',
+        icon: '🌾',
+        clue: 'Look in the upper river current on the left for long emerald ribbon blades.',
+        praise: 'Brilliant! You located the rare, federally endangered Texas Wild Rice!'
+      },
+      {
+        key: 'snail',
+        name: 'Invasive Ramshorn Snail',
+        icon: '🐌',
+        clue: 'Search on the submerged plant leaf on the lower left for a coiled shell.',
+        praise: 'Got it! That is the invasive Ramshorn Snail grazing on aquatic leaves.'
+      },
+      {
+        key: 'musk-turtle',
+        name: 'Eastern Musk Turtle',
+        icon: '🐢',
+        clue: 'Look down on the dark gravel riverbed on the bottom left.',
+        praise: 'Well done! You found the bottom-crawling Eastern Musk Turtle (Stinkpot)!'
+      },
+      {
+        key: 'softshell',
+        name: 'Spiny Softshell Turtle',
+        icon: '🐢',
+        clue: 'Look across the sandy bottom floor in the lower-left center for a flat carapace.',
+        praise: 'Excellent! You found the leathery flat-shelled Spiny Softshell Turtle!'
+      },
+      {
+        key: 'snapping-turtle',
+        name: 'Common Snapping Turtle',
+        icon: '🐢',
+        clue: 'Look along the bottom riverbed on the left for a massive, prehistoric-looking turtle with a rough ridged shell.',
+        praise: 'Tremendous eye! You found the mighty Common Snapping Turtle, the river’s apex bottom scavenger!'
+      },
+      {
+        key: 'crayfish',
+        name: 'Native River Crayfish',
+        icon: '🦞',
+        clue: 'Search the riverbed pebbles in the center bottom for a shelled crustacean with claws.',
+        praise: 'Cracking find! You caught the Native River Crayfish scavenging the riverbed!'
+      },
+      {
+        key: 'pleco',
+        name: 'Armored Catfish (Plecostomus)',
+        icon: '⚠️',
+        clue: 'Look on the large submerged stone on the lower right for a dark, armored catfish.',
+        praise: 'Sharp catch! That’s the destructive invasive Pleco that burrows into riverbanks!'
+      },
+      {
+        key: 'sunfish',
+        name: 'Longear Sunfish & River Perch',
+        icon: '🐠',
+        clue: 'Look for colorful fish with turquoise markings swimming in the mid-water left channel.',
+        praise: 'Terrific! You spotted the vibrant Longear Sunfish fanning their river nests!'
+      },
+      {
+        key: 'cabomba',
+        name: 'Cabomba (Fanwort)',
+        icon: '🌿',
+        clue: 'Look for feathery, fan-shaped green plant fronds near the bottom center.',
+        praise: 'Nicely done! That’s Cabomba, providing shelter for tiny darter fry!'
+      },
+      {
+        key: 'parrot-feather',
+        name: 'Parrot Feather',
+        icon: '🌿',
+        clue: 'Look for whorled, needle-like stems resembling mini fir trees in the mid-bottom.',
+        praise: 'Superb! You identified the feathery whorled stems of Parrot Feather!'
+      },
+      {
+        key: 'bass',
+        name: 'Largemouth Bass',
+        icon: '🐟',
+        clue: 'Look right in the center of the water for a large predatory fish with a dark lateral stripe.',
+        praise: 'Fish on! You found the river’s apex predator, the Largemouth Bass!'
+      },
+      {
+        key: 'darter',
+        name: 'Fountain Darter',
+        icon: '🐟',
+        clue: 'Look for a tiny 1-inch fish resting right on the pebbles in the mid-gravel bed.',
+        praise: 'Incredible find! You located the rare 1-inch endangered Fountain Darter!'
+      },
+      {
+        key: 'cooter',
+        name: 'Texas River Cooter',
+        icon: '🐢',
+        clue: 'Look on top of the big limestone boulder on the right where a turtle is basking.',
+        praise: 'Basking beauty! You found the yellow-striped Texas River Cooter soaking up the sun!'
+      },
+      {
+        key: 'eel',
+        name: 'American Freshwater Eel',
+        icon: '🐍',
+        clue: 'Search inside the dark boulder crevice on the right for a long, slender body.',
+        praise: 'Remarkable! You found the nocturnal American Eel hiding in its rocky cavern!'
+      },
+      {
+        key: 'hydrilla',
+        name: 'Invasive Hydrilla',
+        icon: '⚠️',
+        clue: 'Look at the far right edge of the river for dense, tall weed stems reaching toward the surface.',
+        praise: 'Spot on! That’s invasive Hydrilla, forming dense mats that choke out native rice!'
+      }
+    ];
+
+    const challengeState = {
+      queue: [],
+      currentIndex: 0,
+      matchedKeys: new Set(),
+      firstTryCount: 0,
+      totalAttempts: 0,
+      itemAttempts: {},
+      totalItems: challengeItems.length
+    };
+
+    let toastTimer = null;
+
+    function dismissCanvasPrompt(e) {
+      if (e && e.stopPropagation) e.stopPropagation();
+      const badge = document.getElementById('canvasPromptBadge');
+      if (badge) {
+        badge.classList.add('dismissed');
+      }
+    }
+
+    function setAppMode(mode) {
+      currentAppMode = mode;
+      dismissCanvasPrompt();
+      const btnExplore = document.getElementById('btnModeExplore');
+      const btnChallenge = document.getElementById('btnModeChallenge');
+      const challengeBar = document.getElementById('challengeBar');
+      const canvasPrompt = document.getElementById('canvasPromptBadge');
+
+      if (mode === 'challenge') {
+        document.body.classList.add('in-challenge-mode');
+        if (btnChallenge) {
+          btnChallenge.classList.add('active');
+          btnChallenge.setAttribute('aria-pressed', 'true');
+        }
+        if (btnExplore) {
+          btnExplore.classList.remove('active');
+          btnExplore.setAttribute('aria-pressed', 'false');
+        }
+        if (challengeBar) challengeBar.classList.add('active');
+        if (canvasPrompt) canvasPrompt.innerText = '🎯 Challenge Mode Active: Find the highlighted target item on the artwork!';
+        hideHotspotPreview();
+
+        // Start or continue challenge
+        if (challengeState.queue.length === 0 || challengeState.currentIndex >= challengeState.queue.length) {
+          startChallenge();
+        } else {
+          updateChallengeBanner();
+        }
+      } else {
+        document.body.classList.remove('in-challenge-mode');
+        if (btnExplore) {
+          btnExplore.classList.add('active');
+          btnExplore.setAttribute('aria-pressed', 'true');
+        }
+        if (btnChallenge) {
+          btnChallenge.classList.remove('active');
+          btnChallenge.setAttribute('aria-pressed', 'false');
+        }
+        if (challengeBar) challengeBar.classList.remove('active');
+        if (canvasPrompt) canvasPrompt.innerText = '🔍 Hover over or tap any highlighted animal or plant to inspect its live field guide!';
+        
+        const toast = document.getElementById('challengeToast');
+        if (toast) toast.classList.remove('show');
+      }
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startChallenge() {
+      challengeState.queue = shuffleArray(challengeItems);
+      challengeState.currentIndex = 0;
+      challengeState.matchedKeys.clear();
+      challengeState.firstTryCount = 0;
+      challengeState.totalAttempts = 0;
+      challengeState.itemAttempts = {};
+      challengeState.totalItems = challengeItems.length;
+
+      // Remove matched styling from all hotspots
+      document.querySelectorAll('.eco-hotspot').forEach(el => {
+        el.classList.remove('matched');
+      });
+
+      updateChallengeBanner();
+    }
+
+    function resetChallenge() {
+      startChallenge();
+      closeScorecard();
+      showChallengeFeedback(true, `Challenge restarted! Find all ${challengeState.totalItems} species!`, '🎯');
+    }
+
+    function updateChallengeBanner() {
+      if (challengeState.currentIndex >= challengeState.queue.length) return;
+      const target = challengeState.queue[challengeState.currentIndex];
+
+      const iconEl = document.getElementById('challengeIcon');
+      const nameEl = document.getElementById('challengeTargetName');
+      const clueEl = document.getElementById('challengeClue');
+      const progressEl = document.getElementById('challengeProgress');
+      const scoreEl = document.getElementById('challengeScore');
+
+      if (iconEl) iconEl.innerText = target.icon;
+      if (nameEl) nameEl.innerText = target.name;
+      if (clueEl) clueEl.innerText = `Clue: ${target.clue}`;
+      if (progressEl) progressEl.innerText = `${challengeState.currentIndex + 1} / ${challengeState.totalItems}`;
+      if (scoreEl) scoreEl.innerText = `${challengeState.matchedKeys.size}`;
+    }
+
+    function handleHotspotClick(key) {
+      dismissCanvasPrompt();
+      if (currentAppMode === 'challenge') {
+        processChallengeGuess(key);
+      } else {
+        openInfoCard(key);
+      }
+    }
+
+    function processChallengeGuess(key) {
+      // If all items already handled, allow opening field guide
+      if (challengeState.currentIndex >= challengeState.queue.length) {
+        openInfoCard(key);
+        return;
+      }
+
+      const currentTarget = challengeState.queue[challengeState.currentIndex];
+
+      // If already matched earlier
+      if (challengeState.matchedKeys.has(key)) {
+        showChallengeFeedback(true, `Already found! Look for: ${currentTarget.name}`, '✅');
+        return;
+      }
+
+      challengeState.totalAttempts++;
+
+      if (key === currentTarget.key) {
+        // MATCHED CORRECTLY!
+        const attemptsForThis = challengeState.itemAttempts[key] || 0;
+        if (attemptsForThis === 0) {
+          challengeState.firstTryCount++;
+        }
+
+        challengeState.matchedKeys.add(key);
+
+        // Highlight hotspot on artwork as permanently matched
+        const hotspotEl = document.getElementById(`hotspot-${key}`);
+        if (hotspotEl) hotspotEl.classList.add('matched');
+
+        // Immediate positive celebration
+        showChallengeFeedback(true, currentTarget.praise, currentTarget.icon);
+
+        challengeState.currentIndex++;
+
+        const scoreEl = document.getElementById('challengeScore');
+        if (scoreEl) scoreEl.innerText = `${challengeState.matchedKeys.size}`;
+
+        if (challengeState.currentIndex >= challengeState.queue.length) {
+          const progressEl = document.getElementById('challengeProgress');
+          if (progressEl) progressEl.innerText = `${challengeState.totalItems} / ${challengeState.totalItems}`;
+          setTimeout(() => {
+            finishChallenge();
+          }, 1000);
+        } else {
+          updateChallengeBanner();
+        }
+      } else {
+        // INCORRECT MATCH
+        challengeState.itemAttempts[currentTarget.key] = (challengeState.itemAttempts[currentTarget.key] || 0) + 1;
+
+        const guessedItem = challengeItems.find(i => i.key === key);
+        const guessedName = guessedItem ? guessedItem.name : 'another creature';
+
+        showChallengeFeedback(false, `Not quite! That was the ${guessedName}. Try again!`, '🔍');
+      }
+    }
+
+    function showChallengeFeedback(isCorrect, message, icon) {
+      const toast = document.getElementById('challengeToast');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastMsg = document.getElementById('toastMessage');
+      if (!toast) return;
+
+      if (toastTimer) clearTimeout(toastTimer);
+
+      toast.className = `challenge-feedback-toast ${isCorrect ? 'correct' : 'incorrect'} show`;
+      if (toastIcon) toastIcon.innerText = icon || (isCorrect ? '🎉' : '🔍');
+      if (toastMsg) toastMsg.innerText = message;
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, isCorrect ? 2400 : 2800);
+    }
+
+    function finishChallenge() {
+      const pct = Math.round((challengeState.firstTryCount / challengeState.totalItems) * 100);
+
+      const percentEl = document.getElementById('scorecardPercent');
+      const breakdownEl = document.getElementById('scorecardBreakdown');
+      const titleEl = document.getElementById('scorecardTitle');
+      const emojiEl = document.getElementById('scorecardEmoji');
+      const encourEl = document.getElementById('scorecardEncouragement');
+
+      if (percentEl) percentEl.innerText = `${pct}%`;
+      if (breakdownEl) {
+        breakdownEl.innerText = `${challengeState.firstTryCount} of ${challengeState.totalItems} species identified on your first try (${challengeState.totalAttempts} total attempts)!`;
+      }
+
+      if (pct === 100) {
+        if (emojiEl) emojiEl.innerText = '🎓🏆';
+        if (titleEl) titleEl.innerText = 'Flawless Master Naturalist!';
+        if (encourEl) {
+          encourEl.innerText = 'Incredible mastery! You identified every single native species, plant, and invasive threat on the first try without making a single mistake. The San Marcos River ecosystem has a true expert guardian in you!';
+        }
+      } else if (pct >= 80) {
+        if (emojiEl) emojiEl.innerText = '🌟🛶';
+        if (titleEl) titleEl.innerText = 'River Guardian Naturalist!';
+        if (encourEl) {
+          encourEl.innerText = `Outstanding work! You scored ${pct}%, demonstrating deep knowledge of river biology. Keeping these species protected keeps the river pristine for everyone. Keep learning and try for a perfect 100%!`;
+        }
+      } else if (pct >= 60) {
+        if (emojiEl) emojiEl.innerText = '🐟🌿';
+        if (titleEl) titleEl.innerText = 'Curious River Explorer!';
+        if (encourEl) {
+          encourEl.innerText = `Great effort! You successfully identified all ${challengeState.totalItems} species (${pct}% on the first try). Some creatures like the tiny Fountain Darter and camouflaged turtles are tricky—explore in Free View to study their habitats, then test your skill again!`;
+        }
+      } else {
+        if (emojiEl) emojiEl.innerText = '🌱🔍';
+        if (titleEl) titleEl.innerText = 'Apprentice River Ranger!';
+        if (encourEl) {
+          encourEl.innerText = `A great start to your natural science journey! You identified all ${challengeState.totalItems} species (${pct}% first-try accuracy). River wildlife uses amazing natural camouflage to hide from predators. Keep practicing and learning!`;
+        }
+      }
+
+      const modal = document.getElementById('challengeScorecardModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeScorecard(event) {
+      if (event && event.target && event.target.id !== 'challengeScorecardModal' && !event.target.classList.contains('close-scorecard-btn')) {
+        return;
+      }
+      const modal = document.getElementById('challengeScorecardModal');
+      if (modal) modal.classList.remove('active');
+    }
+
     function showHotspotPreview(key, event) {
+      // In challenge mode, do not reveal species identities unless already matched
+      if (currentAppMode === 'challenge' && !challengeState.matchedKeys.has(key)) {
+        return;
+      }
+
       const card = document.getElementById('hotspotPreviewCard');
       const data = hotspotPreviews[key];
       if (!card || !data) return;
@@ -2898,6 +4233,15 @@
       document.getElementById('previewSubtitle').innerText = data.subtitle;
       document.getElementById('previewFact').innerText = data.fact;
       document.getElementById('previewCta').innerText = data.cta;
+
+      // Smart positioning: If inspecting creatures in the bottom-right quadrant, display card on the left so it never covers the creature
+      if (['eel', 'pleco', 'hydrilla'].includes(key)) {
+        card.style.right = 'auto';
+        card.style.left = '16px';
+      } else {
+        card.style.left = 'auto';
+        card.style.right = '16px';
+      }
 
       card.classList.add('active');
     }
@@ -2909,12 +4253,637 @@
       }
     }
 
-    // Keyboard Escape key handler to close modal
+        // ==========================================
+    // SUMMER CHILL VIBE MUSIC SYNTHESIZER
+    // Procedural Web Audio Engine with 3 Distinct Tracks
+    // ==========================================
+    class SummerChillMusicEngine {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.volume = 0.45;
+        this.currentPreset = 'sunset';
+        this.timerId = null;
+        this.step = 0;
+        this.masterGain = null;
+        this.ambientGain = null;
+        this.ambientSource = null;
+
+        // 3 Completely Distinct Musical Tracks
+        this.presets = {
+          // Track 1: Relaxed Neo-Soul Lo-Fi Chillhop with Rhodes & Boom-Bap Drums
+          sunset: {
+            name: 'Sunset Float',
+            tempo: 70,
+            type: 'lofi',
+            chords: [
+              { bass: 77.78, notes: [155.56, 196.00, 233.08, 293.66, 349.23] }, // Ebmaj9
+              { bass: 65.41, notes: [130.81, 155.56, 196.00, 261.63, 311.13] }, // Cm9
+              { bass: 51.91, notes: [164.81, 207.65, 246.94, 329.63] },         // Abmaj7#11
+              { bass: 58.27, notes: [146.83, 174.61, 233.08, 293.66, 392.00] }  // Bb13
+            ]
+          },
+          // Track 2: Meditative Aquatic Float - 100% Drumless Swelling Pads, Water Drops & Singing Bowls
+          breeze: {
+            name: 'River Breeze',
+            tempo: 48,
+            type: 'ambient',
+            chords: [
+              { bass: 55.00, notes: [174.61, 220.00, 261.63, 349.23, 523.25] }, // Fsus2 / A
+              { bass: 58.27, notes: [174.61, 233.08, 293.66, 349.23, 440.00] }, // Bbmaj9
+              { bass: 73.42, notes: [146.83, 220.00, 261.63, 329.63, 440.00] }, // Dm9
+              { bass: 65.41, notes: [164.81, 261.63, 349.23, 392.00, 523.25] }  // Csus4
+            ]
+          },
+          // Track 3: Bouncy Tropical Kalimba / Island Bossa Summer Groover
+          golden: {
+            name: 'Golden Hour',
+            tempo: 104,
+            type: 'tropical',
+            chords: [
+              { bass: 65.41, notes: [130.81, 196.00, 246.94, 293.66, 392.00] }, // Cmaj7
+              { bass: 55.00, notes: [130.81, 164.81, 220.00, 293.66, 329.63] }, // Am9
+              { bass: 73.42, notes: [146.83, 174.61, 220.00, 293.66, 349.23] }, // Dm7
+              { bass: 98.00, notes: [146.83, 196.00, 246.94, 329.63, 392.00] }  // G7(13)
+            ]
+          }
+        };
+
+        this.tempo = this.presets.sunset.tempo;
+        this.sparkleNotes = [587.33, 659.25, 739.99, 880.00, 1108.73, 1174.66];
+      }
+
+      initContext() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+          this.masterGain.connect(this.ctx.destination);
+
+          this.startAmbientStream();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      startAmbientStream() {
+        if (!this.ctx || this.ambientSource) return;
+        const bufferSize = 2 * this.ctx.sampleRate;
+        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let lastOut = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          output[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = output[i];
+          output[i] *= 3.0;
+        }
+
+        this.ambientSource = this.ctx.createBufferSource();
+        this.ambientSource.buffer = noiseBuffer;
+        this.ambientSource.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(400, this.ctx.currentTime);
+        filter.Q.setValueAtTime(1.5, this.ctx.currentTime);
+
+        const lfo = this.ctx.createOscillator();
+        lfo.frequency.setValueAtTime(0.2, this.ctx.currentTime);
+        const lfoGain = this.ctx.createGain();
+        lfoGain.gain.setValueAtTime(100, this.ctx.currentTime);
+        lfo.connect(filter.frequency);
+        lfo.start();
+
+        this.ambientGain = this.ctx.createGain();
+        this.ambientGain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+
+        this.ambientSource.connect(filter);
+        filter.connect(this.ambientGain);
+        this.ambientGain.connect(this.masterGain);
+        this.ambientSource.start();
+      }
+
+      // Track 1 Sound: Warm Rhodes Electric Piano
+      playRhodesNote(freq, time, duration = 1.6, velocity = 0.11) {
+        if (!this.ctx) return;
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        osc1.type = 'sine';
+        osc2.type = 'triangle';
+        osc1.frequency.setValueAtTime(freq, time);
+        osc2.frequency.setValueAtTime(freq * 2, time);
+        osc2.detune.setValueAtTime(5, time);
+
+        const gainNode = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1200, time);
+        filter.frequency.exponentialRampToValueAtTime(500, time + duration);
+
+        gainNode.gain.setValueAtTime(0.0001, time);
+        gainNode.gain.exponentialRampToValueAtTime(velocity, time + 0.02);
+        gainNode.gain.exponentialRampToValueAtTime(velocity * 0.35, time + 0.5);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(this.masterGain);
+
+        osc1.start(time);
+        osc2.start(time);
+        osc1.stop(time + duration);
+        osc2.stop(time + duration);
+      }
+
+      // Sub Bass
+      playBassNote(freq, time, duration = 1.8) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, time);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.exponentialRampToValueAtTime(0.24, time + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.09, time + 0.8);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(220, time);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start(time);
+        osc.stop(time + duration);
+      }
+
+      // Track 1 & 3: Soft Kick
+      playKick(time, vol = 0.22) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.frequency.setValueAtTime(115, time);
+        osc.frequency.exponentialRampToValueAtTime(36, time + 0.12);
+
+        gain.gain.setValueAtTime(vol, time);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + 0.14);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(time);
+        osc.stop(time + 0.14);
+      }
+
+      // Soft Snare / Rimshot
+      playSnareRim(time, vol = 0.07) {
+        if (!this.ctx) return;
+        const bufferSize = this.ctx.sampleRate * 0.07;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1500, time);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(vol, time);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + 0.07);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+        noise.start(time);
+      }
+
+      // Shaker / Hi-Hat
+      playShaker(time, accent = false) {
+        if (!this.ctx) return;
+        const dur = 0.035;
+        const bufferSize = this.ctx.sampleRate * dur;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1);
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(7000, time);
+
+        const gain = this.ctx.createGain();
+        const vol = accent ? 0.035 : 0.016;
+        gain.gain.setValueAtTime(vol, time);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+        noise.start(time);
+      }
+
+      // Track 1: Sparkle Pentatonic Chime
+      playChime(time) {
+        if (!this.ctx) return;
+        const freq = this.sparkleNotes[Math.floor(Math.random() * this.sparkleNotes.length)];
+        const osc = this.ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, time);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.exponentialRampToValueAtTime(0.04, time + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 1.2);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(time);
+        osc.stop(time + 1.2);
+      }
+
+      // Track 2 Sound: Ethereal Slow-Attacking Ambient River Pad
+      playAmbientPad(notes, bass, time, duration = 4.5) {
+        if (!this.ctx) return;
+        // Warm sub-foundation drone
+        const bassOsc = this.ctx.createOscillator();
+        const bassGain = this.ctx.createGain();
+        bassOsc.type = 'sine';
+        bassOsc.frequency.setValueAtTime(bass, time);
+        bassGain.gain.setValueAtTime(0.0001, time);
+        bassGain.gain.linearRampToValueAtTime(0.18, time + 1.5);
+        bassGain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+        bassOsc.connect(bassGain);
+        bassGain.connect(this.masterGain);
+        bassOsc.start(time);
+        bassOsc.stop(time + duration);
+
+        // Swelling ambient chord pad
+        notes.forEach((f, idx) => {
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const pGain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+
+          osc1.type = 'sine';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(f, time);
+          osc2.frequency.setValueAtTime(f, time);
+          osc2.detune.setValueAtTime(idx % 2 === 0 ? 6 : -6, time);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(320, time);
+          filter.frequency.linearRampToValueAtTime(850, time + 1.8);
+          filter.frequency.exponentialRampToValueAtTime(250, time + duration);
+
+          pGain.gain.setValueAtTime(0.0001, time);
+          pGain.gain.linearRampToValueAtTime(0.06, time + 1.2);
+          pGain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          filter.connect(pGain);
+          pGain.connect(this.masterGain);
+
+          osc1.start(time);
+          osc2.start(time);
+          osc1.stop(time + duration);
+          osc2.stop(time + duration);
+        });
+      }
+
+      // Track 2 Sound: Water Droplet "Bloop / Plop"
+      playWaterDroplet(time) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        // Downward frequency sweep creates natural droplet effect
+        const startFreq = 1350 + Math.random() * 200;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(startFreq, time);
+        osc.frequency.exponentialRampToValueAtTime(600, time + 0.08);
+
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.linearRampToValueAtTime(0.05, time + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.09);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(time);
+        osc.stop(time + 0.1);
+      }
+
+      // Track 2 Sound: Resonant Tibetan Singing Bowl Chime
+      playTibetanBowl(freq, time) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, time);
+
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.linearRampToValueAtTime(0.045, time + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 3.2);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(time);
+        osc.stop(time + 3.3);
+      }
+
+      // Track 3 Sound: Bright Kalimba / Marimba Pluck
+      playKalimbaPluck(freq, time, velocity = 0.3) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        // Fast pitch envelope gives characteristic wooden pluck
+        osc.frequency.setValueAtTime(freq * 1.2, time);
+        osc.frequency.exponentialRampToValueAtTime(freq, time + 0.02);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(3200, time);
+        filter.frequency.exponentialRampToValueAtTime(600, time + 0.28);
+
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.linearRampToValueAtTime(velocity * 0.45, time + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.38);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start(time);
+        osc.stop(time + 0.4);
+      }
+
+      // Track 3 Sound: Tropical Woodblock / Clave Tap
+      playWoodblock(time, pitch = 1100) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(pitch, time);
+        osc.frequency.exponentialRampToValueAtTime(pitch * 0.7, time + 0.03);
+
+        gain.gain.setValueAtTime(0.08, time);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.035);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start(time);
+        osc.stop(time + 0.04);
+      }
+
+      // Track 3 Sound: Bouncy Bossa / Island Bass
+      playBossaBass(freq, time, duration = 0.7) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, time);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(240, time);
+
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.linearRampToValueAtTime(0.26, time + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start(time);
+        osc.stop(time + duration + 0.05);
+      }
+
+      start() {
+        this.initContext();
+        if (this.isPlaying) return;
+        this.isPlaying = true;
+        this.step = 0;
+        this.scheduleBeat();
+        this.updateUI();
+      }
+
+      pause() {
+        this.isPlaying = false;
+        if (this.timerId) {
+          clearTimeout(this.timerId);
+          this.timerId = null;
+        }
+        this.updateUI();
+      }
+
+      toggle() {
+        if (this.isPlaying) this.pause();
+        else this.start();
+      }
+
+      scheduleBeat() {
+        if (!this.isPlaying) return;
+        const preset = this.presets[this.currentPreset] || this.presets.sunset;
+        const beatLen = 60 / preset.tempo;
+        const now = this.ctx.currentTime;
+        const chordIndex = Math.floor(this.step / 4) % preset.chords.length;
+        const chord = preset.chords[chordIndex];
+        const beatInBar = this.step % 4;
+
+        if (preset.type === 'lofi') {
+          // ============================================
+          // Track 1: Sunset Float (70 BPM Lo-Fi Chillhop)
+          // ============================================
+          if (this.ambientGain) this.ambientGain.gain.setTargetAtTime(0.04, now, 0.4);
+
+          if (beatInBar === 0) {
+            chord.notes.forEach((f, idx) => this.playRhodesNote(f, now + idx * 0.014, beatLen * 3.6, 0.12));
+            this.playBassNote(chord.bass, now, beatLen * 2.8);
+            this.playKick(now, 0.22);
+          } else if (beatInBar === 2) {
+            this.playKick(now + beatLen * 0.5, 0.18);
+            chord.notes.slice(1).forEach((f, idx) => this.playRhodesNote(f, now + beatLen * 0.5 + idx * 0.01, beatLen * 1.5, 0.08));
+          }
+
+          if (beatInBar === 1 || beatInBar === 3) {
+            this.playSnareRim(now, 0.07);
+          }
+
+          this.playShaker(now, beatInBar === 0);
+          this.playShaker(now + beatLen * 0.5, false);
+
+          if (Math.random() < 0.35) {
+            this.playChime(now + beatLen * 0.33);
+          }
+        } 
+        else if (preset.type === 'ambient') {
+          // ============================================
+          // Track 2: River Breeze (48 BPM Ambient Aquatic)
+          // 100% DRUMLESS: Swelling pads, water drops & singing bowl
+          // ============================================
+          if (this.ambientGain) this.ambientGain.gain.setTargetAtTime(0.12, now, 0.4);
+
+          if (beatInBar === 0) {
+            this.playAmbientPad(chord.notes, chord.bass, now, beatLen * 4.4);
+            if (chordIndex === 0 || chordIndex === 2) {
+              this.playTibetanBowl(chord.notes[2] * 2, now + beatLen * 1.5);
+            }
+          }
+
+          // Gentle river water droplet splashes
+          if (Math.random() < 0.65) {
+            this.playWaterDroplet(now + beatLen * (0.1 + Math.random() * 0.7));
+          }
+          if (Math.random() < 0.4) {
+            this.playWaterDroplet(now + beatLen * (0.4 + Math.random() * 0.5));
+          }
+        } 
+        else if (preset.type === 'tropical') {
+          // ============================================
+          // Track 3: Golden Hour (104 BPM Upbeat Tropical Bossa)
+          // Bouncy kalimba plucks, walking bass & island percussion
+          // ============================================
+          if (this.ambientGain) this.ambientGain.gain.setTargetAtTime(0.02, now, 0.4);
+
+          if (beatInBar === 0) {
+            this.playKalimbaPluck(chord.notes[0], now, 0.34);
+            this.playKalimbaPluck(chord.notes[2], now + beatLen * 0.25, 0.28);
+            this.playKalimbaPluck(chord.notes[1], now + beatLen * 0.5, 0.3);
+            this.playKalimbaPluck(chord.notes[3] || chord.notes[0] * 2, now + beatLen * 0.75, 0.32);
+            this.playBossaBass(chord.bass, now, beatLen * 0.85);
+            this.playKick(now, 0.24);
+          } else if (beatInBar === 1) {
+            this.playKalimbaPluck(chord.notes[2], now, 0.26);
+            this.playKalimbaPluck(chord.notes[1], now + beatLen * 0.5, 0.3);
+            this.playWoodblock(now, 1150);
+            this.playSnareRim(now, 0.05);
+          } else if (beatInBar === 2) {
+            this.playKalimbaPluck(chord.notes[3] || chord.notes[0] * 2, now, 0.32);
+            this.playKalimbaPluck(chord.notes[0] * 2, now + beatLen * 0.5, 0.28);
+            this.playBossaBass(chord.bass * 1.5, now, beatLen * 0.85);
+            this.playKick(now, 0.2);
+            this.playWoodblock(now + beatLen * 0.5, 880);
+          } else if (beatInBar === 3) {
+            this.playKalimbaPluck(chord.notes[1], now, 0.26);
+            this.playKalimbaPluck(chord.notes[2], now + beatLen * 0.5, 0.32);
+            this.playBossaBass(chord.bass * 2, now + beatLen * 0.5, beatLen * 0.45);
+            this.playWoodblock(now, 1150);
+            this.playSnareRim(now, 0.05);
+          }
+
+          // Shaker groove
+          this.playShaker(now, true);
+          this.playShaker(now + beatLen * 0.25, false);
+          this.playShaker(now + beatLen * 0.5, true);
+          this.playShaker(now + beatLen * 0.75, false);
+        }
+
+        this.step++;
+        const nextTimeMs = beatLen * 1000;
+        this.timerId = setTimeout(() => this.scheduleBeat(), nextTimeMs);
+      }
+
+      setVolume(val) {
+        this.volume = Math.max(0, Math.min(1, parseFloat(val)));
+        if (this.masterGain && this.ctx) {
+          this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+        }
+      }
+
+      // Switch tracks immediately with zero delay
+      setPreset(preset) {
+        if (!this.presets[preset]) return;
+        this.currentPreset = preset;
+        this.tempo = this.presets[preset].tempo;
+
+        // If currently playing, restart beat loop instantly on the new track
+        if (this.isPlaying) {
+          if (this.timerId) {
+            clearTimeout(this.timerId);
+            this.timerId = null;
+          }
+          this.step = 0;
+          this.scheduleBeat();
+        }
+      }
+
+      updateUI() {
+        const btn = document.getElementById('musicToggleBtn');
+        const eq = document.getElementById('musicEqBars');
+        const label = document.getElementById('musicStatusLabel');
+        const select = document.getElementById('musicPresetSelect');
+        if (btn) {
+          btn.innerHTML = this.isPlaying ? '\u23F8' : '\u25B6';
+          btn.setAttribute('aria-label', this.isPlaying ? 'Pause Summer Chill Music' : 'Play Summer Chill Music');
+          btn.classList.toggle('playing', this.isPlaying);
+        }
+        if (eq) {
+          eq.classList.toggle('playing', this.isPlaying);
+        }
+        if (label) {
+          const names = { sunset: 'Sunset Float', breeze: 'River Breeze', golden: 'Golden Hour' };
+          label.innerText = this.isPlaying ? (names[this.currentPreset] || 'Lo-Fi Chill') : 'Summer Chill';
+        }
+        if (select && select.value !== this.currentPreset) {
+          select.value = this.currentPreset;
+        }
+      }
+    }
+
+    const summerMusic = new SummerChillMusicEngine();
+
+    function toggleSummerMusic() {
+      summerMusic.toggle();
+    }
+
+    function changeMusicVolume(val) {
+      summerMusic.setVolume(val);
+    }
+
+    function changeMusicPreset(preset) {
+      summerMusic.setPreset(preset);
+      summerMusic.updateUI();
+    }
+
+    // Function to download self-contained standalone HTML app
+    function downloadStandaloneApp() {
+      // If viewing SM-River-Vibe.html directly, offer download
+      const fileName = 'SM-River-Vibe.html';
+      const a = document.createElement('a');
+      a.href = fileName;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // Keyboard Escape key handler to close modals
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeInfoCard();
+      if (e.key === 'Escape') {
+        closeInfoCard();
+        closeScorecard();
+      }
     });
 
-    // Subscribe UI to Backend Data Engineer Telemetry Store
+    // Subscribe UI to Backend Data Engineer Telemetry Store & Canvas Engagement
     window.addEventListener('DOMContentLoaded', () => {
       if (window.telemetryStore) {
         window.telemetryStore.subscribe((tState) => {
@@ -2924,7 +4893,22 @@
         });
         window.telemetryPipeline?.startIngestion(60000);
       }
+
+      // Automatically dismiss prompt badge when user engages with the canvas
+      const canvasWrapper = document.querySelector('.view-scroll-wrapper');
+      if (canvasWrapper) {
+        const dismissEvents = ['mouseenter', 'mousemove', 'pointerdown', 'touchstart'];
+        const onEngage = () => {
+          dismissCanvasPrompt();
+          dismissEvents.forEach(evt => canvasWrapper.removeEventListener(evt, onEngage));
+        };
+        dismissEvents.forEach(evt => canvasWrapper.addEventListener(evt, onEngage, { passive: true }));
+      }
+      // Auto-dismiss after 5 seconds if idle
+      setTimeout(dismissCanvasPrompt, 5000);
     });
   </script>
 </body>
 </html>
+
+
