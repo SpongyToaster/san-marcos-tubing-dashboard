@@ -6,10 +6,10 @@
   <title>SM River Vibe &mdash; San Marcos River Tubing &amp; 21-Species Ecosystem</title>
   <meta name="description" content="Real-time river flow, water quality, weather conditions, vibe score, and eco-impact assessment for tubing the San Marcos River in San Marcos, TX.">
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Inter & 1970s Shrikhand -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Shrikhand&display=swap" rel="stylesheet">
 
   <!-- Telemetry Data Pipeline -->
   <script src="telemetry-pipeline.js"></script>
@@ -420,6 +420,18 @@
       gap: 8px;
     }
 
+    .vibe-retro-headline {
+      font-family: 'Shrikhand', 'Cooper Black', 'Titan One', cursive, serif;
+      font-size: 2.15rem;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      margin: 0 0 2px 0;
+      background: linear-gradient(180deg, #FFFBEB 0%, #FDE047 38%, #F59E0B 72%, #D97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(2px 3px 0px rgba(120, 53, 15, 0.45)) drop-shadow(0 0 14px rgba(245, 158, 11, 0.22));
+    }
+
     .vibe-status-meta-row {
       display: flex;
       align-items: center;
@@ -447,12 +459,34 @@
 
     .vibe-text-group h2,
     .vibe-condition-title {
-      font-size: 1.55rem;
+      font-size: 1.65rem;
       font-weight: 800;
       color: var(--text-main);
       margin: 0;
       line-height: 1.25;
       letter-spacing: -0.01em;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    /* Condition Title Color Accents */
+    .vibe-title-green {
+      color: #4ADE80 !important;
+      text-shadow: 0 0 16px rgba(74, 222, 128, 0.22);
+    }
+
+    .vibe-title-blue {
+      color: #38BDF8 !important;
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.22);
+    }
+
+    .vibe-title-yellow {
+      color: #FACC15 !important;
+      text-shadow: 0 0 16px rgba(250, 204, 21, 0.22);
+    }
+
+    .vibe-title-pink {
+      color: #F43F5E !important;
+      text-shadow: 0 0 16px rgba(244, 63, 94, 0.22);
     }
 
     .vibe-text-group p,
@@ -505,6 +539,9 @@
         height: auto;
         aspect-ratio: 1 / 1;
         margin: 4px auto 0;
+      }
+      .vibe-retro-headline {
+        font-size: 1.7rem;
       }
       .vibe-text-group h2,
       .vibe-condition-title {
@@ -2795,13 +2832,14 @@
       <!-- CARD 1: RIVER FLOAT CONDITION & VIBE STATE -->
       <article class="card" id="vibeCard">
         <div class="vibe-main-content">
-          <!-- LEFT COLUMN: REAL-TIME STATE BADGE & CONDITION DETAILS -->
+          <!-- LEFT COLUMN: RETRO HEADLINE, REAL-TIME STATE BADGE & CONDITION DETAILS -->
           <div class="vibe-text-group">
+            <div class="vibe-retro-headline">The Current Vibe</div>
             <div class="vibe-status-meta-row">
               <span class="condition-state-pill">Real-Time State</span>
               <span id="vibeLastUpdated" class="vibe-updated-time">Updating...</span>
             </div>
-            <h2 id="vibeTitle" class="vibe-condition-title">Evaluating Conditions...</h2>
+            <h2 id="vibeTitle" class="vibe-condition-title vibe-title-blue">Evaluating Conditions...</h2>
             <p id="vibeDescription" class="vibe-condition-desc">Fetching streamflow and weather data to calculate river floating conditions.</p>
           </div>
 
@@ -3919,9 +3957,12 @@
       let vibeImageAlt = 'Chill and Float Vibe Cartoon';
 
       // Check conditions in specified hierarchy
+      let vibeTitleColorClass = 'vibe-title-blue';
+
       if (state.ecoli > 399 || state.cfs > 500) {
         vibeGrade = 'F';
         vibeTitle = '"Biohazard / Washout"';
+        vibeTitleColorClass = 'vibe-title-pink';
         vibeDesc = state.cfs > 500 
           ? "Dangerous flood flow condition (>500 CFS). Extreme current velocity — river suspended for tubing!" 
           : "Safety alert condition: High bacterial count (>399 cfu). Water contact unsafe!";
@@ -3936,7 +3977,8 @@
         ];
       } else if (state.turbidity > 50) {
         vibeGrade = 'C';
-        vibeTitle = '"Chocolate Milk" (Murky Flow)';
+        vibeTitle = '"Chocolate Milk"';
+        vibeTitleColorClass = 'vibe-title-yellow';
         vibeDesc = "Murky water condition (>50 NTU) following upstream rain runoff. River is cloudy brown with low underwater visibility.";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-C';
@@ -3945,7 +3987,8 @@
         tags = ['🍫 Murky Flow (>50 NTU)', '⚠️ Low Visibility', '🌊 Moderate Drift'];
       } else if (state.cfs < 100) {
         vibeGrade = 'B';
-        vibeTitle = '"Booty Bumper" (Shallow Flow)';
+        vibeTitle = '"Booty Bumper"';
+        vibeTitleColorClass = 'vibe-title-yellow';
         vibeDesc = "Shallow water flow condition (<100 CFS). Low river levels expose riverbed rocks — expect your tube to bump rocks in shallow rapids!";
         vibeBorderClass = 'border-caution';
         vibeBadgeClass = 'grade-B';
@@ -3954,7 +3997,8 @@
         tags = ['📊 Low Flow (<100 CFS)', '🪨 Shallow Rapids', '🐢 Slow Drift'];
       } else if (state.cfs >= 150 && state.cfs <= 250 && state.turbidity < 10 && state.airTemp > 80) {
         vibeGrade = 'A+';
-        vibeTitle = '"Chill & Float" (Optimal Flow)';
+        vibeTitle = '"Chill & Float"';
+        vibeTitleColorClass = 'vibe-title-green';
         vibeDesc = "Prime San Marcos tubing condition! Crisp 72°F spring water, crystal clarity, and warm sunshine.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
@@ -3964,7 +4008,8 @@
       } else {
         // Moderate / Good default condition
         vibeGrade = 'A';
-        vibeTitle = '"Great Floating" (Standard Flow)';
+        vibeTitle = '"Great Floating"';
+        vibeTitleColorClass = 'vibe-title-blue';
         vibeDesc = "Solid river flow conditions for an enjoyable float down the San Marcos.";
         vibeBorderClass = 'border-good';
         vibeBadgeClass = 'grade-A';
@@ -3983,7 +4028,11 @@
         vibeBadge.innerText = vibeGrade;
       }
 
-      document.getElementById('vibeTitle').innerText = vibeTitle;
+      const vibeTitleEl = document.getElementById('vibeTitle');
+      if (vibeTitleEl) {
+        vibeTitleEl.innerText = vibeTitle;
+        vibeTitleEl.className = `vibe-condition-title ${vibeTitleColorClass}`;
+      }
       document.getElementById('vibeDescription').innerText = vibeDesc;
       document.getElementById('vibeLastUpdated').innerText = `Updated: ${state.lastUpdatedText}`;
 
